@@ -1,11 +1,11 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.Approximation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ public class NewtonInterpolation extends Approximation {
     }
 
     @Override
-    public Polynomial doApproximations() {
+    public List<MathematicalFunction> doApproximations() {
         Double[][] matrixDifferenceQuotients = new Double[getSize()][getSize()];
 
         createMatrixDifferenceQuotients(matrixDifferenceQuotients, getPoints());
         interpolationsCoefficients = List.of(matrixDifferenceQuotients[0]);
-        setPolynomial(getAlgebraicPolynomialForm());
+        setMathematicalFunctions(List.of(new MathematicalFunction(getAlgebraicPolynomialForm(), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
-        return getPolynomial();
+        return getMathematicalFunctions();
     }
 
     private void createMatrixDifferenceQuotients(Double[][] matrixDifferenceQuotients, List<PointXY> points) throws ArithmeticException {

@@ -1,14 +1,14 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
 import Jama.Matrix;
 import Jama.QRDecomposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.Approximation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.TrigonometricPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.TrigonometricPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +16,19 @@ import java.util.List;
 public class TrigonometricInterpolation extends Approximation {
     private Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
 
-    private LinearDomainMapping linearDomainMapping;
-
     public TrigonometricInterpolation(List<PointXY> points) {
         super(points);
-        setDegree(chooseDegree(points.size()));
+        setDegree(chooseTrigonometricDegree(points.size()));
     }
 
     @Override
-    public Polynomial doApproximations() {
+    public List<MathematicalFunction> doApproximations() {
         Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
 
         if (checkDomainPoints()) {
-            linearDomainMapping = new LinearDomainMapping(getPoints());
+            setLinearDomainMapping(new LinearDomainMapping(mapPoints));
+            LinearDomainMapping linearDomainMapping = getLinearDomainMapping();
             linearDomainMapping.convert();
             mapPoints = linearDomainMapping.getNewPoints();
         }
@@ -43,9 +42,9 @@ public class TrigonometricInterpolation extends Approximation {
 //        LUDecomposition luDecomposition = new LUDecomposition(matrixX);
 //        matrixA = luDecomposition.solve(matrixY);
 
-        setPolynomial(new TrigonometricPolynomial(mapMatrixAToList(matrixA)));
+        setMathematicalFunctions(List.of(new MathematicalFunction(new TrigonometricPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
-        return getPolynomial();
+        return getMathematicalFunctions();
     }
 
     private List<Double> mapMatrixAToList(Matrix matrixA) {
@@ -66,7 +65,7 @@ public class TrigonometricInterpolation extends Approximation {
         return new Matrix(y);
     }
 
-    private int chooseDegree(int size) {
+    public static int chooseTrigonometricDegree(int size) {
         if (size % 2 == 0) {
             return size / 2;
         } else {
@@ -105,9 +104,5 @@ public class TrigonometricInterpolation extends Approximation {
 
     private boolean checkDomainPoints() {
         return !(getPoints().get(0).getX() >= 0.0 && getPoints().get(getPoints().size() - 1).getX() <= 2 * Math.PI);
-    }
-
-    public LinearDomainMapping getLinearDomainMapping() {
-        return linearDomainMapping;
     }
 }

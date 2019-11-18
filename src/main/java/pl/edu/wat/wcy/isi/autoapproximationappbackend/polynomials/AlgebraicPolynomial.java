@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +28,16 @@ public class AlgebraicPolynomial extends Polynomial {
         List<Double> coefficients = this.getCoefficients();
 
         if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
+            AlgebraicPolynomial add = polynomial.getDeg() > getDeg() ? polynomial : this;
             int minSize = Math.min(this.getDeg(), polynomial.getDeg());
+            int maxSize = Math.max(this.getDeg(), polynomial.getDeg());
             result = new ArrayList<>();
 
             for (int i = 0; i <= minSize; i++) {
                 result.add(coefficients.get(i) + polynomial.getCoefficients().get(i));
             }
-            for (int i = minSize + 1; i <= polynomial.getDeg(); i++) {
-                result.add(polynomial.getCoefficients().get(i));
+            for (int i = minSize + 1; i <= maxSize; i++) {
+                result.add(add.getCoefficients().get(i));
             }
 
             return new AlgebraicPolynomial(result);
@@ -43,6 +45,19 @@ public class AlgebraicPolynomial extends Polynomial {
             logger.error("Polynomial or coefficients is empty.");
             return null;
         }
+    }
+
+    public AlgebraicPolynomial plus(double value) {
+        List<Double> result = new ArrayList<>();
+        List<Double> coefficients = getCoefficients();
+
+        result.add(coefficients.get(0) + value);
+
+        for (int i = 1; i <= getDeg(); i++) {
+            result.add(coefficients.get(i));
+        }
+
+        return new AlgebraicPolynomial(result);
     }
 
     public AlgebraicPolynomial minus(AlgebraicPolynomial polynomial) {
@@ -72,6 +87,10 @@ public class AlgebraicPolynomial extends Polynomial {
             logger.error("Polynomial or coefficients is empty.");
             return null;
         }
+    }
+
+    public AlgebraicPolynomial minus(double value) {
+        return plus(-value);
     }
 
     public AlgebraicPolynomial times(AlgebraicPolynomial polynomial) {
@@ -127,6 +146,30 @@ public class AlgebraicPolynomial extends Polynomial {
             return x;
         } else {
             throw new RuntimeException("This is not linear function.");
+        }
+    }
+
+    public static AlgebraicPolynomial getLinearFunction(double a, double b) {
+        return new AlgebraicPolynomial(List.of(b, a));
+    }
+
+    public static double getValueMonomial(double pointsX, int j) {
+        return Math.pow(pointsX, j);
+    }
+
+    public AlgebraicPolynomial copy() {
+        return new AlgebraicPolynomial(List.copyOf(this.getCoefficients()));
+    }
+
+    public static AlgebraicPolynomial pow(AlgebraicPolynomial algebraicPolynomial, int degree) {
+        if (degree == 0) {
+            return new AlgebraicPolynomial(List.of(1d));
+        } else {
+            AlgebraicPolynomial result = algebraicPolynomial.copy();
+            for (int i = 1; i < degree; i++) {
+                result = result.times(algebraicPolynomial);
+            }
+            return result;
         }
     }
 

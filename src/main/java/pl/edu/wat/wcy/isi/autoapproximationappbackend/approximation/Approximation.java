@@ -1,13 +1,17 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Approximation {
-    private Polynomial polynomial;
+    private List<MathematicalFunction> mathematicalFunctions;
     private List<PointXY> points;
+    private LinearDomainMapping linearDomainMapping;
     private int degree;
     private int size;
 
@@ -23,7 +27,39 @@ public abstract class Approximation {
         this.degree = this.size - 1;
     }
 
-    public abstract Polynomial doApproximations();
+    public abstract List<MathematicalFunction> doApproximations();
+
+    public List<PointXY> getApproximationsPoints(int approximationsPointsSize) {
+        List<PointXY> approximationsPoints = new ArrayList<>();
+        double x0 = points.get(0).getX();
+        double xn = points.get(size - 1).getX();
+
+        double step = (xn - x0) / approximationsPointsSize;
+
+        for (double i = x0; i <= xn + step; i += step) {
+            approximationsPoints.add(new PointXY(i, getPolynomial().evaluate(i, linearDomainMapping)));
+        }
+
+        return approximationsPoints;
+    }
+
+    public double getError() {
+        double error = 0.0;
+
+        if (getPolynomial() == null) {
+            doApproximations();
+        }
+
+        for (PointXY p : getPoints()) {
+            error += Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2);
+        }
+
+        return error;
+    }
+
+    public Polynomial getPolynomial() {
+        return mathematicalFunctions.get(0).getPolynomial();
+    }
 
     public List<PointXY> getPoints() {
         return points;
@@ -41,11 +77,19 @@ public abstract class Approximation {
         this.degree = degree;
     }
 
-    public Polynomial getPolynomial() {
-        return polynomial;
+    public List<MathematicalFunction> getMathematicalFunctions() {
+        return mathematicalFunctions;
     }
 
-    public void setPolynomial(Polynomial polynomial) {
-        this.polynomial = polynomial;
+    public void setMathematicalFunctions(List<MathematicalFunction> mathematicalFunctions) {
+        this.mathematicalFunctions = mathematicalFunctions;
+    }
+
+    public LinearDomainMapping getLinearDomainMapping() {
+        return linearDomainMapping;
+    }
+
+    public void setLinearDomainMapping(LinearDomainMapping linearDomainMapping) {
+        this.linearDomainMapping = linearDomainMapping;
     }
 }

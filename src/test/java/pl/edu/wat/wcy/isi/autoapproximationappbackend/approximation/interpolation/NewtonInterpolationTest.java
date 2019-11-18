@@ -3,9 +3,10 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolati
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.NewtonInterpolation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ class NewtonInterpolationTest {
         correctResultPolynomial = new AlgebraicPolynomial(List.of(-33.4, 5.75, -0.15));
         correctResultCoefficients = List.of(3.0, 2.0, -0.15);
 
-        resultPolynomial = interpolation.doApproximations();
+        resultPolynomial = interpolation.doApproximations().get(0).getPolynomial();
         resultCoefficients = interpolation.getInterpolationsCoefficients();
 
         assertEquals(correctResultPolynomial, resultPolynomial);
@@ -51,7 +52,7 @@ class NewtonInterpolationTest {
         Polynomial resultPolynomial;
         double r, cr;
 
-        resultPolynomial = interpolation.doApproximations();
+        resultPolynomial = interpolation.doApproximations().get(0).getPolynomial();
         for (PointXY p : points) {
             cr = p.getY();
             r = resultPolynomial.evaluate(p.getX());

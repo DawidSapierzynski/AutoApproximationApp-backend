@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ChosenMethod;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ChooseMethodServise;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ChooseMethodService;
 
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 public class ChooseMethodController {
     private Logger logger = LoggerFactory.getLogger(ChooseMethodController.class);
 
-    private ChooseMethodServise chooseMethodServise;
+    private ChooseMethodService chooseMethodService;
 
-    public ChooseMethodController(ChooseMethodServise chooseMethodServise) {
-        this.chooseMethodServise = chooseMethodServise;
+    public ChooseMethodController(ChooseMethodService chooseMethodService) {
+        this.chooseMethodService = chooseMethodService;
     }
 
     @PostMapping(produces = "application/json")
     public List<ChosenMethod> getSeriesProperties(@RequestBody SeriesProperties seriesProperties) {
         List<ChosenMethod> chosenMethods;
-        chosenMethods = chooseMethodServise.selectMethods(seriesProperties);
+        chosenMethods = chooseMethodService.selectMethods(seriesProperties);
 
         return chosenMethods;
     }

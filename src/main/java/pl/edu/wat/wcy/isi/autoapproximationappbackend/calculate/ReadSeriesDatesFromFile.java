@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.propertiesCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,9 @@ public class ReadSeriesDatesFromFile implements Runnable {
 
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
+                if (line.startsWith("//"))
+                    continue;
+
                 String[] xy = line.split("[;,]");
 
                 if (xy.length == 2) {

@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PolynomialApproximationTest {
     private static final double DELTA = 1e-1;
@@ -46,7 +44,7 @@ class PolynomialApproximationTest {
         Polynomial resultPolynomial;
         double r, cr;
 
-        resultPolynomial = polynomialApproximation.doApproximations();
+        resultPolynomial = polynomialApproximation.doApproximations().get(0).getPolynomial();
 
         logger.info("{}", function);
         logger.info("{}", resultPolynomial);

@@ -1,12 +1,12 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 
-public class Function {
+public class MathematicalFunction {
     private Polynomial polynomial;
     private DomainFunction domainFunction;
 
-    public Function(Polynomial polynomial, DomainFunction domainFunction) {
+    public MathematicalFunction(Polynomial polynomial, DomainFunction domainFunction) {
         this.polynomial = polynomial;
         this.domainFunction = domainFunction;
     }

@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.propertiesCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

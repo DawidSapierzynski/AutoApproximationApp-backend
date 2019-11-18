@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
 
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
 
@@ -20,11 +20,6 @@ public abstract class Polynomial {
         this.coefficients = coefficients;
         this.reduce();
     }
-
-    public static double getValueMonomial(double pointsX, int j) {
-        return Math.pow(pointsX, j);
-    }
-
 
     private void reduce() {
         for (int i = coefficients.size() - 1; i > 0; i--) {

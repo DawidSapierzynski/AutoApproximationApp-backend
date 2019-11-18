@@ -1,11 +1,13 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
 import Jama.Matrix;
+import Jama.QRDecomposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomial.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +20,20 @@ public class PolynomialApproximation extends Approximation {
     }
 
     @Override
-    public Polynomial doApproximations() {
+    public List<MathematicalFunction> doApproximations() {
         Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
 
         matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray());
         matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
 
-        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
+//        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
+        QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
+        matrixA = qrDecomposition.solve(matrixY);
 
-        setPolynomial(new AlgebraicPolynomial(mapMatrixAToList(matrixA)));
+        setMathematicalFunctions(List.of(new MathematicalFunction(new AlgebraicPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
-        return getPolynomial();
+        return getMathematicalFunctions();
     }
 
     private Matrix setMatrixBaseFunction(double[] pointsX) {
@@ -38,7 +42,7 @@ public class PolynomialApproximation extends Approximation {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j <= getDegree(); j++) {
-                matrix[i][j] = Polynomial.getValueMonomial(pointsX[i], j);
+                matrix[i][j] = AlgebraicPolynomial.getValueMonomial(pointsX[i], j);
             }
         }
         return new Matrix(matrix);
@@ -62,17 +66,4 @@ public class PolynomialApproximation extends Approximation {
         return new Matrix(y);
     }
 
-    public double getError() {
-        double error = 0.0;
-
-        if (getPolynomial() == null) {
-            doApproximations();
-        }
-
-        for (PointXY p : getPoints()) {
-            error += Math.pow(p.getY() - getPolynomial().evaluate(p.getX()), 2);
-        }
-
-        return error;
-    }
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 public class SeriesProperties {
     private int size;
-    private double fastVariation;
+    private double fastVariationPolynomial;
+    private double fastVariationTrigonometric;
+    private boolean fastVariation;
     private double variance;
     private double standardDeviation;
     private int precision;
@@ -21,12 +23,28 @@ public class SeriesProperties {
         this.size = size;
     }
 
-    public double getFastVariation() {
+    public double getFastVariationPolynomial() {
+        return fastVariationPolynomial;
+    }
+
+    public synchronized void setFastVariationPolynomial(double fastVariationPolynomial) {
+        this.fastVariationPolynomial = fastVariationPolynomial;
+    }
+
+    public double getFastVariationTrigonometric() {
+        return fastVariationTrigonometric;
+    }
+
+    public synchronized void setFastVariationTrigonometric(double fastVariationTrigonometric) {
+        this.fastVariationTrigonometric = fastVariationTrigonometric;
+    }
+
+    public boolean isFastVariation() {
         return fastVariation;
     }
 
-    public synchronized void setFastVariation(double fastVariation) {
-        this.fastVariation = fastVariation;
+    public void setFastVariation() {
+        this.fastVariation = fastVariationTrigonometric < fastVariationPolynomial;
     }
 
     public double getVariance() {
