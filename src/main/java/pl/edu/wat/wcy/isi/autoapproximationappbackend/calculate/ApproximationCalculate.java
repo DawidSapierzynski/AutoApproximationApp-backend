@@ -47,6 +47,6 @@ public class ApproximationCalculate implements Runnable {
         }
 
         approximationForm.setMathematicalFunctions(approximation.doApproximations());
-        approximationForm.setPoints(approximation.getApproximationsPoints(10 * points.size()));
+        approximationForm.setPoints(approximation.getApproximationsPoints(20 * points.size()));
     }
 }

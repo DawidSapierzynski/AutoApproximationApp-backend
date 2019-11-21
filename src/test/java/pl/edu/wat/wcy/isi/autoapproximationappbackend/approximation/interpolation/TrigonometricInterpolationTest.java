@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TrigonometricInterpolationTest {
     private Logger logger = LoggerFactory.getLogger(TrigonometricInterpolationTest.class);
-    private static final double DELTA = 1e-12;
+    private static final double DELTA = 4e-12;
     private static final int SIZE = 500;
-    private static final double ADD = 0.1;
+    private static final double ADD = 0.125;
 
     private List<PointXY> evenPoints = new ArrayList<>();
     private List<PointXY> oddPoints = new ArrayList<>();

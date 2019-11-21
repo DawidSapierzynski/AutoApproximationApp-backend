@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
 import Jama.Matrix;
+import Jama.QRDecomposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
@@ -23,6 +24,7 @@ public class TrigonometricApproximation extends Approximation {
     public List<MathematicalFunction> doApproximations() {
         Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
+        TrigonometricPolynomial trigonometricPolynomial;
 
         if (checkDomainPoints()) {
             setLinearDomainMapping(new LinearDomainMapping(mapPoints));
@@ -34,9 +36,16 @@ public class TrigonometricApproximation extends Approximation {
         matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
         matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
 
-        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
+//        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
 
-        setMathematicalFunctions(List.of(new MathematicalFunction(new TrigonometricPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
+        QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
+        matrixA = qrDecomposition.solve(matrixY);
+
+        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
+
+        setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
+
+        logger.info("{}", trigonometricPolynomial);
 
         return getMathematicalFunctions();
     }

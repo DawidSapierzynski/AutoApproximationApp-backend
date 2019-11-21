@@ -25,6 +25,7 @@ public class TrigonometricInterpolation extends Approximation {
     public List<MathematicalFunction> doApproximations() {
         Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
+        TrigonometricPolynomial trigonometricPolynomial;
 
         if (checkDomainPoints()) {
             setLinearDomainMapping(new LinearDomainMapping(mapPoints));
@@ -42,7 +43,10 @@ public class TrigonometricInterpolation extends Approximation {
 //        LUDecomposition luDecomposition = new LUDecomposition(matrixX);
 //        matrixA = luDecomposition.solve(matrixY);
 
-        setMathematicalFunctions(List.of(new MathematicalFunction(new TrigonometricPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
+        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
+        setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
+
+        logger.info("{}", trigonometricPolynomial);
 
         return getMathematicalFunctions();
     }

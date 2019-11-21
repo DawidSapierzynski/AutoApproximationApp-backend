@@ -42,8 +42,10 @@ class SplineInterpolationTest {
         double[] correctZ = new double[]{0, -93.0 / 14.0, 60.0 / 7.0, -135.0 / 14.0, 0};
         double[] resultZ;
         List<AlgebraicPolynomial> correctPolynomial = List.of(
-                new AlgebraicPolynomial(List.of(-0.9999999999999998, -0.2142857142857142, 3.321428571428571, -1.107142857142857)),
-                new AlgebraicPolynomial(List.of(-13d, 18.5, -6.75, 0.75)));
+                new AlgebraicPolynomial(List.of(-1d, -0.2142857142857144, 3.321428571428571, -1.107142857142857)),
+                new AlgebraicPolynomial(List.of(-30.142857142857146, 43.49999999999999, -18.535714285714285, 2.5357142857142856)),
+                new AlgebraicPolynomial(List.of(120.28571428571428, -106.92857142857142, 31.607142857142854, -3.0357142857142856)),
+                new AlgebraicPolynomial(List.of(-176.85714285714283, 115.92857142857142, -24.107142857142854, 1.607142857142857)));
         List<MathematicalFunction> resultMathematicalFunctions;
 
         resultMathematicalFunctions = splineInterpolation.doApproximations();

@@ -130,7 +130,7 @@ public class SplineInterpolation extends Approximation {
             x0 = getPoints().get(i).getX();
             x1 = getPoints().get(i + 1).getX();
 
-            step = (x1 - x0) / 10;
+            step = (x1 - x0) / 20;
 
             for (double j = x0; j < x1; j += step) {
                 approximationsPoints.add(new PointXY(j, mathematicalFunction.getPolynomial().evaluate(j)));
@@ -143,6 +143,6 @@ public class SplineInterpolation extends Approximation {
 
     @Override
     public Polynomial getPolynomial() {
-        return null;
+        throw new NullPointerException();
     }
 }

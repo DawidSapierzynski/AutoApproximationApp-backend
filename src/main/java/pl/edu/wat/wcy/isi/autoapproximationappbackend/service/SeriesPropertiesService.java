@@ -47,13 +47,12 @@ public class SeriesPropertiesService {
                 Executors.callable(new FastVariationTrigonometricCalculate(seriesProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
-            logger.info("VarianceCalculate - isDone: {}", futures.get(0).isDone());
-            logger.info("FastVariationPolynomialCalculate - isDone: {}", futures.get(1).isDone());
-            logger.info("FastVariationTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
+            logger.debug("VarianceCalculate - isDone: {}", futures.get(0).isDone());
+            logger.debug("FastVariationPolynomialCalculate - isDone: {}", futures.get(1).isDone());
+            logger.debug("FastVariationTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
 
             seriesProperties.setFastVariation();
             logger.info("Set FastVariation: {}", seriesProperties.isFastVariation());
-
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }
