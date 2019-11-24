@@ -4,5 +4,10 @@
       "name": "number.threads",
       "type": "java.lang.String",
       "description": "Description for number.threads."
-  }
-] }
+    },
+    {
+      "name": "file.upload-dir",
+      "type": "java.lang.String",
+      "description": "Description for file.upload-dir."
+    }
+  ] }

@@ -2,6 +2,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
 
@@ -14,18 +17,20 @@ import java.util.Scanner;
 public class ReadSeriesDatesFromFile implements Runnable {
     private Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromFile.class);
 
-    private File seriesDatesFile;
+    private String seriesDatesPath;
+    private String seriesDatesName;
     private SeriesProperties seriesProperties;
 
-    public ReadSeriesDatesFromFile(File seriesDatesFile, SeriesProperties seriesProperties) {
-        this.seriesDatesFile = seriesDatesFile;
+    public ReadSeriesDatesFromFile(String seriesDatesName, SeriesProperties seriesProperties, FileStorageProperties fileStorageProperties) {
+        this.seriesDatesName = seriesDatesName;
         this.seriesProperties = seriesProperties;
+        this.seriesDatesPath = fileStorageProperties.getUploadDir() + "\\" + seriesDatesName + ".csv";
     }
 
     @Override
     public void run() {
         try {
-            Scanner scanner = new Scanner(seriesDatesFile);
+            Scanner scanner = new Scanner(new File(seriesDatesPath));
             ArrayList<PointXY> points = new ArrayList<>();
 
             while (scanner.hasNext()) {
@@ -58,6 +63,6 @@ public class ReadSeriesDatesFromFile implements Runnable {
             logger.error("{}", e.getMessage());
         }
 
-        logger.debug("The file was read correctly: {}", seriesDatesFile.getName());
+        logger.debug("The file was read correctly: {}", seriesDatesName);
     }
 }

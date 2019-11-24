@@ -4,11 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationPolynomialCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationTrigonometricCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.ReadSeriesDatesFromFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.VarianceCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.FileForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
 
 import java.util.Arrays;
@@ -24,18 +24,20 @@ public class SeriesPropertiesService {
     private Logger logger = LoggerFactory.getLogger(SeriesPropertiesService.class);
 
     private ExecutorService threadPool;
+    private FileStorageProperties fileStorageProperties;
 
-    public SeriesPropertiesService(@Value("${number.threads}") int nThreads) {
+    public SeriesPropertiesService(@Value("${number.threads}") int nThreads, FileStorageProperties fileStorageProperties) {
         this.threadPool = Executors.newFixedThreadPool(nThreads);
+        this.fileStorageProperties = fileStorageProperties;
     }
 
-    public void readFileForm(FileForm fileForm, SeriesProperties seriesProperties) {
-        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(fileForm.getSeriesDatesFile(), seriesProperties)));
+    public void readFileForm(String seriesDatesName, int precision, SeriesProperties seriesProperties) {
+        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(seriesDatesName, seriesProperties, fileStorageProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());
 
-            seriesProperties.setPrecision(fileForm.getPrecision());
+            seriesProperties.setPrecision(precision);
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }
