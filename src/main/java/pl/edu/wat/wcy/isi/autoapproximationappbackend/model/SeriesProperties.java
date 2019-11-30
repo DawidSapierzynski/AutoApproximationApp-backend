@@ -44,7 +44,8 @@ public class SeriesProperties {
     }
 
     public void setFastVariation() {
-        this.fastVariation = fastVariationTrigonometric < fastVariationPolynomial;
+//        this.fastVariation = fastVariationTrigonometric < fastVariationPolynomial;
+        this.fastVariation = true;
     }
 
     public double getVariance() {

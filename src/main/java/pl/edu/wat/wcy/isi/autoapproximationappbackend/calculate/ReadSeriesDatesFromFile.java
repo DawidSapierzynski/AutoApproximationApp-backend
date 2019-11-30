@@ -24,7 +24,7 @@ public class ReadSeriesDatesFromFile implements Runnable {
     public ReadSeriesDatesFromFile(String seriesDatesName, SeriesProperties seriesProperties, FileStorageProperties fileStorageProperties) {
         this.seriesDatesName = seriesDatesName;
         this.seriesProperties = seriesProperties;
-        this.seriesDatesPath = fileStorageProperties.getUploadDir() + "\\" + seriesDatesName + ".csv";
+        this.seriesDatesPath = fileStorageProperties.getUploadDir() + "\\" + seriesDatesName;
     }
 
     @Override

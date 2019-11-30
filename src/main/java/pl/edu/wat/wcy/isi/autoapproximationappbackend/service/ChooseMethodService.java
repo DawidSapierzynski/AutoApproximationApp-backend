@@ -32,36 +32,36 @@ public class ChooseMethodService {
                 selectToOne(chosenMethods, seriesProperties.isFastVariation());
                 break;
             case 2:
-                selectToTwo(chosenMethods, seriesProperties);
+                selectToTwo(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
                 break;
             case 3:
-                selectToThree(chosenMethods, seriesProperties);
+                selectToThree(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
                 break;
             case 4:
-                selectToFour(chosenMethods, seriesProperties);
+                selectToFour(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
                 break;
             case 5:
-                selectToFive(chosenMethods, seriesProperties);
+                selectToFive(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
                 break;
         }
 
         return chosenMethods;
     }
 
-    private void selectToFive(List<ChosenMethod> chosenMethods, SeriesProperties seriesProperties) {
-        if (seriesProperties.isFastVariation()) {
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICINTERPOLATION, TrigonometricInterpolation.chooseTrigonometricDegree(seriesProperties.getSize())));
+    private void selectToFive(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+        if (isFastVariation) {
+            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICINTERPOLATION, TrigonometricInterpolation.chooseTrigonometricDegree(size)));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.NEWTONINTERPOLATION, seriesProperties.getSize() - 1));
+            chosenMethods.add(new ChosenMethod(Method.NEWTONINTERPOLATION, size - 1));
         }
         chosenMethods.add(new ChosenMethod(Method.SPLINEINTERPOLATION, 3));
     }
 
-    private void selectToFour(List<ChosenMethod> chosenMethods, SeriesProperties seriesProperties) {
-        int degree = getDefaultDegree(seriesProperties.getSize()) + 2;
-        if (seriesProperties.isFastVariation()) {
-            if (degree > seriesProperties.getSize() / 2) {
-                degree = seriesProperties.getSize() / 2;
+    private void selectToFour(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+        int degree = getDefaultDegree(size) + 2;
+        if (isFastVariation) {
+            if (degree > size / 2) {
+                degree = size / 2;
             }
             chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {
@@ -69,11 +69,11 @@ public class ChooseMethodService {
         }
     }
 
-    private void selectToThree(List<ChosenMethod> chosenMethods, SeriesProperties seriesProperties) {
-        int degree = getDefaultDegree(seriesProperties.getSize()) + 1;
-        if (seriesProperties.isFastVariation()) {
-            if (degree > seriesProperties.getSize() / 2) {
-                degree = seriesProperties.getSize() / 2;
+    private void selectToThree(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+        int degree = getDefaultDegree(size) + 1;
+        if (isFastVariation) {
+            if (degree > size / 2) {
+                degree = size / 2;
             }
             chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {
@@ -81,11 +81,11 @@ public class ChooseMethodService {
         }
     }
 
-    private void selectToTwo(List<ChosenMethod> chosenMethods, SeriesProperties seriesProperties) {
-        int degree = getDefaultDegree(seriesProperties.getSize());
-        if (seriesProperties.isFastVariation()) {
-            if (degree > seriesProperties.getSize() / 2) {
-                degree = seriesProperties.getSize() / 2;
+    private void selectToTwo(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+        int degree = getDefaultDegree(size);
+        if (isFastVariation) {
+            if (degree > size / 2) {
+                degree = size / 2;
             }
             chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {

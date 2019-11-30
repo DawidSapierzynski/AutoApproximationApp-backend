@@ -31,8 +31,8 @@ public class SeriesPropertiesService {
         this.fileStorageProperties = fileStorageProperties;
     }
 
-    public void readFileForm(String seriesDatesName, int precision, SeriesProperties seriesProperties) {
-        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(seriesDatesName, seriesProperties, fileStorageProperties)));
+    public void readFileForm(Long dateSeriesFileId, int precision, SeriesProperties seriesProperties) {
+        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(dateSeriesFileId.toString() + ".csv", seriesProperties, fileStorageProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());

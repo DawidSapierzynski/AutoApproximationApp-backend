@@ -27,7 +27,7 @@ public class StorageService {
     }
 
     public void store(MultipartFile file, String fileName) {
-        Path filePath = fileStorageLocation.resolve(fileName + ".csv");
+        Path filePath = fileStorageLocation.resolve(fileName);
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -52,6 +52,7 @@ public class StorageService {
     @PostConstruct
     public void init() {
         try {
+            deleteAll();
             Files.createDirectories(fileStorageLocation);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage.", e);
