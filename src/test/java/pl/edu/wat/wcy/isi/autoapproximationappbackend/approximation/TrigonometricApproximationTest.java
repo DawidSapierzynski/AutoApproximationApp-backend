@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.TrigonometricPolynomial;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 class TrigonometricApproximationTest {

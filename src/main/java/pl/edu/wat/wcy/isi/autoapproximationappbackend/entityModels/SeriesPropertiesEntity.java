@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.models;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,6 +16,7 @@ public class SeriesPropertiesEntity {
     private Integer precisionApproximation;
     private byte deleted;
     private DataSeriesFileEntity dataSeriesFileByDataSeriesFileId;
+    private UserEntity userByUserId;
 
     @Id
     @Column(name = "series_properties_id")
@@ -136,5 +137,15 @@ public class SeriesPropertiesEntity {
 
     public void setDataSeriesFileByDataSeriesFileId(DataSeriesFileEntity dataSeriesFileByDataSeriesFileId) {
         this.dataSeriesFileByDataSeriesFileId = dataSeriesFileByDataSeriesFileId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
     }
 }

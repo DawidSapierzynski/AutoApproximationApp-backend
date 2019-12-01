@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.service;
 
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.models.DataSeriesFileEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.DataSeriesFileRepository;
 
 @Service

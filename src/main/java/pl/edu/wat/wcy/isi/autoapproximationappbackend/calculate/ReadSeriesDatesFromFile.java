@@ -2,8 +2,6 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;

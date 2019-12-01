@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.models;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -7,6 +7,7 @@ import java.util.Objects;
 @Table(name = "role_user_to_user", schema = "aaa", catalog = "")
 public class RoleUserToUserEntity {
     private int roleUserToUserId;
+    private UserEntity userByUserId;
     private RoleUserEntity roleUserByRoleUserId;
 
     @Id
@@ -30,6 +31,16 @@ public class RoleUserToUserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(roleUserToUserId);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
     }
 
     @ManyToOne

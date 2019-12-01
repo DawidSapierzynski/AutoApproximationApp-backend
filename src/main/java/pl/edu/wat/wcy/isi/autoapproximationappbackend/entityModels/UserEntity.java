@@ -1,7 +1,9 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.models;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user", schema = "aaa", catalog = "")
@@ -14,6 +16,10 @@ public class UserEntity {
     private String email;
     private byte deleted;
     private byte active;
+    private Collection<DataSeriesFileEntity> dataSeriesFilesByUserId;
+    private Collection<RoleUserToUserEntity> roleUserToUsersByUserId;
+    private Collection<SeriesPropertiesEntity> seriesPropertiesByUserId;
+    private Collection<RoleUserEntity> rolesUser;
 
     @Id
     @Column(name = "user_id")
@@ -113,5 +119,45 @@ public class UserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(userId, login, password, firstName, lastName, email, deleted, active);
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<DataSeriesFileEntity> getDataSeriesFilesByUserId() {
+        return dataSeriesFilesByUserId;
+    }
+
+    public void setDataSeriesFilesByUserId(Collection<DataSeriesFileEntity> dataSeriesFilesByUserId) {
+        this.dataSeriesFilesByUserId = dataSeriesFilesByUserId;
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<RoleUserToUserEntity> getRoleUserToUsersByUserId() {
+        return roleUserToUsersByUserId;
+    }
+
+    public void setRoleUserToUsersByUserId(Collection<RoleUserToUserEntity> roleUserToUsersByUserId) {
+        this.roleUserToUsersByUserId = roleUserToUsersByUserId;
+        this.rolesUser = roleUserToUsersByUserId.stream().map(RoleUserToUserEntity::getRoleUserByRoleUserId).collect(Collectors.toList());
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<SeriesPropertiesEntity> getSeriesPropertiesByUserId() {
+        return seriesPropertiesByUserId;
+    }
+
+    public void setSeriesPropertiesByUserId(Collection<SeriesPropertiesEntity> seriesPropertiesByUserId) {
+        this.seriesPropertiesByUserId = seriesPropertiesByUserId;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_user_to_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_user_id"))
+    public Collection<RoleUserEntity> getRolesUser() {
+        return rolesUser;
+    }
+
+    public void setRolesUser(Collection<RoleUserEntity> rolesUser) {
+        this.rolesUser = rolesUser;
     }
 }

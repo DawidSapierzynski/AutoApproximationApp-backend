@@ -1,7 +1,8 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.models;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,8 @@ public class DataSeriesFileEntity {
     private String hashName;
     private Timestamp dataSent;
     private byte deleted;
+    private UserEntity userByUserId;
+    private Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId;
 
     @Id
     @Column(name = "data_series_file_id")
@@ -78,5 +81,24 @@ public class DataSeriesFileEntity {
     @Override
     public int hashCode() {
         return Objects.hash(dataSeriesFileId, name, hashName, dataSent, deleted);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
+    }
+
+    @OneToMany(mappedBy = "dataSeriesFileByDataSeriesFileId")
+    public Collection<SeriesPropertiesEntity> getSeriesPropertiesByDataSeriesFileId() {
+        return seriesPropertiesByDataSeriesFileId;
+    }
+
+    public void setSeriesPropertiesByDataSeriesFileId(Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId) {
+        this.seriesPropertiesByDataSeriesFileId = seriesPropertiesByDataSeriesFileId;
     }
 }

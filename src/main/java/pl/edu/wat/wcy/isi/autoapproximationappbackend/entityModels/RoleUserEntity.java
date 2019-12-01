@@ -1,6 +1,7 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.models;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -9,6 +10,7 @@ public class RoleUserEntity {
     private int roleUserId;
     private String code;
     private String name;
+    private Collection<RoleUserToUserEntity> roleUserToUsersByRoleUserId;
 
     @Id
     @Column(name = "role_user_id")
@@ -53,5 +55,14 @@ public class RoleUserEntity {
     @Override
     public int hashCode() {
         return Objects.hash(roleUserId, code, name);
+    }
+
+    @OneToMany(mappedBy = "roleUserByRoleUserId")
+    public Collection<RoleUserToUserEntity> getRoleUserToUsersByRoleUserId() {
+        return roleUserToUsersByRoleUserId;
+    }
+
+    public void setRoleUserToUsersByRoleUserId(Collection<RoleUserToUserEntity> roleUserToUsersByRoleUserId) {
+        this.roleUserToUsersByRoleUserId = roleUserToUsersByRoleUserId;
     }
 }
