@@ -26,6 +26,8 @@ public class TrigonometricInterpolation extends Approximation {
         Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
         TrigonometricPolynomial trigonometricPolynomial;
+        List<Double> c = new ArrayList<>();
+        int size;
 
         if (checkDomainPoints()) {
             setLinearDomainMapping(new LinearDomainMapping(mapPoints));
@@ -34,21 +36,46 @@ public class TrigonometricInterpolation extends Approximation {
             mapPoints = linearDomainMapping.getNewPoints();
         }
 
-        matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
-        matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
+        size = mapPoints.size();
 
-        QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
-        matrixA = qrDecomposition.solve(matrixY);
+        for (int i = 0; i < getDegree(); i++) {
+            c.add(getAi(i, size, mapPoints));
+            c.add(getBi(i, size, mapPoints));
+        }
+
+        if (getDegree() % 2 == 0) {
+            c.add(getAi(getDegree(), size, mapPoints));
+        } else {
+            c.add(getAi(getDegree(), size, mapPoints));
+            c.add(getBi(getDegree(), size, mapPoints));
+        }
+
+//        matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
+//        matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
+//
+//        QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
+//        matrixA = qrDecomposition.solve(matrixY);
 
 //        LUDecomposition luDecomposition = new LUDecomposition(matrixX);
 //        matrixA = luDecomposition.solve(matrixY);
 
-        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
+        trigonometricPolynomial = new TrigonometricPolynomial(c);
+//        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
         setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
         logger.info("{}", trigonometricPolynomial);
 
         return getMathematicalFunctions();
+    }
+
+    private Double getAi(int i, int size, List<PointXY> pointXYs) {
+        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.cos(i * p.getX())).sum();
+        return 2 * d / size;
+    }
+
+    private Double getBi(int i, int size, List<PointXY> pointXYs) {
+        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.cos(i * p.getX())).sum();
+        return 2 * d / size;
     }
 
     private List<Double> mapMatrixAToList(Matrix matrixA) {

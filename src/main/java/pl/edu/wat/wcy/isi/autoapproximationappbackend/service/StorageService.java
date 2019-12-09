@@ -52,7 +52,6 @@ public class StorageService {
     @PostConstruct
     public void init() {
         try {
-            deleteAll();
             Files.createDirectories(fileStorageLocation);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage.", e);

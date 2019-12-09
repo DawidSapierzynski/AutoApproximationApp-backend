@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -8,26 +8,27 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "user", schema = "aaa", catalog = "")
 public class UserEntity {
-    private int userId;
+    private long userId;
     private String login;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
-    private byte deleted;
-    private byte active;
+    private Byte deleted;
+    private Byte active;
     private Collection<DataSeriesFileEntity> dataSeriesFilesByUserId;
     private Collection<RoleUserToUserEntity> roleUserToUsersByUserId;
     private Collection<SeriesPropertiesEntity> seriesPropertiesByUserId;
     private Collection<RoleUserEntity> rolesUser;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -83,21 +84,21 @@ public class UserEntity {
 
     @Basic
     @Column(name = "deleted")
-    public byte getDeleted() {
+    public Byte getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(byte deleted) {
+    public void setDeleted(Byte deleted) {
         this.deleted = deleted;
     }
 
     @Basic
     @Column(name = "active")
-    public byte getActive() {
+    public Byte getActive() {
         return active;
     }
 
-    public void setActive(byte active) {
+    public void setActive(Byte active) {
         this.active = active;
     }
 
@@ -121,7 +122,7 @@ public class UserEntity {
         return Objects.hash(userId, login, password, firstName, lastName, email, deleted, active);
     }
 
-    @OneToMany(mappedBy = "userByUserId")
+    @OneToMany(mappedBy = "user")
     public Collection<DataSeriesFileEntity> getDataSeriesFilesByUserId() {
         return dataSeriesFilesByUserId;
     }
@@ -137,10 +138,10 @@ public class UserEntity {
 
     public void setRoleUserToUsersByUserId(Collection<RoleUserToUserEntity> roleUserToUsersByUserId) {
         this.roleUserToUsersByUserId = roleUserToUsersByUserId;
-        this.rolesUser = roleUserToUsersByUserId.stream().map(RoleUserToUserEntity::getRoleUserByRoleUserId).collect(Collectors.toList());
+//        this.rolesUser = roleUserToUsersByUserId.stream().map(RoleUserToUserEntity::getRoleUserByRoleUserId).collect(Collectors.toList());
     }
 
-    @OneToMany(mappedBy = "userByUserId")
+    @OneToMany(mappedBy = "user")
     public Collection<SeriesPropertiesEntity> getSeriesPropertiesByUserId() {
         return seriesPropertiesByUserId;
     }
@@ -149,7 +150,11 @@ public class UserEntity {
         this.seriesPropertiesByUserId = seriesPropertiesByUserId;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.ALL
+    })
     @JoinTable(name = "role_user_to_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_user_id"))

@@ -2,16 +2,16 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
 
 import java.util.List;
 
 public class VarianceCalculate implements Runnable {
     private Logger logger = LoggerFactory.getLogger(VarianceCalculate.class);
-    private SeriesProperties seriesProperties;
+    private SeriesPropertiesEntity seriesProperties;
 
-    public VarianceCalculate(SeriesProperties seriesProperties) {
+    public VarianceCalculate(SeriesPropertiesEntity seriesProperties) {
         this.seriesProperties = seriesProperties;
     }
 

@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.ApproximationCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ApproximationForm;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ChosenMethod;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.Collections;
@@ -26,8 +26,8 @@ public class ApproximationService {
         this.threadPool = Executors.newFixedThreadPool(nThreads);
     }
 
-    public void doApproximations(ChosenMethod chosenMethod, List<PointXY> points, ApproximationForm approximationForm) {
-        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ApproximationCalculate(chosenMethod, points, approximationForm)));
+    public void doApproximations(ChosenMethodDTO chosenMethodDTO, List<PointXY> points, ApproximationDTO approximationDTO) {
+        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ApproximationCalculate(chosenMethodDTO, points, approximationDTO)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ApproximationCalculate - isDone: {}", futures.get(0).isDone());

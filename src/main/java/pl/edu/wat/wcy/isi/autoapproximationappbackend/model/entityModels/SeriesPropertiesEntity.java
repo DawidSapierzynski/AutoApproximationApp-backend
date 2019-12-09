@@ -1,12 +1,15 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
+
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "series_properties", schema = "aaa", catalog = "")
 public class SeriesPropertiesEntity {
-    private int seriesPropertiesId;
+    private Long seriesPropertiesId;
     private Integer size;
     private Double fastVariationPolynomial;
     private Double fastVariationTrigonometric;
@@ -14,17 +17,19 @@ public class SeriesPropertiesEntity {
     private Double variance;
     private Double standardDeviation;
     private Integer precisionApproximation;
-    private byte deleted;
-    private DataSeriesFileEntity dataSeriesFileByDataSeriesFileId;
-    private UserEntity userByUserId;
+    private Byte deleted = 0;
+    private DataSeriesFileEntity dataSeriesFile;
+    private UserEntity user;
+    private List<PointXY> points;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "series_properties_id")
-    public int getSeriesPropertiesId() {
+    public Long getSeriesPropertiesId() {
         return seriesPropertiesId;
     }
 
-    public void setSeriesPropertiesId(int seriesPropertiesId) {
+    public void setSeriesPropertiesId(Long seriesPropertiesId) {
         this.seriesPropertiesId = seriesPropertiesId;
     }
 
@@ -100,11 +105,11 @@ public class SeriesPropertiesEntity {
 
     @Basic
     @Column(name = "deleted")
-    public byte getDeleted() {
+    public Byte getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(byte deleted) {
+    public void setDeleted(Byte deleted) {
         this.deleted = deleted;
     }
 
@@ -131,21 +136,30 @@ public class SeriesPropertiesEntity {
 
     @ManyToOne
     @JoinColumn(name = "data_series_file_id", referencedColumnName = "data_series_file_id")
-    public DataSeriesFileEntity getDataSeriesFileByDataSeriesFileId() {
-        return dataSeriesFileByDataSeriesFileId;
+    public DataSeriesFileEntity getDataSeriesFile() {
+        return dataSeriesFile;
     }
 
-    public void setDataSeriesFileByDataSeriesFileId(DataSeriesFileEntity dataSeriesFileByDataSeriesFileId) {
-        this.dataSeriesFileByDataSeriesFileId = dataSeriesFileByDataSeriesFileId;
+    public void setDataSeriesFile(DataSeriesFileEntity dataSeriesFileByDataSeriesFileId) {
+        this.dataSeriesFile = dataSeriesFileByDataSeriesFileId;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public UserEntity getUserByUserId() {
-        return userByUserId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUser(UserEntity userByUserId) {
+        this.user = userByUserId;
+    }
+
+    @Transient
+    public List<PointXY> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<PointXY> points) {
+        this.points = points;
     }
 }

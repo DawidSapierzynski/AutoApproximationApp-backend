@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtAuthEntryPoint;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtAuthTokenFilter;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserRole;
 
 @Configuration
 @EnableWebSecurity
@@ -52,7 +53,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/dataSeriesFile", "/doApproximations", "/seriesProperties", "/chooseMethod").hasAuthority(UserRole.USER.getCode())
+                .antMatchers("/dataSeriesFile/all", "/seriesProperties/all", "/auth/signup", "/roleUser", "/user").hasAuthority(UserRole.ADMIN.getCode())
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

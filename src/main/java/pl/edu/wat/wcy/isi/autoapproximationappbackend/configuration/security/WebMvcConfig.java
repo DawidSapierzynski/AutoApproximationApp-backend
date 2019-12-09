@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtAuthTokenFilter;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtProvider;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -15,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public JwtAuthTokenFilter authenticationJwtTokenFilter() {
-        return new JwtAuthTokenFilter();
+    public JwtAuthTokenFilter authenticationJwtTokenFilter(JwtProvider tokenProvider, UserDetailsServiceImpl userDetailsService) {
+        return new JwtAuthTokenFilter(tokenProvider, userDetailsService);
     }
 }

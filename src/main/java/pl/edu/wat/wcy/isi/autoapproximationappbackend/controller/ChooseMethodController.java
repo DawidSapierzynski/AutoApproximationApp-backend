@@ -2,10 +2,11 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ChosenMethod;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ChooseMethodService;
 
 import java.util.List;
@@ -23,11 +24,10 @@ public class ChooseMethodController {
     }
 
     @PostMapping(produces = "application/json")
-    @PreAuthorize("hasRole('USER')")
-    public List<ChosenMethod> getSeriesProperties(@RequestBody SeriesProperties seriesProperties) {
-        List<ChosenMethod> chosenMethods;
-        chosenMethods = chooseMethodService.selectMethods(seriesProperties);
+    public ResponseEntity<List<ChosenMethodDTO>> getSeriesProperties(@RequestBody SeriesPropertiesDTO seriesPropertiesDTO) {
+        List<ChosenMethodDTO> chosenMethodDTOS;
+        chosenMethodDTOS = chooseMethodService.selectMethods(seriesPropertiesDTO);
 
-        return chosenMethods;
+        return new ResponseEntity<>(chosenMethodDTOS, HttpStatus.OK);
     }
 }

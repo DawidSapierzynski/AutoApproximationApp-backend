@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -6,17 +6,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "role_user_to_user", schema = "aaa", catalog = "")
 public class RoleUserToUserEntity {
-    private int roleUserToUserId;
+    private long roleUserToUserId;
     private UserEntity userByUserId;
     private RoleUserEntity roleUserByRoleUserId;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "role_user_to_user_id")
-    public int getRoleUserToUserId() {
+    public long getRoleUserToUserId() {
         return roleUserToUserId;
     }
 
-    public void setRoleUserToUserId(int roleUserToUserId) {
+    public void setRoleUserToUserId(long roleUserToUserId) {
         this.roleUserToUserId = roleUserToUserId;
     }
 

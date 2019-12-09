@@ -6,29 +6,29 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.Trigonometri
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.NewtonInterpolation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.SplineInterpolation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.TrigonometricInterpolation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ApproximationForm;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ChosenMethod;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.List;
 
 public class ApproximationCalculate implements Runnable {
-    private ChosenMethod chosenMethod;
+    private ChosenMethodDTO chosenMethodDTO;
     private List<PointXY> points;
-    private ApproximationForm approximationForm;
+    private ApproximationDTO approximationDTO;
 
-    public ApproximationCalculate(ChosenMethod chosenMethod, List<PointXY> points, ApproximationForm approximationForm) {
-        this.chosenMethod = chosenMethod;
+    public ApproximationCalculate(ChosenMethodDTO chosenMethodDTO, List<PointXY> points, ApproximationDTO approximationDTO) {
+        this.chosenMethodDTO = chosenMethodDTO;
         this.points = points;
-        this.approximationForm = approximationForm;
+        this.approximationDTO = approximationDTO;
     }
 
     @Override
     public void run() {
         Approximation approximation = null;
-        int degree = chosenMethod.getDegree();
+        int degree = chosenMethodDTO.getDegree();
 
-        switch (chosenMethod.getMethod()) {
+        switch (chosenMethodDTO.getMethod()) {
             case SPLINEINTERPOLATION:
                 approximation = new SplineInterpolation(points);
                 break;
@@ -46,7 +46,7 @@ public class ApproximationCalculate implements Runnable {
                 break;
         }
 
-        approximationForm.setMathematicalFunctions(approximation.doApproximations());
-        approximationForm.setPoints(approximation.getApproximationsPoints(20 * points.size()));
+        approximationDTO.setMathematicalFunctions(approximation.doApproximations());
+        approximationDTO.setPoints(approximation.getApproximationsPoints(20 * points.size()));
     }
 }

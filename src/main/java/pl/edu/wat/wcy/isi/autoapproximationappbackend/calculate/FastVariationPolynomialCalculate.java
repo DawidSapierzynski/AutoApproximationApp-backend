@@ -3,20 +3,21 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.PolynomialApproximation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 
 public class FastVariationPolynomialCalculate implements Runnable {
+    private static final int DEGREE = 4;
     private Logger logger = LoggerFactory.getLogger(FastVariationPolynomialCalculate.class);
-    private SeriesProperties seriesProperties;
+    private SeriesPropertiesEntity seriesProperties;
 
-    public FastVariationPolynomialCalculate(SeriesProperties seriesProperties) {
+    public FastVariationPolynomialCalculate(SeriesPropertiesEntity seriesProperties) {
         this.seriesProperties = seriesProperties;
     }
 
     @Override
     public void run() {
         double fastVariationPolynomial;
-        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(seriesProperties.getPoints(), 4);
+        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(seriesProperties.getPoints(), DEGREE);
 
         polynomialApproximation.doApproximations();
 

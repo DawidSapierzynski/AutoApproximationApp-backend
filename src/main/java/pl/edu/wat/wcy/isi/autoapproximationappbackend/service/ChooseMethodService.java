@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.TrigonometricInterpolation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.ChosenMethod;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.Method;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,80 +24,80 @@ public class ChooseMethodService {
         this.threadPool = Executors.newFixedThreadPool(nThreads);
     }
 
-    public List<ChosenMethod> selectMethods(SeriesProperties seriesProperties) {
-        List<ChosenMethod> chosenMethods = new ArrayList<>();
+    public List<ChosenMethodDTO> selectMethods(SeriesPropertiesDTO seriesPropertiesDTO) {
+        List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
-        switch (seriesProperties.getPrecision()) {
+        switch (seriesPropertiesDTO.getPrecision()) {
             case 1:
-                selectToOne(chosenMethods, seriesProperties.isFastVariation());
+                selectToOne(chosenMethodDTOS, seriesPropertiesDTO.isFastVariation());
                 break;
             case 2:
-                selectToTwo(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
+                selectToTwo(chosenMethodDTOS, seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.getSize());
                 break;
             case 3:
-                selectToThree(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
+                selectToThree(chosenMethodDTOS, seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.getSize());
                 break;
             case 4:
-                selectToFour(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
+                selectToFour(chosenMethodDTOS, seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.getSize());
                 break;
             case 5:
-                selectToFive(chosenMethods, seriesProperties.isFastVariation(), seriesProperties.getSize());
+                selectToFive(chosenMethodDTOS, seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.getSize());
                 break;
         }
 
-        return chosenMethods;
+        return chosenMethodDTOS;
     }
 
-    private void selectToFive(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+    private void selectToFive(List<ChosenMethodDTO> chosenMethodDTOS, boolean isFastVariation, int size) {
         if (isFastVariation) {
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICINTERPOLATION, TrigonometricInterpolation.chooseTrigonometricDegree(size)));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICINTERPOLATION, TrigonometricInterpolation.chooseTrigonometricDegree(size)));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.NEWTONINTERPOLATION, size - 1));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.NEWTONINTERPOLATION, size - 1));
         }
-        chosenMethods.add(new ChosenMethod(Method.SPLINEINTERPOLATION, 3));
+        chosenMethodDTOS.add(new ChosenMethodDTO(Method.SPLINEINTERPOLATION, 3));
     }
 
-    private void selectToFour(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+    private void selectToFour(List<ChosenMethodDTO> chosenMethodDTOS, boolean isFastVariation, int size) {
         int degree = getDefaultDegree(size) + 2;
         if (isFastVariation) {
             if (degree > size / 2) {
                 degree = size / 2;
             }
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.POLYNOMIALAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, degree));
         }
     }
 
-    private void selectToThree(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+    private void selectToThree(List<ChosenMethodDTO> chosenMethodDTOS, boolean isFastVariation, int size) {
         int degree = getDefaultDegree(size) + 1;
         if (isFastVariation) {
             if (degree > size / 2) {
                 degree = size / 2;
             }
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.POLYNOMIALAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, degree));
         }
     }
 
-    private void selectToTwo(List<ChosenMethod> chosenMethods, boolean isFastVariation, int size) {
+    private void selectToTwo(List<ChosenMethodDTO> chosenMethodDTOS, boolean isFastVariation, int size) {
         int degree = getDefaultDegree(size);
         if (isFastVariation) {
             if (degree > size / 2) {
                 degree = size / 2;
             }
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.POLYNOMIALAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, degree));
         }
     }
 
-    private void selectToOne(List<ChosenMethod> chosenMethods, boolean fastVariation) {
+    private void selectToOne(List<ChosenMethodDTO> chosenMethodDTOS, boolean fastVariation) {
         if (fastVariation) {
-            chosenMethods.add(new ChosenMethod(Method.TRIGONOMETRICAPPROXIMATION, 1));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, 1));
         } else {
-            chosenMethods.add(new ChosenMethod(Method.POLYNOMIALAPPROXIMATION, 1));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, 1));
         }
     }
 

@@ -3,8 +3,8 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.SeriesProperties;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,9 +17,9 @@ public class ReadSeriesDatesFromFile implements Runnable {
 
     private String seriesDatesPath;
     private String seriesDatesName;
-    private SeriesProperties seriesProperties;
+    private SeriesPropertiesEntity seriesProperties;
 
-    public ReadSeriesDatesFromFile(String seriesDatesName, SeriesProperties seriesProperties, FileStorageProperties fileStorageProperties) {
+    public ReadSeriesDatesFromFile(String seriesDatesName, SeriesPropertiesEntity seriesProperties, FileStorageProperties fileStorageProperties) {
         this.seriesDatesName = seriesDatesName;
         this.seriesProperties = seriesProperties;
         this.seriesDatesPath = fileStorageProperties.getUploadDir() + "\\" + seriesDatesName;
@@ -56,6 +56,7 @@ public class ReadSeriesDatesFromFile implements Runnable {
             logger.info("Points have been sorted.");
 
             this.seriesProperties.setPoints(points);
+            this.seriesProperties.setSize(points.size());
 
         } catch (FileNotFoundException | NumberFormatException e) {
             logger.error("{}", e.getMessage());

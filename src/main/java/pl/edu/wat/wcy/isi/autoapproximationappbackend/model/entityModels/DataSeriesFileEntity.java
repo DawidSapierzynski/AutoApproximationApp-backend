@@ -1,28 +1,30 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
 @Table(name = "data_series_file", schema = "aaa", catalog = "")
 public class DataSeriesFileEntity {
-    private int dataSeriesFileId;
+    private long dataSeriesFileId;
     private String name;
     private String hashName;
     private Timestamp dataSent;
-    private byte deleted;
-    private UserEntity userByUserId;
-    private Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId;
+    private Byte deleted;
+    private UserEntity user;
+    private Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId = new HashSet<>();
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "data_series_file_id")
-    public int getDataSeriesFileId() {
+    public Long getDataSeriesFileId() {
         return dataSeriesFileId;
     }
 
-    public void setDataSeriesFileId(int dataSeriesFileId) {
+    public void setDataSeriesFileId(long dataSeriesFileId) {
         this.dataSeriesFileId = dataSeriesFileId;
     }
 
@@ -58,11 +60,11 @@ public class DataSeriesFileEntity {
 
     @Basic
     @Column(name = "deleted")
-    public byte getDeleted() {
+    public Byte getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(byte deleted) {
+    public void setDeleted(Byte deleted) {
         this.deleted = deleted;
     }
 
@@ -85,15 +87,15 @@ public class DataSeriesFileEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    public UserEntity getUserByUserId() {
-        return userByUserId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserByUserId(UserEntity userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUser(UserEntity userByUserId) {
+        this.user = userByUserId;
     }
 
-    @OneToMany(mappedBy = "dataSeriesFileByDataSeriesFileId")
+    @OneToMany(mappedBy = "dataSeriesFile")
     public Collection<SeriesPropertiesEntity> getSeriesPropertiesByDataSeriesFileId() {
         return seriesPropertiesByDataSeriesFileId;
     }

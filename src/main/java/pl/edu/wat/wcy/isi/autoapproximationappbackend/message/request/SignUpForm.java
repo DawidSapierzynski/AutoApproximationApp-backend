@@ -1,5 +1,9 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request;
 
+import lombok.Getter;
+import lombok.Setter;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
+
 import java.util.Set;
 
 import javax.validation.constraints.*;
@@ -7,37 +11,49 @@ import javax.validation.constraints.*;
 public class SignUpForm {
     @NotBlank
     @Size(min = 3, max = 50)
-    private String name;
+    private String firstName;
 
     @NotBlank
     @Size(min = 3, max = 50)
-    private String username;
+    private String lastName;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
+    private String login;
 
     @NotBlank
     @Size(max = 60)
     @Email
     private String email;
     
-    private Set<String> role;
+    private Set<RoleUserDTO> role;
     
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 3, max = 40)
     private String password;
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getEmail() {
@@ -48,19 +64,19 @@ public class SignUpForm {
         this.email = email;
     }
 
+    public Set<RoleUserDTO> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<RoleUserDTO> role) {
+        this.role = role;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-    
-    public Set<String> getRole() {
-    	return this.role;
-    }
-    
-    public void setRole(Set<String> role) {
-    	this.role = role;
     }
 }

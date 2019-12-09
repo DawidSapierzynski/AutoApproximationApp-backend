@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.entityModels.UserEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    private long id;
 
     private String name;
 
@@ -27,7 +27,7 @@ public class UserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(int id, String name,
+    public UserPrinciple(long id, String name,
                          String login, String email, String password,
                          Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
@@ -53,7 +53,7 @@ public class UserPrinciple implements UserDetails {
         );
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
