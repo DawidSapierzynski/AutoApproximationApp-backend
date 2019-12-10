@@ -6,6 +6,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUse
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.RoleUserRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleUserMapper {
@@ -16,13 +17,7 @@ public class RoleUserMapper {
     }
 
     public List<RoleUserDTO> buildRoleUserDTO(Collection<RoleUserEntity> roleUserEntities) {
-        List<RoleUserDTO> roleUserDTOs = new ArrayList<>();
-
-        for (RoleUserEntity r : roleUserEntities) {
-            roleUserDTOs.add(buildRoleUserDTO(r));
-        }
-
-        return roleUserDTOs;
+        return roleUserEntities.stream().map(this::buildRoleUserDTO).collect(Collectors.toList());
     }
 
     public RoleUserDTO buildRoleUserDTO(RoleUserEntity roleUserEntity) {
@@ -33,18 +28,18 @@ public class RoleUserMapper {
                 .build();
     }
 
-    public List<RoleUserEntity> buildRoleUserEntity(Collection<RoleUserDTO> roleUserDTOs) {
+    public List<RoleUserEntity> mapRoleUserEntities(Collection<RoleUserDTO> roleUserDTOs) {
         List<RoleUserEntity> roleUserEntities = new ArrayList<>();
 
         for (RoleUserDTO r : roleUserDTOs) {
-            Optional<RoleUserEntity> roleUserEntity = buildRoleUserEntity(r);
+            Optional<RoleUserEntity> roleUserEntity = findRoleUserEntity(r);
             roleUserEntity.ifPresent(roleUserEntities::add);
         }
 
         return roleUserEntities;
     }
 
-    public Optional<RoleUserEntity> buildRoleUserEntity(RoleUserDTO roleUserDTO) {
+    public Optional<RoleUserEntity> findRoleUserEntity(RoleUserDTO roleUserDTO) {
         return roleUserRepository.findById(roleUserDTO.getId());
     }
 

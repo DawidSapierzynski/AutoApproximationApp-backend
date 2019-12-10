@@ -16,6 +16,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.SeriesPropertie
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,13 +36,12 @@ public class SeriesPropertiesService {
         this.seriesPropertiesRepository = seriesPropertiesRepository;
     }
 
-    public void readFileForm(Long dateSeriesFileId, int precision, SeriesPropertiesEntity seriesProperties) {
+    public void readFile(Long dateSeriesFileId, SeriesPropertiesEntity seriesProperties) {
         List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(dateSeriesFileId.toString() + ".csv", seriesProperties, fileStorageProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());
 
-            seriesProperties.setPrecisionApproximation(precision);
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }
@@ -75,5 +75,9 @@ public class SeriesPropertiesService {
 
     public List<SeriesPropertiesEntity> findAll(){
         return seriesPropertiesRepository.findAll();
+    }
+
+    public Optional<SeriesPropertiesEntity> findById(long id){
+        return seriesPropertiesRepository.findById(id);
     }
 }

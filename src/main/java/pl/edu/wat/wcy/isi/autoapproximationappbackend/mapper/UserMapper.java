@@ -2,25 +2,20 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.SignUpForm;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
-    private RoleUserMapper roleUserMapper;
     private BCryptPasswordEncoder encoder;
 
-    public UserMapper(RoleUserMapper roleUserMapper, BCryptPasswordEncoder encoder) {
-        this.roleUserMapper = roleUserMapper;
-        this.encoder = encoder;
+    public UserMapper(BCryptPasswordEncoder encoder) {
+            this.encoder = encoder;
     }
 
     public UserEntity buildUserEntity(SignUpForm signUpForm) {
@@ -39,14 +34,8 @@ public class UserMapper {
 
 
 
-    public List<UserDTO> buildUserDTO(Collection<UserEntity> userEntities) {
-        List<UserDTO> userDTOs = new ArrayList<>();
-
-        for (UserEntity u : userEntities) {
-            userDTOs.add(buildUserDTO(u));
-        }
-
-        return userDTOs;
+    public List<UserDTO> buildUserDTOs(Collection<UserEntity> userEntities) {
+        return userEntities.stream().map(this::buildUserDTO).collect(Collectors.toList());
     }
 
     public UserDTO buildUserDTO(UserEntity userEntity) {

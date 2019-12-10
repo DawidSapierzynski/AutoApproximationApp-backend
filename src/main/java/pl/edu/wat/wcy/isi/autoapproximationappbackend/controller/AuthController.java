@@ -70,7 +70,7 @@ public class AuthController {
         UserEntity user = userMapper.buildUserEntity(signUpRequest);
 
         user = userService.save(user);
-        roleUserToUserService.addRoleToUser(user, roleUserMapper.buildRoleUserEntity(signUpRequest.getRole()));
+        roleUserToUserService.addRoleToUser(user, roleUserMapper.mapRoleUserEntities(signUpRequest.getRole()));
 
         return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
     }

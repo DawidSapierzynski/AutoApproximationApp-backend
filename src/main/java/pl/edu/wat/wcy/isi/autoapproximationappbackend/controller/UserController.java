@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<UserDTO>> getAll(){
         List<UserEntity> userEntities = userService.getAll();
-        List<UserDTO> userDTOs = userMapper.buildUserDTO(userEntities);
+        List<UserDTO> userDTOs = userMapper.buildUserDTOs(userEntities);
 
         return new ResponseEntity<>(userDTOs, HttpStatus.OK);
     }

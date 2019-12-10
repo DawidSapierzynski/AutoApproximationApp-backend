@@ -53,7 +53,7 @@ public class ReadSeriesDatesFromFile implements Runnable {
             }
 
             Collections.sort(points);
-            logger.info("Points have been sorted.");
+            logger.info("Points have been loaded.");
 
             this.seriesProperties.setPoints(points);
             this.seriesProperties.setSize(points.size());
