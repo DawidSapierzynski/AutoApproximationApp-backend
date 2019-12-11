@@ -104,7 +104,7 @@ public class SeriesPropertiesEntity {
     }
 
     @Basic
-    @Column(name = "deleted")
+    @Column(name = "is_deleted")
     public Byte getDeleted() {
         return deleted;
     }

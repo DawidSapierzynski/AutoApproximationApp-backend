@@ -16,6 +16,7 @@ public class UserEntity {
     private String email;
     private Byte deleted;
     private Byte active;
+    private Byte admin;
     private Collection<DataSeriesFileEntity> dataSeriesFilesByUserId;
     private Collection<RoleUserToUserEntity> roleUserToUsersByUserId;
     private Collection<SeriesPropertiesEntity> seriesPropertiesByUserId;
@@ -83,7 +84,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "deleted")
+    @Column(name = "is_deleted")
     public Byte getDeleted() {
         return deleted;
     }
@@ -93,13 +94,23 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "active")
+    @Column(name = "is_active")
     public Byte getActive() {
         return active;
     }
 
     public void setActive(Byte active) {
         this.active = active;
+    }
+
+    @Basic
+    @Column(name = "is_admin")
+    public Byte getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Byte admin) {
+        this.admin = admin;
     }
 
     @Override
@@ -116,6 +127,7 @@ public class UserEntity {
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email);
     }
+
 
     @Override
     public int hashCode() {
@@ -164,5 +176,10 @@ public class UserEntity {
 
     public void setRolesUser(Collection<RoleUserEntity> rolesUser) {
         this.rolesUser = rolesUser;
+    }
+
+    @Transient
+    public boolean isAdmin(){
+        return getAdmin().equals((byte) 1);
     }
 }

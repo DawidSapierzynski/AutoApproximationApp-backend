@@ -2,12 +2,15 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.SignUpForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserRole;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,7 +18,7 @@ public class UserMapper {
     private BCryptPasswordEncoder encoder;
 
     public UserMapper(BCryptPasswordEncoder encoder) {
-            this.encoder = encoder;
+        this.encoder = encoder;
     }
 
     public UserEntity buildUserEntity(SignUpForm signUpForm) {
@@ -28,10 +31,20 @@ public class UserMapper {
         userEntity.setLastName(signUpForm.getLastName());
         userEntity.setPassword(encoder.encode(signUpForm.getPassword()));
         userEntity.setEmail(signUpForm.getEmail());
+        userEntity.setAdmin(isAdmin(signUpForm.getRole()));
 
         return userEntity;
     }
 
+    private Byte isAdmin(Set<RoleUserDTO> roles) {
+        for (RoleUserDTO r : roles) {
+            if(r.getCode().equals(UserRole.ADMIN.getCode())){
+                return (byte) 1;
+            }
+        }
+
+        return (byte) 0;
+    }
 
 
     public List<UserDTO> buildUserDTOs(Collection<UserEntity> userEntities) {

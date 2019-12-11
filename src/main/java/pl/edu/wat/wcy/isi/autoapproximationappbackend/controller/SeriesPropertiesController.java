@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.SeriesPropertiesMapper;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
@@ -80,19 +81,21 @@ public class SeriesPropertiesController {
     }
 
     @GetMapping(produces = "application/json", value = "/{seriesPropertiesId}")
-    public ResponseEntity<SeriesPropertiesDTO> getSeriesProperties(@PathVariable long seriesPropertiesId){
+    public ResponseEntity<SeriesPropertiesDTO> getSeriesProperties(@PathVariable long seriesPropertiesId) {
         Optional<SeriesPropertiesEntity> seriesPropertiesOptional = seriesPropertiesService.findById(seriesPropertiesId);
-        if(seriesPropertiesOptional.isPresent()){
-            //TODO
-            //Walidacja użytkownika
-
+        UserEntity loggedUser = userService.getLoggedUser();
+        if (seriesPropertiesOptional.isPresent()) {
             SeriesPropertiesEntity seriesProperties = seriesPropertiesOptional.get();
-            seriesPropertiesService.readFile(seriesProperties.getDataSeriesFile().getDataSeriesFileId(), seriesProperties);
-            return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
-        }  else {
+            if (loggedUser.equals(seriesProperties.getUser())) {
+                seriesPropertiesService.readFile(seriesProperties.getDataSeriesFile().getDataSeriesFileId(), seriesProperties);
+                return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
 
 
     }
