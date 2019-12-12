@@ -5,12 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.SeriesPropertiesMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DataSeriesFileService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.SeriesPropertiesService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
@@ -82,22 +83,29 @@ public class SeriesPropertiesController {
 
     @GetMapping(produces = "application/json", value = "/{seriesPropertiesId}")
     public ResponseEntity<SeriesPropertiesDTO> getSeriesProperties(@PathVariable long seriesPropertiesId) {
-        Optional<SeriesPropertiesEntity> seriesPropertiesOptional = seriesPropertiesService.findById(seriesPropertiesId);
+        Optional<SeriesPropertiesEntity> seriesPropertiesOptional = seriesPropertiesService.findByIdAndDeleted(seriesPropertiesId, (byte) 0);
         UserEntity loggedUser = userService.getLoggedUser();
         if (seriesPropertiesOptional.isPresent()) {
             SeriesPropertiesEntity seriesProperties = seriesPropertiesOptional.get();
-            if (loggedUser.equals(seriesProperties.getUser())) {
+            if (loggedUser.equals(seriesProperties.getUser()) || loggedUser.isAdmin()) {
                 seriesPropertiesService.readFile(seriesProperties.getDataSeriesFile().getDataSeriesFileId(), seriesProperties);
                 return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
+    @DeleteMapping(produces = "application/json", value = "/{seriesPropertiesId}")
+    public ResponseEntity<ResponseMessage> deletedSeriesProperties(@PathVariable(value = "seriesPropertiesId") Long seriesPropertiesId) throws ResourceNotFoundException {
+        SeriesPropertiesEntity seriesProperties = seriesPropertiesService.findById(seriesPropertiesId)
+                .orElseThrow(() -> new ResourceNotFoundException("SeriesProperties not found for this id ::" + seriesPropertiesId));
 
+        this.seriesPropertiesService.delete(seriesProperties);
+
+        return ResponseEntity.ok(new ResponseMessage("Deleted series properties with id: " + seriesPropertiesId));
     }
 
 

@@ -13,10 +13,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesP
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.SeriesPropertiesRepository;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -69,15 +66,28 @@ public class SeriesPropertiesService {
         return seriesPropertiesRepository.save(seriesPropertiesEntity);
     }
 
-    public List<SeriesPropertiesEntity> findByUserAndDeleted(UserEntity userEntity, byte deleted){
+    public List<SeriesPropertiesEntity> findByUserAndDeleted(UserEntity userEntity, byte deleted) {
         return seriesPropertiesRepository.findByUserAndDeleted(userEntity, deleted);
     }
 
-    public List<SeriesPropertiesEntity> findAll(){
+    public List<SeriesPropertiesEntity> findAll() {
         return seriesPropertiesRepository.findAll();
     }
 
-    public Optional<SeriesPropertiesEntity> findById(long id){
+    public Optional<SeriesPropertiesEntity> findById(long id) {
         return seriesPropertiesRepository.findById(id);
+    }
+
+    public Optional<SeriesPropertiesEntity> findByIdAndDeleted(long id, byte deleted) {
+        return seriesPropertiesRepository.findBySeriesPropertiesIdAndDeleted(id, deleted);
+    }
+
+    public SeriesPropertiesEntity delete(SeriesPropertiesEntity seriesProperties) {
+        seriesProperties.setDeleted((byte) 1);
+        return save(seriesProperties);
+    }
+
+    public void delete(Collection<SeriesPropertiesEntity> seriesPropertiesList) {
+        seriesPropertiesList.forEach(this::delete);
     }
 }

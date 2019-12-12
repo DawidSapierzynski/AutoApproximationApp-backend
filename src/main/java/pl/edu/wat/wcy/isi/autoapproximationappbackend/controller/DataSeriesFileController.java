@@ -5,13 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DataSeriesFileService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.StorageService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
@@ -84,6 +84,16 @@ public class DataSeriesFileController {
         }
 
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);
+    }
+
+    @DeleteMapping(produces = "application/json", value = "/{dataSeriesFileId}")
+    public ResponseEntity<ResponseMessage> deletedDataSeriesFile(@PathVariable(value = "dataSeriesFileId") Long dataSeriesFileId) throws ResourceNotFoundException {
+        DataSeriesFileEntity dataSeriesFile = dataSeriesFileService.findById(dataSeriesFileId)
+                .orElseThrow(() -> new ResourceNotFoundException("DataSeriesFileEntity not found for this id ::" + dataSeriesFileId));
+
+        this.dataSeriesFileService.delete(dataSeriesFile);
+
+        return ResponseEntity.ok(new ResponseMessage("Deleted data series file with id: " + dataSeriesFileId));
     }
 
 }

@@ -15,10 +15,10 @@ public class DataSeriesFileEntity {
     private Timestamp dataSent;
     private Byte deleted;
     private UserEntity user;
-    private Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId = new HashSet<>();
+    private Collection<SeriesPropertiesEntity> seriesProperties = new HashSet<>();
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "data_series_file_id")
     public Long getDataSeriesFileId() {
         return dataSeriesFileId;
@@ -95,12 +95,12 @@ public class DataSeriesFileEntity {
         this.user = userByUserId;
     }
 
-    @OneToMany(mappedBy = "dataSeriesFile")
-    public Collection<SeriesPropertiesEntity> getSeriesPropertiesByDataSeriesFileId() {
-        return seriesPropertiesByDataSeriesFileId;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dataSeriesFile")
+    public Collection<SeriesPropertiesEntity> getSeriesProperties() {
+        return seriesProperties;
     }
 
-    public void setSeriesPropertiesByDataSeriesFileId(Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId) {
-        this.seriesPropertiesByDataSeriesFileId = seriesPropertiesByDataSeriesFileId;
+    public void setSeriesProperties(Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId) {
+        this.seriesProperties = seriesPropertiesByDataSeriesFileId;
     }
 }

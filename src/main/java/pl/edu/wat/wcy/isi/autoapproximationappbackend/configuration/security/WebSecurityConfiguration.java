@@ -28,7 +28,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JwtAuthTokenFilter jwtAuthTokenFilter;
 
     public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder,
-                                    JwtAuthEntryPoint unauthorizedHandler, JwtAuthTokenFilter jwtAuthTokenFilter){
+                                    JwtAuthEntryPoint unauthorizedHandler, JwtAuthTokenFilter jwtAuthTokenFilter) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.unauthorizedHandler = unauthorizedHandler;
@@ -56,6 +56,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/dataSeriesFile", "/doApproximations", "/seriesProperties", "/chooseMethod").hasAuthority(UserRole.USER.getCode())
                 .antMatchers("/dataSeriesFile/all", "/seriesProperties/all", "/auth/signup", "/roleUser", "/user").hasAuthority(UserRole.ADMIN.getCode())
+                .antMatchers("/seriesProperties/{seriesPropertiesId}").hasAnyAuthority(UserRole.ADMIN.getCode(), UserRole.USER.getCode())
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

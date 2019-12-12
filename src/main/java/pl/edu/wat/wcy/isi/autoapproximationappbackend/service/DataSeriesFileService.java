@@ -11,9 +11,11 @@ import java.util.Optional;
 @Service
 public class DataSeriesFileService {
     private DataSeriesFileRepository dataSeriesFileRepository;
+    private SeriesPropertiesService seriesPropertiesService;
 
-    public DataSeriesFileService(DataSeriesFileRepository dataSeriesFileRepository) {
+    public DataSeriesFileService(DataSeriesFileRepository dataSeriesFileRepository, SeriesPropertiesService seriesPropertiesService) {
         this.dataSeriesFileRepository = dataSeriesFileRepository;
+        this.seriesPropertiesService = seriesPropertiesService;
     }
 
     public Optional<DataSeriesFileEntity> findById(Long id) {
@@ -26,6 +28,7 @@ public class DataSeriesFileService {
 
     public void delete(DataSeriesFileEntity dataSeriesFileEntity) {
         dataSeriesFileEntity.setDeleted((byte) 1);
+        seriesPropertiesService.delete(dataSeriesFileEntity.getSeriesProperties());
         save(dataSeriesFileEntity);
     }
 

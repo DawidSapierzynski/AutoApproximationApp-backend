@@ -22,13 +22,17 @@ public class UserPrinciple implements UserDetails {
 
     private String email;
 
+    private boolean isActive;
+
+    private boolean isDeleted;
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(long id, String name,
-                         String login, String email, String password,
+    public UserPrinciple(long id, String name, String login, String email, String password,
+                         boolean isActive, boolean isDeleted,
                          Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
@@ -36,6 +40,8 @@ public class UserPrinciple implements UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.isActive = isActive;
+        this.isDeleted = isDeleted;
     }
 
     public static UserPrinciple build(UserEntity user) {
@@ -49,6 +55,8 @@ public class UserPrinciple implements UserDetails {
                 user.getLogin(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getActive().equals((byte) 1),
+                user.getDeleted().equals((byte) 1),
                 authorities
         );
     }
@@ -87,7 +95,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isActive;
     }
 
     @Override
@@ -97,7 +105,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !this.isDeleted;
     }
 
     @Override

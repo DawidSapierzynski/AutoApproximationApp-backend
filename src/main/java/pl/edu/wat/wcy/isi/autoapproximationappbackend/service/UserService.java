@@ -7,6 +7,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEnt
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,10 +17,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserEntity findById(Long id) {
-        //TODO
-        //Exception
-        return userRepository.findById(id).orElseThrow();
+    public Optional<UserEntity> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public UserEntity save(UserEntity userEntity) {
@@ -36,10 +35,15 @@ public class UserService {
 
     public UserEntity getLoggedUser() {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return findById(userPrinciple.getId());
+        return userRepository.findById(userPrinciple.getId()).orElseThrow();
     }
 
     public List<UserEntity> getAll() {
         return userRepository.findAll();
+    }
+
+    public UserEntity delete(UserEntity userEntity) {
+        userEntity.setDeleted((byte) 1);
+        return save(userEntity);
     }
 }
