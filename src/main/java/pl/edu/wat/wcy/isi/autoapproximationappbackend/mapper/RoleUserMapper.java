@@ -4,23 +4,24 @@ import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.RoleUserRepository;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class RoleUserMapper {
-    private RoleUserRepository roleUserRepository;
+    private RoleUserService roleUserService;
 
-    public RoleUserMapper(RoleUserRepository roleUserRepository) {
-        this.roleUserRepository = roleUserRepository;
+    public RoleUserMapper(RoleUserService roleUserService) {
+        this.roleUserService = roleUserService;
     }
 
-    public List<RoleUserDTO> buildRoleUserDTO(Collection<RoleUserEntity> roleUserEntities) {
-        return roleUserEntities.stream().map(this::buildRoleUserDTO).collect(Collectors.toList());
+    public List<RoleUserDTO> buildRoleUserDTOs(Collection<RoleUserEntity> roleUserEntities) {
+        return roleUserEntities.stream().map(this::buildRoleUserDTOs).collect(Collectors.toList());
     }
 
-    public RoleUserDTO buildRoleUserDTO(RoleUserEntity roleUserEntity) {
+    public RoleUserDTO buildRoleUserDTOs(RoleUserEntity roleUserEntity) {
         return RoleUserDTO.builder()
                 .id(roleUserEntity.getRoleUserId())
                 .code(roleUserEntity.getCode())
@@ -40,7 +41,7 @@ public class RoleUserMapper {
     }
 
     public Optional<RoleUserEntity> findRoleUserEntity(RoleUserDTO roleUserDTO) {
-        return roleUserRepository.findById(roleUserDTO.getId());
+        return roleUserService.findById(roleUserDTO.getId());
     }
 
 

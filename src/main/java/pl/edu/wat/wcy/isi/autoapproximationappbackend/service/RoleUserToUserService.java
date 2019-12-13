@@ -34,4 +34,13 @@ public class RoleUserToUserService {
     public Optional<RoleUserToUserEntity> findById(Long id) {
         return roleUserToUserRepository.findById(id);
     }
+
+    public List<RoleUserToUserEntity> findByUser(UserEntity userEntity){
+        return roleUserToUserRepository.findByUserByUserId(userEntity);
+    }
+
+    public void deleteByUser(UserEntity userEntity){
+        roleUserToUserRepository.deleteByUserByUserId(userEntity);
+    }
+
 }

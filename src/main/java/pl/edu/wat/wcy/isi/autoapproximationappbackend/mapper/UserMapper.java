@@ -7,6 +7,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.SignUpForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserRole;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserService;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,9 +17,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
     private BCryptPasswordEncoder encoder;
+    private RoleUserMapper roleUserMapper;
+    private RoleUserService roleUserService;
 
-    public UserMapper(BCryptPasswordEncoder encoder) {
+    public UserMapper(BCryptPasswordEncoder encoder, RoleUserMapper roleUserMapper, RoleUserService roleUserService) {
         this.encoder = encoder;
+        this.roleUserMapper = roleUserMapper;
+        this.roleUserService = roleUserService;
     }
 
     public UserEntity buildUserEntity(SignUpForm signUpForm) {
@@ -38,7 +43,7 @@ public class UserMapper {
 
     private Byte isAdmin(Set<RoleUserDTO> roles) {
         for (RoleUserDTO r : roles) {
-            if(r.getCode().equals(UserRole.ADMIN.getCode())){
+            if (r.getCode().equals(UserRole.ADMIN.getCode())) {
                 return (byte) 1;
             }
         }
@@ -58,6 +63,7 @@ public class UserMapper {
                 .lastName(userEntity.getLastName())
                 .login(userEntity.getLogin())
                 .email(userEntity.getEmail())
+                .rolesUserDto(roleUserMapper.buildRoleUserDTOs(roleUserService.findByUser(userEntity)))
                 .active(userEntity.getActive().equals((byte) 1))
                 .deleted(userEntity.getDeleted().equals((byte) 1))
                 .build();

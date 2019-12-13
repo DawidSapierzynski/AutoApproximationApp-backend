@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtProvider;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.RoleUserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.UserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.LoginForm;
@@ -50,9 +51,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), String.valueOf(userDetails.getId()), userDetails.getAuthorities()));
     }
 
     @PostMapping(produces = "application/json", value = "/signup")

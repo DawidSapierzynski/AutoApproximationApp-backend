@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user", schema = "aaa", catalog = "")
@@ -162,11 +161,7 @@ public class UserEntity {
         this.seriesPropertiesByUserId = seriesPropertiesByUserId;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.ALL
-    })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "role_user_to_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_user_id"))
@@ -179,7 +174,7 @@ public class UserEntity {
     }
 
     @Transient
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return getAdmin().equals((byte) 1);
     }
 }

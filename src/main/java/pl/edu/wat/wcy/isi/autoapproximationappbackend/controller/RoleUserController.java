@@ -28,7 +28,7 @@ public class RoleUserController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<RoleUserDTO>> getAllUserRoles() {
         List<RoleUserEntity> roleUserEntities = roleUserService.getAll();
-        List<RoleUserDTO> roleUserDTOs = roleUserMapper.buildRoleUserDTO(roleUserEntities);
+        List<RoleUserDTO> roleUserDTOs = roleUserMapper.buildRoleUserDTOs(roleUserEntities);
 
         return new ResponseEntity<>(roleUserDTOs, HttpStatus.OK);
     }
