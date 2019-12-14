@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.SignUpForm;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.SignUpForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserRole;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserService;

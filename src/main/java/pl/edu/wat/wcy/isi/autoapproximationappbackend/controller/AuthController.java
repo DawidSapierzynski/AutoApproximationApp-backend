@@ -6,16 +6,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtProvider;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.LoginForm;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.SignUpForm;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.JwtResponse;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.LoginException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.RoleUserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.UserMapper;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.LoginForm;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.SignUpForm;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.JwtResponse;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserToUserService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
@@ -57,15 +57,13 @@ public class AuthController {
     }
 
     @PostMapping(produces = "application/json", value = "/signup")
-    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) throws LoginException {
         if (userService.existsByLogin(signUpRequest.getLogin())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail - Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+            throw new LoginException("Fail - Username is already taken!");
         }
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(new ResponseMessage("Fail - Email is already in use!"),
-                    HttpStatus.BAD_REQUEST);
+            throw new LoginException("Fail - Email is already in use!");
         }
 
         UserEntity user = userMapper.buildUserEntity(signUpRequest);

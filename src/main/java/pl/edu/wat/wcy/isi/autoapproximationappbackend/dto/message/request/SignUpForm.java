@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request;
 
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 

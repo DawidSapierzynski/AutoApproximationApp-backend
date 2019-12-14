@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.request.ApproximationForm;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.ApproximationForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ApproximationService;
 
 @CrossOrigin(origins = "http://localhost:4200")

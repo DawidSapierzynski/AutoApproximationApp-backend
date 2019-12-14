@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response.ResponseMessage;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DataSeriesFileService;
@@ -24,6 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/dataSeriesFile")
 public class DataSeriesFileController {
+    private static final String FILE_EXTENSION = ".csv";
+
     private Logger logger = LoggerFactory.getLogger(DataSeriesFileController.class);
     private StorageService storageService;
     private DataSeriesFileService dataSeriesFileService;
@@ -49,7 +51,7 @@ public class DataSeriesFileController {
 
         dataSeriesFileEntity = dataSeriesFileService.save(dataSeriesFileEntity);
 
-        storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + ".csv");
+        storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + FILE_EXTENSION);
 
         dataSeriesFileDTO = DataSeriesFileDTO.bulid(dataSeriesFileEntity);
 
@@ -89,7 +91,7 @@ public class DataSeriesFileController {
     @DeleteMapping(produces = "application/json", value = "/{dataSeriesFileId}")
     public ResponseEntity<ResponseMessage> deletedDataSeriesFile(@PathVariable(value = "dataSeriesFileId") Long dataSeriesFileId) throws ResourceNotFoundException {
         DataSeriesFileEntity dataSeriesFile = dataSeriesFileService.findById(dataSeriesFileId)
-                .orElseThrow(() -> new ResourceNotFoundException("DataSeriesFileEntity not found for this id ::" + dataSeriesFileId));
+                .orElseThrow(() -> new ResourceNotFoundException("DataSeriesFileEntity not found for this id :" + dataSeriesFileId));
 
         this.dataSeriesFileService.delete(dataSeriesFile);
 

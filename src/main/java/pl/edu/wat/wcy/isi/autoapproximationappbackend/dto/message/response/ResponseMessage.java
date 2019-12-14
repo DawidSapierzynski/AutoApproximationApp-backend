@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.message.response;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response;
 
 public class ResponseMessage {
 	private String message;
