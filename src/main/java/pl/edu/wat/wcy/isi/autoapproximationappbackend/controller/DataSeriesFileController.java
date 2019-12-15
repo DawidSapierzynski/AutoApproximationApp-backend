@@ -8,8 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.DataSeriesFileMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DataSeriesFileService;
@@ -17,7 +18,6 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.StorageService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,11 +30,13 @@ public class DataSeriesFileController {
     private StorageService storageService;
     private DataSeriesFileService dataSeriesFileService;
     private UserService userService;
+    private DataSeriesFileMapper dataSeriesFileMapper;
 
-    public DataSeriesFileController(StorageService storageService, DataSeriesFileService dataSeriesFileService, UserService userService) {
+    public DataSeriesFileController(StorageService storageService, DataSeriesFileService dataSeriesFileService, UserService userService, DataSeriesFileMapper dataSeriesFileMapper) {
         this.storageService = storageService;
         this.dataSeriesFileService = dataSeriesFileService;
         this.userService = userService;
+        this.dataSeriesFileMapper = dataSeriesFileMapper;
     }
 
     @PostMapping(produces = "application/json")
@@ -53,7 +55,7 @@ public class DataSeriesFileController {
 
         storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + FILE_EXTENSION);
 
-        dataSeriesFileDTO = DataSeriesFileDTO.bulid(dataSeriesFileEntity);
+        dataSeriesFileDTO = dataSeriesFileMapper.buildDataSeriesFile(dataSeriesFileEntity);
 
         return new ResponseEntity<>(dataSeriesFileDTO, HttpStatus.OK);
     }
@@ -61,13 +63,7 @@ public class DataSeriesFileController {
     @GetMapping(produces = "application/json", value = "/all")
     public ResponseEntity<List<DataSeriesFileDTO>> getAll() {
         List<DataSeriesFileEntity> dataSeriesFileEntities = dataSeriesFileService.findAll();
-        List<DataSeriesFileDTO> dataSeriesFileDTOs = new ArrayList<>();
-
-        //TODO
-        //Mapper
-        for (DataSeriesFileEntity d : dataSeriesFileEntities) {
-            dataSeriesFileDTOs.add(DataSeriesFileDTO.bulid(d));
-        }
+        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFiles(dataSeriesFileEntities);
 
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);
     }
@@ -77,13 +73,7 @@ public class DataSeriesFileController {
         UserEntity userEntity = userService.getLoggedUser();
 
         List<DataSeriesFileEntity> dataSeriesFileEntities = dataSeriesFileService.findByUserAndDeleted(userEntity, (byte) 0);
-        List<DataSeriesFileDTO> dataSeriesFileDTOs = new ArrayList<>();
-
-        //TODO
-        //Mapper
-        for (DataSeriesFileEntity d : dataSeriesFileEntities) {
-            dataSeriesFileDTOs.add(DataSeriesFileDTO.bulid(d));
-        }
+        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFiles(dataSeriesFileEntities);
 
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);
     }

@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.TrigonometricPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;

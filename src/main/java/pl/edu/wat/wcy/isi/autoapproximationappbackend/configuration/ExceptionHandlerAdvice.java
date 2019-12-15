@@ -1,20 +1,21 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ForbiddenException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.LoginException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.MessageException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.*;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
+    private Logger logger = LoggerFactory.getLogger(ExceptionHandlerAdvice.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseMessage> handleException(ResourceNotFoundException e) {
+        logger.error(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -23,6 +24,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<ResponseMessage> handleException(LoginException e) {
+        logger.error(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -31,6 +33,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ResponseMessage> handleException(ForbiddenException e) {
+        logger.error(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
@@ -39,6 +42,16 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MessageException.class)
     public ResponseEntity<ResponseMessage> handleException(MessageException e) {
+        logger.error(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ResponseMessage(e.getMessage()));
+    }
+
+    @ExceptionHandler(SizeException.class)
+    public ResponseEntity<ResponseMessage> handleException(SizeException e) {
+        logger.error(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
 
 public class MathematicalFunction {
     private Polynomial polynomial;

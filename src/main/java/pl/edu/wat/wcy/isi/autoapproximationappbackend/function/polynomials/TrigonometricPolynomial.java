@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,19 +17,19 @@ public class TrigonometricPolynomial extends Polynomial {
         List<Double> result;
         List<Double> coefficients = this.getCoefficients();
 
-        if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(this.getDeg(), polynomial.getDeg());
+        if (isNotEmpty(polynomial) && coefficients != null) {
+            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
             result = new ArrayList<>();
 
             for (int i = 0; i <= minSize; i++) {
                 result.add(coefficients.get(i) + polynomial.getCoefficients().get(i));
             }
-            if (polynomial.getDeg() > minSize) {
-                for (int i = minSize + 1; i <= polynomial.getDeg(); i++) {
+            if (polynomial.getDegree() > minSize) {
+                for (int i = minSize + 1; i <= polynomial.getDegree(); i++) {
                     result.add(polynomial.getCoefficients().get(i));
                 }
             } else {
-                for (int i = minSize + 1; i <= this.getDeg(); i++) {
+                for (int i = minSize + 1; i <= this.getDegree(); i++) {
                     result.add(this.getCoefficients().get(i));
                 }
             }
@@ -45,20 +45,20 @@ public class TrigonometricPolynomial extends Polynomial {
         List<Double> result;
         List<Double> coefficients = this.getCoefficients();
 
-        if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(this.getDeg(), polynomial.getDeg());
+        if (isNotEmpty(polynomial) && coefficients != null) {
+            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
             result = new ArrayList<>();
 
             for (int i = 0; i <= minSize; i++) {
                 result.add(coefficients.get(i) - polynomial.getCoefficients().get(i));
             }
 
-            if (polynomial.getDeg() > minSize) {
-                for (int i = minSize + 1; i <= polynomial.getDeg(); i++) {
+            if (polynomial.getDegree() > minSize) {
+                for (int i = minSize + 1; i <= polynomial.getDegree(); i++) {
                     result.add(-polynomial.getCoefficients().get(i));
                 }
             } else {
-                for (int i = minSize + 1; i <= this.getDeg(); i++) {
+                for (int i = minSize + 1; i <= this.getDegree(); i++) {
                     result.add(this.getCoefficients().get(i));
                 }
             }
@@ -92,7 +92,7 @@ public class TrigonometricPolynomial extends Polynomial {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TrigonometricPolynomial) {
-            return obj == this || (this.getDeg() == ((TrigonometricPolynomial) obj).getDeg() && this.getCoefficients().equals(((TrigonometricPolynomial) obj).getCoefficients()));
+            return obj == this || (this.getDegree() == ((TrigonometricPolynomial) obj).getDegree() && this.getCoefficients().equals(((TrigonometricPolynomial) obj).getCoefficients()));
         } else {
             return false;
         }

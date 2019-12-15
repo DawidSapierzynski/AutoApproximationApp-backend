@@ -2,9 +2,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,6 +51,7 @@ public class ReadSeriesDatesFromFile implements Runnable {
                     logger.error("Not prase line: {}", line);
                 }
             }
+
 
             Collections.sort(points);
             logger.info("Points have been loaded.");

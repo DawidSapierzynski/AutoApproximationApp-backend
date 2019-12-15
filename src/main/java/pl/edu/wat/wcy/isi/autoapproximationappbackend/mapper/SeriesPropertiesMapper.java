@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Service
 public class SeriesPropertiesMapper {
 
-    public List<SeriesPropertiesDTO> bulidSeriesPropertiesDTOs(Collection<SeriesPropertiesEntity> seriesProperties){
+    public List<SeriesPropertiesDTO> bulidSeriesPropertiesDTOs(Collection<SeriesPropertiesEntity> seriesProperties) {
         return seriesProperties.stream().map(this::bulidSeriesPropertiesDTO).collect(Collectors.toList());
     }
 
-    public SeriesPropertiesDTO bulidSeriesPropertiesDTO(SeriesPropertiesEntity seriesProperties){
+    public SeriesPropertiesDTO bulidSeriesPropertiesDTO(SeriesPropertiesEntity seriesProperties) {
         return SeriesPropertiesDTO.builder()
                 .id(seriesProperties.getSeriesPropertiesId())
                 .size(seriesProperties.getSize())
@@ -26,6 +26,7 @@ public class SeriesPropertiesMapper {
                 .fastVariationTrigonometric(seriesProperties.getFastVariationTrigonometric())
                 .fastVariation(seriesProperties.getFastVariation().equals((byte) 1))
                 .points(seriesProperties.getPoints())
+                .dateCreate(seriesProperties.getDataCreate())
                 .deleted(seriesProperties.getDeleted().equals((byte) 1))
                 .build();
     }

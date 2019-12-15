@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

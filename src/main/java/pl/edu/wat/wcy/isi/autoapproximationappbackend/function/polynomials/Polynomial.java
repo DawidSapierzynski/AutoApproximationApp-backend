@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
 
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
 
@@ -14,7 +14,7 @@ public abstract class Polynomial {
     /**
      * degree of polynomial
      */
-    private int deg;
+    private int degree;
 
     public Polynomial(List<Double> coefficients) {
         this.coefficients = coefficients;
@@ -24,7 +24,7 @@ public abstract class Polynomial {
     private void reduce() {
         for (int i = coefficients.size() - 1; i > 0; i--) {
             if (coefficients.get(i) != 0) {
-                this.deg = i;
+                this.degree = i;
                 return;
             } else {
                 coefficients.remove(i);
@@ -59,14 +59,14 @@ public abstract class Polynomial {
         return coefficients;
     }
 
-    public int getDeg() {
-        return deg;
+    public int getDegree() {
+        return degree;
     }
 
     public void setCoefficients(List<Double> coefficients) {
         this.coefficients = coefficients;
         if (coefficients != null) {
-            this.deg = coefficients.size() - 1;
+            this.degree = coefficients.size() - 1;
         }
     }
 }

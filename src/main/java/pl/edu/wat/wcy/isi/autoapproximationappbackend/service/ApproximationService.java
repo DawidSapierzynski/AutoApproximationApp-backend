@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.ApproximationCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.MathematicalFunctionMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.Collections;
@@ -21,13 +22,15 @@ public class ApproximationService {
     private Logger logger = LoggerFactory.getLogger(ApproximationService.class);
 
     private ExecutorService threadPool;
+    private MathematicalFunctionMapper mathematicalFunctionMapper;
 
-    public ApproximationService(@Value("${number.threads}") int nThreads) {
+    public ApproximationService(@Value("${number.threads}") int nThreads, MathematicalFunctionMapper mathematicalFunctionMapper) {
         this.threadPool = Executors.newFixedThreadPool(nThreads);
+        this.mathematicalFunctionMapper = mathematicalFunctionMapper;
     }
 
     public void doApproximations(ChosenMethodDTO chosenMethodDTO, List<PointXY> points, ApproximationDTO approximationDTO) {
-        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ApproximationCalculate(chosenMethodDTO, points, approximationDTO)));
+        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ApproximationCalculate(chosenMethodDTO, points, approximationDTO, mathematicalFunctionMapper)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ApproximationCalculate - isDone: {}", futures.get(0).isDone());

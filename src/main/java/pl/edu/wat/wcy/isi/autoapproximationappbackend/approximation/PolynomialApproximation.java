@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;

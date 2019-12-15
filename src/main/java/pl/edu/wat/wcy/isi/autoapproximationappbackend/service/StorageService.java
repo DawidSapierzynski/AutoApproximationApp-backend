@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
 
 import javax.annotation.PostConstruct;
 import java.io.File;

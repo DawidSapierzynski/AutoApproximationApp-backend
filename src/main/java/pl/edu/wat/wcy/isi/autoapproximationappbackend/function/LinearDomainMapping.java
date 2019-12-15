@@ -3,8 +3,8 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
 import Jama.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,9 +2,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.Polynomial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +40,12 @@ public class SplineInterpolation extends Approximation {
         for (int i = 0; i < getSize() - 1; i++) {
             p = AlgebraicPolynomial.getLinearFunction(1, -getPoints().get(i).getX());
             p1 = AlgebraicPolynomial.getLinearFunction(-1, getPoints().get(i + 1).getX());
-//            algebraicPolynomial = (((((p.copy().times(ai(i, h))).plus(bi(i))).times(p.copy())).plus(ci(i, h))).times(p.copy())).plus(getPoints().get(i).getY());
+
             algebraicPolynomial = AlgebraicPolynomial.pow(p1.copy(), 3).times(c1(i, h)).plus(
                     AlgebraicPolynomial.pow(p.copy(), 3).times(c2(i, h))).plus(
                     p.copy().times(c3(i, h))).plus(
                     p1.copy().times(c4(i, h)));
-            f.add(new MathematicalFunction(algebraicPolynomial, new DomainFunction(false, getPoints().get(i).getX(), getPoints().get(i + 1).getX(), true)));
+            f.add(new MathematicalFunction(algebraicPolynomial, new DomainFunction(true, getPoints().get(i).getX(), getPoints().get(i + 1).getX(), false)));
         }
 
         return f;
@@ -67,21 +67,6 @@ public class SplineInterpolation extends Approximation {
 
     private double c1(int i, double[] h) {
         return z[i] / (6 * h[i]);
-    }
-
-    private double bi(int i) {
-        return z[i] / 2.0;
-    }
-
-    private double ci(int i, double[] h) {
-        double yi, yi1;
-        yi = getPoints().get(i).getY();
-        yi1 = getPoints().get(i + 1).getY();
-        return (-h[i] / 6) * (z[i + 1] + 2 * z[i]) + (yi1 - yi) / h[i];
-    }
-
-    private double ai(int i, double[] h) {
-        return (z[i + 1] + z[i]) / (6 * h[i]);
     }
 
     private double[] calculateZ(double[] v, double[] h, double[] u) {

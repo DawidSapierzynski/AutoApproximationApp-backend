@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationPolynomialCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationTrigonometricCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.ReadSeriesDatesFromFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.VarianceCalculate;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.SeriesPropertiesRepository;
@@ -21,6 +22,8 @@ import java.util.concurrent.Future;
 
 @Service
 public class SeriesPropertiesService {
+    private static final int MAX_NUMBER_POINTS = 1000;
+    private static final int MIN_NUMBER_POINTS = 5;
     private Logger logger = LoggerFactory.getLogger(SeriesPropertiesService.class);
 
     private ExecutorService threadPool;
@@ -33,15 +36,20 @@ public class SeriesPropertiesService {
         this.seriesPropertiesRepository = seriesPropertiesRepository;
     }
 
-    public void readFile(Long dateSeriesFileId, SeriesPropertiesEntity seriesProperties) {
+    public void readFile(Long dateSeriesFileId, SeriesPropertiesEntity seriesProperties) throws SizeException {
         List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(dateSeriesFileId.toString() + ".csv", seriesProperties, fileStorageProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());
-
+            if (seriesProperties.getPoints().size() < MIN_NUMBER_POINTS) {
+                throw new SizeException("The number of points is less than " + MIN_NUMBER_POINTS);
+            } else if (seriesProperties.getPoints().size() > MAX_NUMBER_POINTS) {
+                throw new SizeException("The number of points is greater than " + MAX_NUMBER_POINTS);
+            }
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }
+
     }
 
     public void propertiesCalculate(SeriesPropertiesEntity seriesProperties) {

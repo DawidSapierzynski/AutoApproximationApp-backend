@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class AlgebraicPolynomial extends Polynomial {
         super(mapCoefficients(coefficients));
     }
 
-    static List<Double> mapCoefficients(double[] coefficients) {
+    public static List<Double> mapCoefficients(double[] coefficients) {
         return Arrays.stream(coefficients).boxed().collect(Collectors.toList());
     }
 
@@ -28,9 +28,9 @@ public class AlgebraicPolynomial extends Polynomial {
         List<Double> coefficients = this.getCoefficients();
 
         if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            AlgebraicPolynomial add = polynomial.getDeg() > getDeg() ? polynomial : this;
-            int minSize = Math.min(this.getDeg(), polynomial.getDeg());
-            int maxSize = Math.max(this.getDeg(), polynomial.getDeg());
+            AlgebraicPolynomial add = polynomial.getDegree() > getDegree() ? polynomial : this;
+            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
+            int maxSize = Math.max(this.getDegree(), polynomial.getDegree());
             result = new ArrayList<>();
 
             for (int i = 0; i <= minSize; i++) {
@@ -53,7 +53,7 @@ public class AlgebraicPolynomial extends Polynomial {
 
         result.add(coefficients.get(0) + value);
 
-        for (int i = 1; i <= getDeg(); i++) {
+        for (int i = 1; i <= getDegree(); i++) {
             result.add(coefficients.get(i));
         }
 
@@ -65,19 +65,19 @@ public class AlgebraicPolynomial extends Polynomial {
         List<Double> coefficients = this.getCoefficients();
 
         if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(this.getDeg(), polynomial.getDeg());
+            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
             result = new ArrayList<>();
 
             for (int i = 0; i <= minSize; i++) {
                 result.add(coefficients.get(i) - polynomial.getCoefficients().get(i));
             }
 
-            if (polynomial.getDeg() > minSize) {
-                for (int i = minSize + 1; i <= polynomial.getDeg(); i++) {
+            if (polynomial.getDegree() > minSize) {
+                for (int i = minSize + 1; i <= polynomial.getDegree(); i++) {
                     result.add(-polynomial.getCoefficients().get(i));
                 }
             } else {
-                for (int i = minSize + 1; i <= this.getDeg(); i++) {
+                for (int i = minSize + 1; i <= this.getDegree(); i++) {
                     result.add(this.getCoefficients().get(i));
                 }
             }
@@ -100,8 +100,8 @@ public class AlgebraicPolynomial extends Polynomial {
         if (Polynomial.isNotEmpty(polynomial) && thisCoefficients != null) {
             List<Double> thatCoefficients = polynomial.getCoefficients();
 
-            for (int i = 0; i <= this.getDeg(); i++) {
-                for (int j = 0; j <= polynomial.getDeg(); j++) {
+            for (int i = 0; i <= this.getDegree(); i++) {
+                for (int j = 0; j <= polynomial.getDegree(); j++) {
                     if (result.size() <= i + j) {
                         result.add(thisCoefficients.get(i) * thatCoefficients.get(j));
                     } else {
@@ -176,7 +176,7 @@ public class AlgebraicPolynomial extends Polynomial {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof AlgebraicPolynomial) {
-            return obj == this || (this.getDeg() == ((AlgebraicPolynomial) obj).getDeg() && this.getCoefficients().equals(((AlgebraicPolynomial) obj).getCoefficients()));
+            return obj == this || (this.getDegree() == ((AlgebraicPolynomial) obj).getDegree() && this.getCoefficients().equals(((AlgebraicPolynomial) obj).getCoefficients()));
         } else {
             return false;
         }
@@ -187,7 +187,7 @@ public class AlgebraicPolynomial extends Polynomial {
         StringBuilder stringBuilder = new StringBuilder();
         List<Double> coefficients = getCoefficients();
 
-        for (int i = getDeg(); i >= 0; i--) {
+        for (int i = getDegree(); i >= 0; i--) {
             stringBuilder.append(coefficients.get(i)).append("*x^").append(i);
             if (i > 0) {
                 stringBuilder.append(" + ");

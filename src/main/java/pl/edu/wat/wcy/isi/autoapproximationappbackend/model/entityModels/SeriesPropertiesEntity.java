@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,13 +18,14 @@ public class SeriesPropertiesEntity {
     private Double variance;
     private Double standardDeviation;
     private Integer precisionApproximation;
-    private Byte deleted = 0;
+    private Timestamp dateCreate;
+    private Byte deleted = (byte) 0;
     private DataSeriesFileEntity dataSeriesFile;
     private UserEntity user;
     private List<PointXY> points;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "series_properties_id")
     public Long getSeriesPropertiesId() {
         return seriesPropertiesId;
@@ -104,6 +106,16 @@ public class SeriesPropertiesEntity {
     }
 
     @Basic
+    @Column(name = "date_create")
+    public Timestamp getDataCreate() {
+        return dateCreate;
+    }
+
+    public void setDataCreate(Timestamp dataCreate) {
+        this.dateCreate = dataCreate;
+    }
+
+    @Basic
     @Column(name = "is_deleted")
     public Byte getDeleted() {
         return deleted;
@@ -118,20 +130,24 @@ public class SeriesPropertiesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeriesPropertiesEntity that = (SeriesPropertiesEntity) o;
-        return seriesPropertiesId == that.seriesPropertiesId &&
-                deleted == that.deleted &&
+        return Objects.equals(seriesPropertiesId, that.seriesPropertiesId) &&
                 Objects.equals(size, that.size) &&
                 Objects.equals(fastVariationPolynomial, that.fastVariationPolynomial) &&
                 Objects.equals(fastVariationTrigonometric, that.fastVariationTrigonometric) &&
                 Objects.equals(fastVariation, that.fastVariation) &&
                 Objects.equals(variance, that.variance) &&
                 Objects.equals(standardDeviation, that.standardDeviation) &&
-                Objects.equals(precisionApproximation, that.precisionApproximation);
+                Objects.equals(precisionApproximation, that.precisionApproximation) &&
+                Objects.equals(dateCreate, that.dateCreate) &&
+                Objects.equals(deleted, that.deleted) &&
+                Objects.equals(dataSeriesFile, that.dataSeriesFile) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(points, that.points);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seriesPropertiesId, size, fastVariationPolynomial, fastVariationTrigonometric, fastVariation, variance, standardDeviation, precisionApproximation, deleted);
+        return Objects.hash(seriesPropertiesId, size, fastVariationPolynomial, fastVariationTrigonometric, fastVariation, variance, standardDeviation, precisionApproximation, dateCreate, deleted, dataSeriesFile, user, points);
     }
 
     @ManyToOne

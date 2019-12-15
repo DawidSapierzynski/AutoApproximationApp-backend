@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials.TrigonometricPolynomial;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,6 +9,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ForbiddenException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.SeriesPropertiesMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
@@ -17,8 +18,8 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DataSeriesFileServ
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.SeriesPropertiesService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -42,26 +43,24 @@ public class SeriesPropertiesController {
     }
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<SeriesPropertiesDTO> postSeriesProperties(@RequestParam("dataSeriesFileId") long dataSeriesFileId, @RequestParam("precision") int precision) {
+    public ResponseEntity<SeriesPropertiesDTO> postSeriesProperties(@RequestParam("dataSeriesFileId") long dataSeriesFileId, @RequestParam("precision") int precision) throws SizeException, ResourceNotFoundException {
 
         SeriesPropertiesEntity seriesProperties = new SeriesPropertiesEntity();
-        Optional<DataSeriesFileEntity> dataSeriesFileEntity = dataSeriesFileService.findById(dataSeriesFileId);
+        DataSeriesFileEntity dataSeriesFileEntity = dataSeriesFileService.findById(dataSeriesFileId)
+                .orElseThrow(() -> new ResourceNotFoundException("Data series file not found for this id :" + dataSeriesFileId));
         UserEntity userEntity = userService.getLoggedUser();
 
-        if (dataSeriesFileEntity.isPresent()) {
-            seriesProperties.setDataSeriesFile(dataSeriesFileEntity.get());
-            seriesProperties.setDeleted((byte) 0);
-            seriesProperties.setUser(userEntity);
-            seriesProperties.setPrecisionApproximation(precision);
+        seriesProperties.setDataSeriesFile(dataSeriesFileEntity);
+        seriesProperties.setDeleted((byte) 0);
+        seriesProperties.setUser(userEntity);
+        seriesProperties.setPrecisionApproximation(precision);
+        seriesProperties.setDataCreate(new Timestamp(System.currentTimeMillis()));
 
-            seriesPropertiesService.readFile(dataSeriesFileId, seriesProperties);
-            seriesPropertiesService.propertiesCalculate(seriesProperties);
-            seriesProperties = seriesPropertiesService.save(seriesProperties);
+        seriesPropertiesService.readFile(dataSeriesFileId, seriesProperties);
+        seriesPropertiesService.propertiesCalculate(seriesProperties);
+        seriesProperties = seriesPropertiesService.save(seriesProperties);
 
-            return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
     }
 
     @GetMapping(produces = "application/json")
@@ -83,7 +82,7 @@ public class SeriesPropertiesController {
     }
 
     @GetMapping(produces = "application/json", value = "/{seriesPropertiesId}")
-    public ResponseEntity<SeriesPropertiesDTO> getSeriesProperties(@PathVariable long seriesPropertiesId) throws ResourceNotFoundException, ForbiddenException {
+    public ResponseEntity<SeriesPropertiesDTO> getSeriesProperties(@PathVariable long seriesPropertiesId) throws ResourceNotFoundException, ForbiddenException, SizeException {
         SeriesPropertiesEntity seriesProperties = seriesPropertiesService.findByIdAndDeleted(seriesPropertiesId, (byte) 0)
                 .orElseThrow(() -> new ResourceNotFoundException("Series properties not found for this id :" + seriesPropertiesId));
 
