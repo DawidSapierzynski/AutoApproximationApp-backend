@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.RoleUserMapper;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.UserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.UserRepository;
@@ -17,11 +18,13 @@ public class UserService {
     private UserRepository userRepository;
     private RoleUserToUserService roleUserToUserService;
     private RoleUserMapper roleUserMapper;
+    private UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, RoleUserToUserService roleUserToUserService, RoleUserMapper roleUserMapper) {
+    public UserService(UserRepository userRepository, RoleUserToUserService roleUserToUserService, RoleUserMapper roleUserMapper, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleUserToUserService = roleUserToUserService;
         this.roleUserMapper = roleUserMapper;
+        this.userMapper = userMapper;
     }
 
     public Optional<UserEntity> findById(Long id) {
@@ -56,10 +59,7 @@ public class UserService {
 
     public UserEntity update(UserEntity user, UserDTO userDTO) {
         List<RoleUserEntity> rolesUser = this.roleUserMapper.mapRoleUserEntities(userDTO.getRolesUserDto());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setActive(userDTO.isActive() ? (byte) 1 : (byte) 0);
+        this.userMapper.updateUserEntity(user, userDTO);
 
         this.roleUserToUserService.deleteByUser(user);
         this.roleUserToUserService.addRoleToUser(user, rolesUser);

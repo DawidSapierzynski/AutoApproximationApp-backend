@@ -41,7 +41,15 @@ public class UserMapper {
         return userEntity;
     }
 
-    private Byte isAdmin(Set<RoleUserDTO> roles) {
+    public void updateUserEntity(UserEntity user, UserDTO userDTO){
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setActive(userDTO.isActive() ? (byte) 1 : (byte) 0);
+        user.setAdmin(isAdmin(userDTO.getRolesUserDto()));
+    }
+
+    private Byte isAdmin(Collection<RoleUserDTO> roles) {
         for (RoleUserDTO r : roles) {
             if (r.getCode().equals(UserRole.ADMIN.getCode())) {
                 return (byte) 1;
