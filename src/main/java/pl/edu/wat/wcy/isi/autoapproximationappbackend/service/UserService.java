@@ -59,6 +59,7 @@ public class UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
+        user.setActive(userDTO.isActive() ? (byte) 1 : (byte) 0);
 
         this.roleUserToUserService.deleteByUser(user);
         this.roleUserToUserService.addRoleToUser(user, rolesUser);

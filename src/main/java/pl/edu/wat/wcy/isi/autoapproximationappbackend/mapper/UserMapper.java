@@ -66,6 +66,7 @@ public class UserMapper {
                 .rolesUserDto(roleUserMapper.buildRoleUserDTOs(roleUserService.findByUser(userEntity)))
                 .active(userEntity.getActive().equals((byte) 1))
                 .deleted(userEntity.getDeleted().equals((byte) 1))
+                .admin(userEntity.getAdmin().equals((byte) 1))
                 .build();
     }
 }

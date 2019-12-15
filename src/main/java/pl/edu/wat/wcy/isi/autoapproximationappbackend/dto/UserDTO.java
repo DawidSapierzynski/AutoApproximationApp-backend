@@ -19,4 +19,5 @@ public class UserDTO {
     private Collection<RoleUserDTO> rolesUserDto;
     private boolean deleted;
     private boolean active;
+    private boolean admin;
 }
