@@ -62,8 +62,7 @@ public class SeriesPropertiesService {
             logger.debug("FastVariationPolynomialCalculate - isDone: {}", futures.get(1).isDone());
             logger.debug("FastVariationTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
 
-            //TODO
-            seriesProperties.setFastVariation((byte) 1);
+            seriesProperties.setFastVariation(seriesProperties.getFastVariationTrigonometric() < seriesProperties.getFastVariationPolynomial() ? (byte) 1 : (byte) 0);
             logger.info("Set FastVariation: {}", seriesProperties.getFastVariation());
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());

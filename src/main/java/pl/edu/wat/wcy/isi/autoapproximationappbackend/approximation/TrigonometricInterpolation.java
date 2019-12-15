@@ -1,13 +1,12 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
 
-import Jama.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.TrigonometricPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ public class TrigonometricInterpolation extends Approximation {
 
     @Override
     public List<MathematicalFunction> doApproximations() {
-        Matrix matrixX, matrixY, matrixA;
         List<PointXY> mapPoints = getPoints();
         TrigonometricPolynomial trigonometricPolynomial;
         List<Double> c = new ArrayList<>();
@@ -37,7 +35,8 @@ public class TrigonometricInterpolation extends Approximation {
 
         size = mapPoints.size();
 
-        for (int i = 0; i < getDegree(); i++) {
+        c.add(getAi(0, size, mapPoints));
+        for (int i = 1; i < getDegree(); i++) {
             c.add(getAi(i, size, mapPoints));
             c.add(getBi(i, size, mapPoints));
         }
@@ -49,17 +48,7 @@ public class TrigonometricInterpolation extends Approximation {
             c.add(getBi(getDegree(), size, mapPoints));
         }
 
-//        matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
-//        matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
-//
-//        QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
-//        matrixA = qrDecomposition.solve(matrixY);
-
-//        LUDecomposition luDecomposition = new LUDecomposition(matrixX);
-//        matrixA = luDecomposition.solve(matrixY);
-
         trigonometricPolynomial = new TrigonometricPolynomial(c);
-//        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
         setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
         logger.info("{}", trigonometricPolynomial);
@@ -73,26 +62,8 @@ public class TrigonometricInterpolation extends Approximation {
     }
 
     private Double getBi(int i, int size, List<PointXY> pointXYs) {
-        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.cos(i * p.getX())).sum();
+        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.sin(i * p.getX())).sum();
         return 2 * d / size;
-    }
-
-    private List<Double> mapMatrixAToList(Matrix matrixA) {
-        List<Double> result = new ArrayList<>();
-        for (double[] d : matrixA.getArray()) {
-            result.add(d[0]);
-        }
-        return result;
-    }
-
-    private Matrix setMatrixY(double[] pointsY) {
-        double[][] y = new double[pointsY.length][1];
-
-        for (int i = 0; i < pointsY.length; i++) {
-            y[i][0] = pointsY[i];
-        }
-
-        return new Matrix(y);
     }
 
     public static int chooseTrigonometricDegree(int size) {
@@ -100,35 +71,6 @@ public class TrigonometricInterpolation extends Approximation {
             return size / 2;
         } else {
             return (size - 1) / 2;
-        }
-    }
-
-    private Matrix setMatrixBaseFunction(double[] pointsX, int degree) {
-        int size = pointsX.length;
-        double[][] matrix = new double[size][size];
-
-        if (size % 2 == 0) {
-            for (int i = 0; i < size; i++) {
-                double x = pointsX[i];
-                matrixInitiation(degree, matrix, i, x);
-                matrix[i][2 * degree - 1] = 0.5 * Math.cos(Math.toRadians(degree * x));
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                double x = pointsX[i];
-                matrixInitiation(degree, matrix, i, x);
-                matrix[i][2 * degree - 1] = Math.cos(Math.toRadians(degree * x));
-                matrix[i][2 * degree] = Math.sin(Math.toRadians(degree * x));
-            }
-        }
-        return new Matrix(matrix);
-    }
-
-    private void matrixInitiation(int degree, double[][] matrix, int i, double x) {
-        matrix[i][0] = 0.5;
-        for (int j = 1; j < degree; j++) {
-            matrix[i][2 * j - 1] = Math.cos(Math.toRadians(j * x));
-            matrix[i][2 * j] = Math.sin(Math.toRadians(j * x));
         }
     }
 

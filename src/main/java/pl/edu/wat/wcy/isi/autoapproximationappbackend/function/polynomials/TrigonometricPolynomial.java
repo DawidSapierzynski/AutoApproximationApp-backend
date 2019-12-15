@@ -78,12 +78,12 @@ public class TrigonometricPolynomial extends Polynomial {
         if (!coefficients.isEmpty()) {
             result += 0.5 * coefficients.get(0);
             for (int i = 1; i < coefficients.size() / 2.0; i++) {
-                result += coefficients.get(2 * i - 1) * Math.cos(Math.toRadians(i * x));
-                result += coefficients.get(2 * i) * Math.sin(Math.toRadians(i * x));
+                result += coefficients.get(2 * i - 1) * Math.cos(i * x);
+                result += coefficients.get(2 * i) * Math.sin(i * x);
             }
             if (coefficients.size() % 2 == 0) {
                 int sizeCoefficient = coefficients.size();
-                result += 0.5 * coefficients.get(sizeCoefficient - 1) * Math.cos(Math.toRadians((sizeCoefficient / 2.0) * x));
+                result += 0.5 * coefficients.get(sizeCoefficient - 1) * Math.cos((sizeCoefficient / 2.0) * x);
             }
         }
         return result;
@@ -111,7 +111,7 @@ public class TrigonometricPolynomial extends Polynomial {
             }
             if (coefficients.size() % 2 == 0) {
                 int sizeCoefficient = coefficients.size();
-                stringBuilder.append(" + ").append(coefficients.get(sizeCoefficient - 1)).append("*cos(").append(sizeCoefficient / 2).append("x").append(")");
+                stringBuilder.append(" + ").append(coefficients.get(sizeCoefficient - 1)/2).append("*cos(").append(sizeCoefficient / 2).append("x").append(")");
             }
             return stringBuilder.toString();
         }
