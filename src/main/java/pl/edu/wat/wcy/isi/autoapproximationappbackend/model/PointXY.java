@@ -1,8 +1,8 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.model;
 
 public class PointXY implements Comparable<PointXY> {
-    private double x;
-    private double y;
+    private final double x;
+    private final double y;
 
     public PointXY(double x, double y) {
         this.x = x;

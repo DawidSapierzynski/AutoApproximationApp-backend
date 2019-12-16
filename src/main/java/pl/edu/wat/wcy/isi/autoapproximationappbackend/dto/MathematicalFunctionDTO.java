@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.dto;
 
 import lombok.*;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
 
 @Getter
 @Setter

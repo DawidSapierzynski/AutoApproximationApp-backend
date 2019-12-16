@@ -1,19 +1,18 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.UserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ForbiddenException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.LoginException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.MessageException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.ResourceNotFoundException;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.RoleUserMapper;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ForbiddenException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.LoginException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ResourceNotFoundException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.UserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserToUserService;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.UserService;
 
 import java.util.List;
@@ -22,16 +21,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-    private UserService userService;
-    private UserMapper userMapper;
-    private RoleUserMapper roleUserMapper;
-    private RoleUserToUserService roleUserToUserService;
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService, UserMapper userMapper, RoleUserMapper roleUserMapper, RoleUserToUserService roleUserToUserService) {
+    private final UserService userService;
+    private final UserMapper userMapper;
+
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.roleUserMapper = roleUserMapper;
-        this.roleUserToUserService = roleUserToUserService;
     }
 
     @GetMapping(produces = "application/json")
@@ -39,13 +36,14 @@ public class UserController {
         List<UserEntity> userEntities = userService.getAll();
         List<UserDTO> userDTOs = userMapper.buildUserDTOs(userEntities);
 
+        logger.info("Getting all users successfully completed. Size: {}", userDTOs.size());
         return new ResponseEntity<>(userDTOs, HttpStatus.OK);
     }
 
     @GetMapping(produces = "application/json", value = "/{userId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") long userId) throws ResourceNotFoundException, ForbiddenException {
-        UserEntity userEntities = userService.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :" + userId));
+        UserEntity userEntities = userService.findByUserIdAndDeleted(userId, (byte) 0)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
         UserEntity loggedUser = userService.getLoggedUser();
 
         if (!(loggedUser.getUserId() == userId || loggedUser.isAdmin())) {
@@ -53,16 +51,19 @@ public class UserController {
         }
 
         UserDTO userDTO = userMapper.buildUserDTO(userEntities);
+
+        logger.info("Get user successfully completed. Id: {}", userDTO.getId());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(produces = "application/json", value = "/{userId}")
     public ResponseEntity<ResponseMessage> deletedUser(@PathVariable(value = "userId") Long userId) throws ResourceNotFoundException {
         UserEntity user = userService.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :" + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
         this.userService.delete(user);
 
+        logger.info("Deleted user with id: {}", userId);
         return ResponseEntity.ok(new ResponseMessage("Deleted user with id: " + userId));
     }
 
@@ -70,7 +71,7 @@ public class UserController {
     @PutMapping(produces = "application/json", value = "/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserDTO userDTO) throws ResourceNotFoundException, LoginException {
         UserEntity user = userService.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :" + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
         if (userService.findByEmailAndLoginNot(userDTO.getEmail(), userDTO.getLogin())) {
             throw new LoginException("Fail - Email is already in use!");
@@ -78,6 +79,7 @@ public class UserController {
 
         user = this.userService.update(user, userDTO);
 
+        logger.info("Updated user with id: {}", userId);
         return new ResponseEntity<>(this.userMapper.buildUserDTO(user), HttpStatus.OK);
     }
 }

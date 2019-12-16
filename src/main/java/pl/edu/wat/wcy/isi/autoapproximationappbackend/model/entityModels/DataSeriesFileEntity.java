@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
-@Table(name = "data_series_file", schema = "aaa", catalog = "")
+@Table(name = "data_series_file", schema = "aaa")
 public class DataSeriesFileEntity {
     private long dataSeriesFileId;
     private String name;
@@ -74,7 +74,7 @@ public class DataSeriesFileEntity {
         if (o == null || getClass() != o.getClass()) return false;
         DataSeriesFileEntity that = (DataSeriesFileEntity) o;
         return dataSeriesFileId == that.dataSeriesFileId &&
-                deleted == that.deleted &&
+                Objects.equals(deleted, that.deleted) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(hashName, that.hashName) &&
                 Objects.equals(dataSent, that.dataSent);

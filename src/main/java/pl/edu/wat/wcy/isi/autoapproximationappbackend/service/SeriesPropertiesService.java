@@ -4,12 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationPolynomialCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.FastVariationTrigonometricCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.ReadSeriesDatesFromFile;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate.VarianceCalculate;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.FastVariationPolynomialCalculate;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.FastVariationTrigonometricCalculate;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.ReadSeriesDatesFromFile;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.VarianceCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.SizeException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.SeriesPropertiesRepository;
@@ -24,11 +24,11 @@ import java.util.concurrent.Future;
 public class SeriesPropertiesService {
     private static final int MAX_NUMBER_POINTS = 1000;
     private static final int MIN_NUMBER_POINTS = 5;
-    private Logger logger = LoggerFactory.getLogger(SeriesPropertiesService.class);
+    private final Logger logger = LoggerFactory.getLogger(SeriesPropertiesService.class);
 
-    private ExecutorService threadPool;
-    private FileStorageProperties fileStorageProperties;
-    private SeriesPropertiesRepository seriesPropertiesRepository;
+    private final ExecutorService threadPool;
+    private final FileStorageProperties fileStorageProperties;
+    private final SeriesPropertiesRepository seriesPropertiesRepository;
 
     public SeriesPropertiesService(@Value("${number.threads}") int nThreads, FileStorageProperties fileStorageProperties, SeriesPropertiesRepository seriesPropertiesRepository) {
         this.threadPool = Executors.newFixedThreadPool(nThreads);

@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.RoleUserDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserEntity;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.RoleUserRepository;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserService;
 
 import java.util.*;
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleUserMapper {
-    private RoleUserService roleUserService;
+    private final RoleUserService roleUserService;
 
     public RoleUserMapper(RoleUserService roleUserService) {
         this.roleUserService = roleUserService;

@@ -1,13 +1,14 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SplineInterpolation extends Approximation {
     private double[] z;
@@ -121,7 +122,7 @@ public class SplineInterpolation extends Approximation {
                 approximationsPoints.add(new PointXY(j, mathematicalFunction.getPolynomial().evaluate(j)));
             }
         }
-        approximationsPoints.add(new PointXY(getPoints().get(getSize() - 1).getX(), mathematicalFunction.getPolynomial().evaluate(getPoints().get(getSize() - 1).getX())));
+        approximationsPoints.add(new PointXY(getPoints().get(getSize() - 1).getX(), Objects.requireNonNull(mathematicalFunction).getPolynomial().evaluate(getPoints().get(getSize() - 1).getX())));
 
         return approximationsPoints;
     }

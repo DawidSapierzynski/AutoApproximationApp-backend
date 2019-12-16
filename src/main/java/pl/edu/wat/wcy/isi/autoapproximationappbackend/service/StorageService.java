@@ -17,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class StorageService {
-    private Logger logger = LoggerFactory.getLogger(StorageService.class);
+    private final Logger logger = LoggerFactory.getLogger(StorageService.class);
 
     private final Path fileStorageLocation;
 

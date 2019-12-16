@@ -15,19 +15,20 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/chooseMethod")
 public class ChooseMethodController {
-    private Logger logger = LoggerFactory.getLogger(ChooseMethodController.class);
+    private final Logger logger = LoggerFactory.getLogger(ChooseMethodController.class);
 
-    private ChooseMethodService chooseMethodService;
+    private final ChooseMethodService chooseMethodService;
 
     public ChooseMethodController(ChooseMethodService chooseMethodService) {
         this.chooseMethodService = chooseMethodService;
     }
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<List<ChosenMethodDTO>> getSeriesProperties(@RequestBody SeriesPropertiesDTO seriesPropertiesDTO) {
+    public ResponseEntity<List<ChosenMethodDTO>> getMethods(@RequestBody SeriesPropertiesDTO seriesPropertiesDTO) {
         List<ChosenMethodDTO> chosenMethodDTOS;
         chosenMethodDTOS = chooseMethodService.selectMethods(seriesPropertiesDTO);
 
+        logger.info("Choosing successful methods. Number of methods: {}", chosenMethodDTOS.size());
         return new ResponseEntity<>(chosenMethodDTOS, HttpStatus.OK);
     }
 }

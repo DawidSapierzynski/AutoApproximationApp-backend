@@ -15,10 +15,10 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private RoleUserToUserService roleUserToUserService;
-    private RoleUserMapper roleUserMapper;
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final RoleUserToUserService roleUserToUserService;
+    private final RoleUserMapper roleUserMapper;
+    private final UserMapper userMapper;
 
     public UserService(UserRepository userRepository, RoleUserToUserService roleUserToUserService, RoleUserMapper roleUserMapper, UserMapper userMapper) {
         this.userRepository = userRepository;
@@ -69,5 +69,9 @@ public class UserService {
 
     public boolean findByEmailAndLoginNot(String email, String login){
         return this.userRepository.findByEmailAndLoginNot(email, login).isPresent();
+    }
+
+    public Optional<UserEntity> findByUserIdAndDeleted(long userId, byte deleted){
+        return this.userRepository.findByUserIdAndDeleted(userId, deleted);
     }
 }

@@ -14,22 +14,22 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private final long id;
 
-    private String name;
+    private final String name;
 
-    private String login;
+    private final String login;
 
-    private String email;
+    private final String email;
 
-    private boolean isActive;
+    private final boolean isActive;
 
-    private boolean isDeleted;
+    private final boolean isDeleted;
 
     @JsonIgnore
-    private String password;
+    private final String password;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public UserPrinciple(long id, String name, String login, String email, String password,
                          boolean isActive, boolean isDeleted,

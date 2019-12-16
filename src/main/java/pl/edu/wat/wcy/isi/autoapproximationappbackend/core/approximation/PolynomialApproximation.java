@@ -1,19 +1,19 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
 import Jama.Matrix;
 import Jama.QRDecomposition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.AlgebraicPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PolynomialApproximation extends Approximation {
-    private Logger logger = LoggerFactory.getLogger(PolynomialApproximation.class);
+    private final Logger logger = LoggerFactory.getLogger(PolynomialApproximation.class);
 
     public PolynomialApproximation(List<PointXY> points, int degree) {
         super(points, degree);
@@ -25,11 +25,15 @@ public class PolynomialApproximation extends Approximation {
         List<PointXY> mapPoints = getPoints();
 
         matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray());
+        logger.debug("Matrix X:\n {}", matrixX);
+
         matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
+        logger.debug("Matrix Y:\n {}", matrixY);
 
 //        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
         QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
         matrixA = qrDecomposition.solve(matrixY);
+        logger.debug("QRDecomposition - Matrix A:\n {}", matrixA);
 
         setMathematicalFunctions(List.of(new MathematicalFunction(new AlgebraicPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 

@@ -1,8 +1,8 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.List;
 
 public abstract class Approximation {
     private List<MathematicalFunction> mathematicalFunctions;
-    private List<PointXY> points;
+    private final List<PointXY> points;
     private LinearDomainMapping linearDomainMapping;
     private int degree;
-    private int size;
+    private final int size;
 
     public Approximation(List<PointXY> points, int degree) {
         this.points = points;

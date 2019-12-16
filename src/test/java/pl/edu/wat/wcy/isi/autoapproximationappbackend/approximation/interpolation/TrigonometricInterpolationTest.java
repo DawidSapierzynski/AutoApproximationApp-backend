@@ -3,11 +3,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolati
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.TrigonometricInterpolation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricInterpolation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
@@ -16,14 +14,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TrigonometricInterpolationTest {
-    private Logger logger = LoggerFactory.getLogger(TrigonometricInterpolationTest.class);
     private static final double DELTA = 4e-12;
 
     private List<PointXY> evenPoints = new ArrayList<>();
     private TrigonometricInterpolation evenTrigonometricInterpolation;
 
-    double[] xs = {0, Math.PI / 2, Math.PI, 3 * Math.PI / 2};
-    double[] ys = {1, 3, -2, -1};
+    final double[] xs = {0, Math.PI / 2, Math.PI, 3 * Math.PI / 2};
+    final double[] ys = {1, 3, -2, -1};
 
     @BeforeEach
     void setUp() {

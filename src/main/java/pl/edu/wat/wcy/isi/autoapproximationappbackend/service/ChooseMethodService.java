@@ -2,27 +2,19 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.TrigonometricInterpolation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricInterpolation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.Method;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.Method;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
 public class ChooseMethodService {
-    private Logger logger = LoggerFactory.getLogger(ChooseMethodService.class);
-
-    private ExecutorService threadPool;
-
-    public ChooseMethodService(@Value("${number.threads}") int nThreads) {
-        this.threadPool = Executors.newFixedThreadPool(nThreads);
-    }
+    private final Logger logger = LoggerFactory.getLogger(ChooseMethodService.class);
 
     public List<ChosenMethodDTO> selectMethods(SeriesPropertiesDTO seriesPropertiesDTO) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
@@ -45,6 +37,7 @@ public class ChooseMethodService {
                 break;
         }
 
+        logger.debug("Dobrane metody: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
         return chosenMethodDTOS;
     }
 

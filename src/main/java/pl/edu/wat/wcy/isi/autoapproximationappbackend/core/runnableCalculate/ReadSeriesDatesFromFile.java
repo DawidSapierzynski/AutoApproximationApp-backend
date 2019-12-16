@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +13,11 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class ReadSeriesDatesFromFile implements Runnable {
-    private Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromFile.class);
+    private final Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromFile.class);
 
-    private String seriesDatesPath;
-    private String seriesDatesName;
-    private SeriesPropertiesEntity seriesProperties;
+    private final String seriesDatesPath;
+    private final String seriesDatesName;
+    private final SeriesPropertiesEntity seriesProperties;
 
     public ReadSeriesDatesFromFile(String seriesDatesName, SeriesPropertiesEntity seriesProperties, FileStorageProperties fileStorageProperties) {
         this.seriesDatesName = seriesDatesName;

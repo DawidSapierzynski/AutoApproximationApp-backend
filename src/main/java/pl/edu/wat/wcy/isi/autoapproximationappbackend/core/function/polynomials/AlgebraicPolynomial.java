@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AlgebraicPolynomial extends Polynomial {
-    private Logger logger = LoggerFactory.getLogger(AlgebraicPolynomial.class);
+    private final Logger logger = LoggerFactory.getLogger(AlgebraicPolynomial.class);
 
     public AlgebraicPolynomial(List<Double> coefficients) {
         super(coefficients);

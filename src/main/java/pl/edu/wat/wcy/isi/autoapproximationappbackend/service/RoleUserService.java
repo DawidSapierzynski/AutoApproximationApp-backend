@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleUserService {
-    private RoleUserRepository roleUserRepository;
-    private RoleUserToUserService roleUserToUserService;
+    private final RoleUserRepository roleUserRepository;
+    private final RoleUserToUserService roleUserToUserService;
 
     public RoleUserService(RoleUserRepository roleUserRepository, RoleUserToUserService roleUserToUserService) {
         this.roleUserRepository = roleUserRepository;

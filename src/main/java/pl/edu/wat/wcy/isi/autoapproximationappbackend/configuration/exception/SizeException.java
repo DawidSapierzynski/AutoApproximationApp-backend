@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.exception;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception;
 
 public class SizeException extends Exception {
 

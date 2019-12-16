@@ -15,9 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/download")
 public class DownloadController {
-    private Logger logger = LoggerFactory.getLogger(DownloadController.class);
+    private final Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
-    private DownloadService downloadService;
+    private final DownloadService downloadService;
 
     public DownloadController(DownloadService downloadService) {
         this.downloadService = downloadService;
@@ -27,6 +27,7 @@ public class DownloadController {
     public ResponseEntity<byte[]> downloadApproximationResult(@RequestBody List<MathematicalFunctionDTO> mathematicalFunctionDTOs) {
         byte[] text = downloadService.getApproximationResult(mathematicalFunctionDTOs);
 
+        logger.info("Downloading approximation results completed successfully.");
         return new ResponseEntity<>(text, HttpStatus.OK);
     }
 }

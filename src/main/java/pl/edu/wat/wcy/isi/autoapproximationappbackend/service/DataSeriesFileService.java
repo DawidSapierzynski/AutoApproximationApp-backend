@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Service
 public class DataSeriesFileService {
-    private DataSeriesFileRepository dataSeriesFileRepository;
-    private SeriesPropertiesService seriesPropertiesService;
+    private final DataSeriesFileRepository dataSeriesFileRepository;
+    private final SeriesPropertiesService seriesPropertiesService;
 
     public DataSeriesFileService(DataSeriesFileRepository dataSeriesFileRepository, SeriesPropertiesService seriesPropertiesService) {
         this.dataSeriesFileRepository = dataSeriesFileRepository;

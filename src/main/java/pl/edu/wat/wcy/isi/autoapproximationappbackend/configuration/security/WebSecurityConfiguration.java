@@ -22,10 +22,10 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserRol
 )
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private JwtAuthEntryPoint unauthorizedHandler;
-    private JwtAuthTokenFilter jwtAuthTokenFilter;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtAuthEntryPoint unauthorizedHandler;
+    private final JwtAuthTokenFilter jwtAuthTokenFilter;
 
     public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder,
                                     JwtAuthEntryPoint unauthorizedHandler, JwtAuthTokenFilter jwtAuthTokenFilter) {

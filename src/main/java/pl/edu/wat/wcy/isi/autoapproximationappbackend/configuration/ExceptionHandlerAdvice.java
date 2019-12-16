@@ -7,11 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.*;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.*;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
-    private Logger logger = LoggerFactory.getLogger(ExceptionHandlerAdvice.class);
+    private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAdvice.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseMessage> handleException(ResourceNotFoundException e) {

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "series_properties", schema = "aaa", catalog = "")
+@Table(name = "series_properties", schema = "aaa")
 public class SeriesPropertiesEntity {
     private Long seriesPropertiesId;
     private Integer size;

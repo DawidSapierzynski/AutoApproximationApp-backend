@@ -5,16 +5,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.TrigonometricPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class TrigonometricApproximationTest {
-    private Logger logger = LoggerFactory.getLogger(TrigonometricApproximationTest.class);
+    private final Logger logger = LoggerFactory.getLogger(TrigonometricApproximationTest.class);
 
     private List<PointXY> points = new ArrayList<>();
     private TrigonometricApproximation trigonometricApproximation;

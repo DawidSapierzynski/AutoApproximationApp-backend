@@ -13,9 +13,9 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ApproximationServi
 @RestController
 @RequestMapping(value = "/doApproximations")
 public class ApproximationController {
-    private Logger logger = LoggerFactory.getLogger(SeriesPropertiesController.class);
+    private final Logger logger = LoggerFactory.getLogger(ApproximationController.class);
 
-    private ApproximationService approximationService;
+    private final ApproximationService approximationService;
 
     public ApproximationController(ApproximationService approximationService) {
         this.approximationService = approximationService;
@@ -26,6 +26,7 @@ public class ApproximationController {
         ApproximationDTO approximationDTO = new ApproximationDTO();
 
         approximationService.doApproximations(approximationForm.getChosenMethod(), approximationForm.getPoints(), approximationDTO);
+        logger.info("Approximation successful - {}.", approximationForm.getChosenMethod().getMethod());
 
         return new ResponseEntity<>(approximationDTO, HttpStatus.OK);
     }

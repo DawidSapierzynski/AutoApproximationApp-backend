@@ -11,14 +11,13 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.RoleUserService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
-    private BCryptPasswordEncoder encoder;
-    private RoleUserMapper roleUserMapper;
-    private RoleUserService roleUserService;
+    private final BCryptPasswordEncoder encoder;
+    private final RoleUserMapper roleUserMapper;
+    private final RoleUserService roleUserService;
 
     public UserMapper(BCryptPasswordEncoder encoder, RoleUserMapper roleUserMapper, RoleUserService roleUserService) {
         this.encoder = encoder;

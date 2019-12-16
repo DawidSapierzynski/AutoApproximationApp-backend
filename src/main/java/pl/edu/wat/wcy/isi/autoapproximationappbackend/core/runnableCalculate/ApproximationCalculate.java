@@ -1,6 +1,6 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.calculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.*;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.MathematicalFunctionMapper;
@@ -9,10 +9,10 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import java.util.List;
 
 public class ApproximationCalculate implements Runnable {
-    private ChosenMethodDTO chosenMethodDTO;
-    private List<PointXY> points;
-    private ApproximationDTO approximationDTO;
-    private MathematicalFunctionMapper mathematicalFunctionMapper;
+    private final ChosenMethodDTO chosenMethodDTO;
+    private final List<PointXY> points;
+    private final ApproximationDTO approximationDTO;
+    private final MathematicalFunctionMapper mathematicalFunctionMapper;
 
     public ApproximationCalculate(ChosenMethodDTO chosenMethodDTO, List<PointXY> points, ApproximationDTO approximationDTO, MathematicalFunctionMapper mathematicalFunctionMapper) {
         this.chosenMethodDTO = chosenMethodDTO;

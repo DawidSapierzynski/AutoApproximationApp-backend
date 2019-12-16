@@ -4,7 +4,7 @@ public enum UserRole {
     ADMIN("ADMIN"),
     USER("USER");
 
-    private String code;
+    private final String code;
 
     UserRole(String code) {
         this.code = code;

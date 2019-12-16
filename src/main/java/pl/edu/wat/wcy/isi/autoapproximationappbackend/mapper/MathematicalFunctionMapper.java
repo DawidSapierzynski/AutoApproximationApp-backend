@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper;
 
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.MathematicalFunctionDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Service
 public class MathematicalFunctionMapper {
 
-    private PolynomialMapper polynomialMapper;
+    private final PolynomialMapper polynomialMapper;
 
     public MathematicalFunctionMapper(PolynomialMapper polynomialMapper) {
         this.polynomialMapper = polynomialMapper;

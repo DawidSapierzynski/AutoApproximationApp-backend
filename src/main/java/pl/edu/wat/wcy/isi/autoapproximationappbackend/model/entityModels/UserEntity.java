@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user", schema = "aaa", catalog = "")
+@Table(name = "user", schema = "aaa")
 public class UserEntity {
     private long userId;
     private String login;
@@ -118,8 +118,8 @@ public class UserEntity {
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
         return userId == that.userId &&
-                deleted == that.deleted &&
-                active == that.active &&
+                Objects.equals(deleted, that.deleted) &&
+                Objects.equals(active, that.active) &&
                 Objects.equals(login, that.login) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(firstName, that.firstName) &&

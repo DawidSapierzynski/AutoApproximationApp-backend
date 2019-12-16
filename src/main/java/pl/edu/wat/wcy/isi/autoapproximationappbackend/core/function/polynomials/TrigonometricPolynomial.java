@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrigonometricPolynomial extends Polynomial {
-    private Logger logger = LoggerFactory.getLogger(TrigonometricPolynomial.class);
+    private final Logger logger = LoggerFactory.getLogger(TrigonometricPolynomial.class);
 
     public TrigonometricPolynomial(List<Double> coefficients) {
         super(coefficients);

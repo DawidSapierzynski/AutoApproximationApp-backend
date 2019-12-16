@@ -3,9 +3,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolati
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.SplineInterpolation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.SplineInterpolation;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.AlgebraicPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;

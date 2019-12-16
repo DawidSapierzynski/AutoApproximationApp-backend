@@ -9,7 +9,7 @@ public class JwtResponse {
     private String type = "Bearer";
     private String username;
     private String userId;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtResponse(String accessToken, String username, String userId, Collection<? extends GrantedAuthority> authorities) {
         this.token = accessToken;

@@ -1,10 +1,10 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 
 public class MathematicalFunction {
-    private Polynomial polynomial;
-    private DomainFunction domainFunction;
+    private final Polynomial polynomial;
+    private final DomainFunction domainFunction;
 
     public MathematicalFunction(Polynomial polynomial, DomainFunction domainFunction) {
         this.polynomial = polynomial;

@@ -1,18 +1,18 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function;
 
 import Jama.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.AlgebraicPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LinearDomainMapping {
-    private Logger logger = LoggerFactory.getLogger(LinearDomainMapping.class);
+    private final Logger logger = LoggerFactory.getLogger(LinearDomainMapping.class);
 
-    private List<PointXY> oldPoints;
+    private final List<PointXY> oldPoints;
     private List<PointXY> newPoints;
     private AlgebraicPolynomial linearFunction;
 
@@ -31,7 +31,7 @@ public class LinearDomainMapping {
 
     private void findLinearFunction() {
         double x0, xn;
-        double[][] x, y, a;
+        double[][] x, y;
         Matrix matrixX, matrixY, matrixA;
 
         x0 = oldPoints.get(0).getX();
@@ -40,11 +40,16 @@ public class LinearDomainMapping {
         y = new double[][]{{0}, {2 * Math.PI}};
 
         matrixX = new Matrix(x);
+        logger.debug("Matrix X:\n{}", matrixX);
+
         matrixY = new Matrix(y);
+        logger.debug("Matrix Y:\n{}", matrixY);
 
         matrixA = (((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose())).times(matrixY);
+        logger.debug("Matrix A:\n{}", matrixA);
 
         linearFunction = new AlgebraicPolynomial((matrixA.transpose().getArray())[0]);
+        logger.debug("Linear function: {}", linearFunction);
     }
 
     public List<PointXY> getOldPoints() {

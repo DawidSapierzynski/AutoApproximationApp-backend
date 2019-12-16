@@ -1,6 +1,6 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
 
 import java.util.List;
 

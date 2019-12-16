@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper;
 
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.PolynomialDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 
 @Service
 public class PolynomialMapper {

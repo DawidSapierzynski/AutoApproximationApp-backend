@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class RoleUserToUserService {
-    private RoleUserToUserRepository roleUserToUserRepository;
+    private final RoleUserToUserRepository roleUserToUserRepository;
 
     public RoleUserToUserService(RoleUserToUserRepository roleUserToUserRepository) {
         this.roleUserToUserRepository = roleUserToUserRepository;

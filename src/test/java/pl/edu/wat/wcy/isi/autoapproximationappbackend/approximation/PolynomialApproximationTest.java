@@ -5,17 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.PolynomialApproximation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.AlgebraicPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.AlgebraicPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class PolynomialApproximationTest {
-    private static final double DELTA = 1e-1;
-
-    private Logger logger = LoggerFactory.getLogger(PolynomialApproximationTest.class);
+    private final Logger logger = LoggerFactory.getLogger(PolynomialApproximationTest.class);
 
     private List<PointXY> points = new ArrayList<>();
     private PolynomialApproximation polynomialApproximation;

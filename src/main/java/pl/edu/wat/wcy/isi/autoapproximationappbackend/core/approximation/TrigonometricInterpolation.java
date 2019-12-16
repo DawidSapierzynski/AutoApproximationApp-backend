@@ -1,18 +1,18 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.DomainFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.MathematicalFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.function.polynomials.TrigonometricPolynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrigonometricInterpolation extends Approximation {
-    private Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
+    private final Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
 
     public TrigonometricInterpolation(List<PointXY> points) {
         super(points);

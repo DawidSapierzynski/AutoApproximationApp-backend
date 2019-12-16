@@ -17,8 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/roleUser")
 public class RoleUserController {
-    private RoleUserService roleUserService;
-    private RoleUserMapper roleUserMapper;
+    private final RoleUserService roleUserService;
+    private final RoleUserMapper roleUserMapper;
 
     public RoleUserController(RoleUserService roleUserService, RoleUserMapper roleUserMapper) {
         this.roleUserService = roleUserService;

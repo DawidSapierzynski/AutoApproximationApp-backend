@@ -1,10 +1,10 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.function;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function;
 
 public class DomainFunction {
-    private boolean leftClosedInterval;
-    private boolean rightClosedInterval;
-    private double beginningInterval;
-    private double endInterval;
+    private final boolean leftClosedInterval;
+    private final boolean rightClosedInterval;
+    private final double beginningInterval;
+    private final double endInterval;
 
     public DomainFunction(boolean leftClosedInterval, double beginningInterval, double endInterval, boolean rightClosedInterval) {
         this.leftClosedInterval = leftClosedInterval;
@@ -31,6 +31,6 @@ public class DomainFunction {
 
     @Override
     public String toString() {
-        return (leftClosedInterval ? "<" : "(") + beginningInterval + ";" + endInterval + (rightClosedInterval ? ">" : ")");
+        return (isLeftClosedInterval() ? "<" : "(") + getBeginningInterval() + ";" + getEndInterval() + (isRightClosedInterval() ? ">" : ")");
     }
 }

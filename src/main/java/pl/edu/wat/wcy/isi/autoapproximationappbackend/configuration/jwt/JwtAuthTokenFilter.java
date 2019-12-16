@@ -2,11 +2,9 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserDetailsServiceImpl;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
@@ -18,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
-    private Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
-    private JwtProvider tokenProvider;
-    private UserDetailsServiceImpl userDetailsService;
+    private final JwtProvider tokenProvider;
+    private final UserDetailsServiceImpl userDetailsService;
 
     public JwtAuthTokenFilter(JwtProvider tokenProvider, UserDetailsServiceImpl userDetailsService) {
         this.tokenProvider = tokenProvider;

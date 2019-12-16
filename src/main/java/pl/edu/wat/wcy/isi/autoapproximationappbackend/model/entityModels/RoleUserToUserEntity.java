@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role_user_to_user", schema = "aaa", catalog = "")
+@Table(name = "role_user_to_user", schema = "aaa")
 public class RoleUserToUserEntity {
     private long roleUserToUserId;
     private UserEntity userByUserId;

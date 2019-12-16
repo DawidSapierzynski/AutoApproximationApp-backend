@@ -1,5 +1,7 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +15,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.LoginF
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.SignUpForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.JwtResponse;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.exception.LoginException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.LoginException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.RoleUserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.UserMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
@@ -26,12 +28,14 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private AuthenticationManager authenticationManager;
-    private UserService userService;
-    private JwtProvider jwtProvider;
-    private UserMapper userMapper;
-    private RoleUserMapper roleUserMapper;
-    private RoleUserToUserService roleUserToUserService;
+    private final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final JwtProvider jwtProvider;
+    private final UserMapper userMapper;
+    private final RoleUserMapper roleUserMapper;
+    private final RoleUserToUserService roleUserToUserService;
 
     public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtProvider jwtProvider,
                           UserMapper userMapper, RoleUserMapper roleUserMapper, RoleUserToUserService roleUserToUserService) {
@@ -53,6 +57,7 @@ public class AuthController {
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
 
+        logger.info("User logged in with id: {}", userDetails.getId());
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), String.valueOf(userDetails.getId()), userDetails.getAuthorities()));
     }
 
