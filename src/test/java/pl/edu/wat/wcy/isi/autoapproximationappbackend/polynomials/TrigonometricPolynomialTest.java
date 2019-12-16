@@ -49,7 +49,7 @@ class TrigonometricPolynomialTest {
 
     @Test
     void evaluate() {
-        assertEquals(8.076867018987256, trigonometricPolynomial1.evaluate(2.5));
-        assertEquals(4.893459261432663, trigonometricPolynomial2.evaluate(2.5));
+        assertEquals(10.534026160091036, trigonometricPolynomial1.evaluate(2.5));
+        assertEquals(-5.2747322237715455, trigonometricPolynomial2.evaluate(2.5));
     }
 }
