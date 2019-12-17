@@ -23,6 +23,7 @@ public class SeriesPropertiesEntity {
     private DataSeriesFileEntity dataSeriesFile;
     private UserEntity user;
     private List<PointXY> points;
+    private List<PointXY> artefacts;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -107,12 +108,12 @@ public class SeriesPropertiesEntity {
 
     @Basic
     @Column(name = "date_create")
-    public Timestamp getDataCreate() {
+    public Timestamp getDateCreate() {
         return dateCreate;
     }
 
-    public void setDataCreate(Timestamp dataCreate) {
-        this.dateCreate = dataCreate;
+    public void setDateCreate(Timestamp dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     @Basic
@@ -178,4 +179,14 @@ public class SeriesPropertiesEntity {
     public void setPoints(List<PointXY> points) {
         this.points = points;
     }
+
+    @Transient
+    public List<PointXY> getArtefacts() {
+        return artefacts;
+    }
+
+    public void setArtefacts(List<PointXY> artefacts) {
+        this.artefacts = artefacts;
+    }
+
 }

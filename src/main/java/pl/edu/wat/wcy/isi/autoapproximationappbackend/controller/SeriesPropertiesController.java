@@ -54,7 +54,7 @@ public class SeriesPropertiesController {
         seriesProperties.setDeleted((byte) 0);
         seriesProperties.setUser(userEntity);
         seriesProperties.setPrecisionApproximation(precision);
-        seriesProperties.setDataCreate(new Timestamp(System.currentTimeMillis()));
+        seriesProperties.setDateCreate(new Timestamp(System.currentTimeMillis()));
 
         seriesPropertiesService.readFile(dataSeriesFileId, seriesProperties);
         seriesPropertiesService.propertiesCalculate(seriesProperties);

@@ -24,7 +24,7 @@ public abstract class Approximation {
     public Approximation(List<PointXY> points) {
         this.points = points;
         this.size = points.size();
-        this.degree = this.size - 1;
+        this.degree = points.size() - 1;
     }
 
     public abstract List<MathematicalFunction> doApproximations();
@@ -44,15 +44,13 @@ public abstract class Approximation {
     }
 
     public double getError() {
-        double error = 0.0;
+        double error;
 
         if (getPolynomial() == null) {
             doApproximations();
         }
 
-        for (PointXY p : getPoints()) {
-            error += Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2);
-        }
+        error = getPoints().stream().mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2)).sum();
 
         return error;
     }

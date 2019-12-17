@@ -35,6 +35,8 @@ public abstract class Polynomial {
     public abstract double evaluate(double x);
 
     public double evaluate(double x, LinearDomainMapping linearDomainMapping) {
+        //TODO
+        //Do potymalizacji
         if (linearDomainMapping != null) {
             double mappX, y;
 

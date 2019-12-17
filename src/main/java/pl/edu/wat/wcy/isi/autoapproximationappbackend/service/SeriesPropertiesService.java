@@ -41,6 +41,7 @@ public class SeriesPropertiesService {
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());
+
             if (seriesProperties.getPoints().size() < MIN_NUMBER_POINTS) {
                 throw new SizeException("The number of points is less than " + MIN_NUMBER_POINTS);
             } else if (seriesProperties.getPoints().size() > MAX_NUMBER_POINTS) {
@@ -89,9 +90,9 @@ public class SeriesPropertiesService {
         return seriesPropertiesRepository.findBySeriesPropertiesIdAndDeleted(id, deleted);
     }
 
-    public SeriesPropertiesEntity delete(SeriesPropertiesEntity seriesProperties) {
+    public void delete(SeriesPropertiesEntity seriesProperties) {
         seriesProperties.setDeleted((byte) 1);
-        return save(seriesProperties);
+        save(seriesProperties);
     }
 
     public void delete(Collection<SeriesPropertiesEntity> seriesPropertiesList) {

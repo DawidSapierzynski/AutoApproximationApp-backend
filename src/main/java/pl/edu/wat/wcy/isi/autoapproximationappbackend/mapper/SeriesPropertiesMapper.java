@@ -26,7 +26,8 @@ public class SeriesPropertiesMapper {
                 .fastVariationTrigonometric(seriesProperties.getFastVariationTrigonometric())
                 .fastVariation(seriesProperties.getFastVariation().equals((byte) 1))
                 .points(seriesProperties.getPoints())
-                .dateCreate(seriesProperties.getDataCreate())
+                .artefacts(seriesProperties.getArtefacts())
+                .dateCreate(seriesProperties.getDateCreate())
                 .deleted(seriesProperties.getDeleted().equals((byte) 1))
                 .build();
     }

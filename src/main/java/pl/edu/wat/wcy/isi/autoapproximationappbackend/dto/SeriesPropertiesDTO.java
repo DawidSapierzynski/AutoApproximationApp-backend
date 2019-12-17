@@ -21,7 +21,8 @@ public class SeriesPropertiesDTO {
     private double standardDeviation;
     private int precision;
     private Timestamp dateCreate;
-    private List<PointXY> points;
     private boolean deleted;
+    private List<PointXY> points;
+    private List<PointXY> artefacts;
 
 }
