@@ -17,7 +17,9 @@ public class RoleUserMapper {
     }
 
     public List<RoleUserDTO> buildRoleUserDTOs(Collection<RoleUserEntity> roleUserEntities) {
-        return roleUserEntities.stream().map(this::buildRoleUserDTOs).collect(Collectors.toList());
+        return roleUserEntities.stream()
+                .map(this::buildRoleUserDTOs)
+                .collect(Collectors.toList());
     }
 
     public RoleUserDTO buildRoleUserDTOs(RoleUserEntity roleUserEntity) {

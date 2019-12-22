@@ -12,7 +12,7 @@ public class DataSeriesFileEntity {
     private long dataSeriesFileId;
     private String name;
     private String hashName;
-    private Timestamp dataSent;
+    private Timestamp dateSent;
     private Byte deleted;
     private UserEntity user;
     private Collection<SeriesPropertiesEntity> seriesProperties = new HashSet<>();
@@ -49,13 +49,13 @@ public class DataSeriesFileEntity {
     }
 
     @Basic
-    @Column(name = "data_sent")
-    public Timestamp getDataSent() {
-        return dataSent;
+    @Column(name = "date_sent")
+    public Timestamp getDateSent() {
+        return dateSent;
     }
 
-    public void setDataSent(Timestamp dataSent) {
-        this.dataSent = dataSent;
+    public void setDateSent(Timestamp dateSent) {
+        this.dateSent = dateSent;
     }
 
     @Basic
@@ -77,12 +77,12 @@ public class DataSeriesFileEntity {
                 Objects.equals(deleted, that.deleted) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(hashName, that.hashName) &&
-                Objects.equals(dataSent, that.dataSent);
+                Objects.equals(dateSent, that.dateSent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dataSeriesFileId, name, hashName, dataSent, deleted);
+        return Objects.hash(dataSeriesFileId, name, hashName, dateSent, deleted);
     }
 
     @ManyToOne

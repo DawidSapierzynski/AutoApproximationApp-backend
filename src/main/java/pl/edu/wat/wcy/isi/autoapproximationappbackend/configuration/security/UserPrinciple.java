@@ -45,9 +45,9 @@ public class UserPrinciple implements UserDetails {
     }
 
     public static UserPrinciple build(UserEntity user) {
-        List<GrantedAuthority> authorities = user.getRolesUser().stream().map(role ->
-                new SimpleGrantedAuthority(role.getCode())
-        ).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = user.getRolesUser().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getCode()))
+                .collect(Collectors.toList());
 
         return new UserPrinciple(
                 user.getUserId(),

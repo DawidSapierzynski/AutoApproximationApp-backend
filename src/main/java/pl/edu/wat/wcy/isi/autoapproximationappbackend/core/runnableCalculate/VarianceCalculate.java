@@ -2,8 +2,8 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 
 import java.util.List;
 

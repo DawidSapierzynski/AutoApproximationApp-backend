@@ -17,7 +17,9 @@ public class MathematicalFunctionMapper {
     }
 
     public List<MathematicalFunctionDTO> mapToMathematicalFunctionDTOs(List<MathematicalFunction> mathematicalFunctions) {
-        return mathematicalFunctions.stream().map(this::mapToMathematicalFunctionDTO).collect(Collectors.toList());
+        return mathematicalFunctions.stream()
+                .map(this::mapToMathematicalFunctionDTO)
+                .collect(Collectors.toList());
     }
 
     public MathematicalFunctionDTO mapToMathematicalFunctionDTO(MathematicalFunction mathematicalFunction) {

@@ -60,7 +60,9 @@ public class UserMapper {
 
 
     public List<UserDTO> buildUserDTOs(Collection<UserEntity> userEntities) {
-        return userEntities.stream().map(this::buildUserDTO).collect(Collectors.toList());
+        return userEntities.stream()
+                .map(this::buildUserDTO)
+                .collect(Collectors.toList());
     }
 
     public UserDTO buildUserDTO(UserEntity userEntity) {

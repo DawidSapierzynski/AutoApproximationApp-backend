@@ -57,12 +57,16 @@ public class TrigonometricApproximation extends Approximation {
     }
 
     private Double getAi(int i, int size, List<PointXY> pointXYs) {
-        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.cos(i * p.getX())).sum();
+        double d = pointXYs.stream()
+                .mapToDouble(p -> p.getY() * Math.cos(i * p.getX()))
+                .sum();
         return 2 * d / size;
     }
 
     private Double getBi(int i, int size, List<PointXY> pointXYs) {
-        double d = pointXYs.stream().mapToDouble(p -> p.getY() * Math.sin(i * p.getX())).sum();
+        double d = pointXYs.stream()
+                .mapToDouble(p -> p.getY() * Math.sin(i * p.getX()))
+                .sum();
         return 2 * d / size;
     }
 

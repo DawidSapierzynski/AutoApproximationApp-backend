@@ -45,7 +45,7 @@ public class DataSeriesFileController {
         DataSeriesFileEntity dataSeriesFileEntity = new DataSeriesFileEntity();
         UserEntity userEntity = userService.getLoggedUser();
 
-        dataSeriesFileEntity.setDataSent(new Timestamp(System.currentTimeMillis()));
+        dataSeriesFileEntity.setDateSent(new Timestamp(System.currentTimeMillis()));
         dataSeriesFileEntity.setDeleted((byte) 0);
         dataSeriesFileEntity.setName(dataSeriesFile.getOriginalFilename());
         dataSeriesFileEntity.setHashName(RandomString.make(100));

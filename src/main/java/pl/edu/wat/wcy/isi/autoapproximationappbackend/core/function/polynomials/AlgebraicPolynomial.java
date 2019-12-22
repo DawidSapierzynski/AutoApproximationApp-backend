@@ -20,7 +20,9 @@ public class AlgebraicPolynomial extends Polynomial {
     }
 
     public static List<Double> mapCoefficients(double[] coefficients) {
-        return Arrays.stream(coefficients).boxed().collect(Collectors.toList());
+        return Arrays.stream(coefficients)
+                .boxed()
+                .collect(Collectors.toList());
     }
 
     public AlgebraicPolynomial plus(AlgebraicPolynomial polynomial) {

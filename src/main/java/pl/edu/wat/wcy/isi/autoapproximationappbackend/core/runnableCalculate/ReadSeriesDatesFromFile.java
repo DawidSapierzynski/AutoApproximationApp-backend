@@ -16,7 +16,8 @@ import java.util.Scanner;
 public class ReadSeriesDatesFromFile implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromFile.class);
 
-    private static final int MAX_MULTIPLE = 60;
+    private static final int MAX_MULTIPLE = 20;
+    private static final int CYCLE_SIZE = 10;
 
     private final String seriesDatesPath;
     private final String seriesDatesName;
@@ -37,21 +38,23 @@ public class ReadSeriesDatesFromFile implements Runnable {
         this.seriesProperties.setPoints(points);
         this.seriesProperties.setSize(points.size());
 
-
         logger.debug("The file was read correctly: {}", seriesDatesName);
     }
 
     private List<PointXY> getArtefact(List<PointXY> points) {
         List<PointXY> artefacts = new ArrayList<>();
-        List<Double> quotientValue = new ArrayList<>();
-        List<Integer> indexRemove = new ArrayList<>();
+        List<Double> differencesList = new ArrayList<>();
+        double trimmedMean;
 
         for (int i = 0; i < points.size() - 1; i++) {
-            quotientValue.add(Math.abs(points.get(i + 1).getY() / points.get(i).getY()));
+            differencesList.add(Math.abs(points.get(i + 1).getY() - points.get(i).getY()));
         }
 
-        for (int i = 0; i < quotientValue.size() - 1; i++) {
-            if (checkValue(quotientValue.get(i)) && checkValue(quotientValue.get(i + 1))) {
+        trimmedMean = getTrimmedMean(differencesList);
+        this.logger.debug("Trimmed mean of differences: {}", trimmedMean);
+
+        for (int i = 0; i < differencesList.size() - 1; i++) {
+            if (checkValues(differencesList.get(i), differencesList.get(i + 1), trimmedMean * MAX_MULTIPLE)) {
                 artefacts.add(points.get(i + 1));
             }
         }
@@ -59,10 +62,6 @@ public class ReadSeriesDatesFromFile implements Runnable {
         points.removeAll(artefacts);
 
         return artefacts;
-    }
-
-    private boolean checkValue(double value) {
-        return value <= 1d / MAX_MULTIPLE || value >= MAX_MULTIPLE;
     }
 
     private List<PointXY> getPoints(String seriesDatesPath) {
@@ -98,5 +97,25 @@ public class ReadSeriesDatesFromFile implements Runnable {
 
         logger.info("Points have been loaded.");
         return points;
+    }
+
+    private double getTrimmedMean(List<Double> valuesList) {
+        List<Double> list = new ArrayList<>(List.copyOf(valuesList));
+
+        list.sort(Double::compareTo);
+
+        for (int i = 0; i < valuesList.size(); i += CYCLE_SIZE) {
+            list.remove(list.size() - 1);
+            list.remove(list.size() - 1);
+        }
+
+        return list.stream()
+                .mapToDouble((v) -> v)
+                .average()
+                .orElse(0d);
+    }
+
+    private boolean checkValues(double value1, double value2, double limit) {
+        return value1 > limit && value2 > limit;
     }
 }

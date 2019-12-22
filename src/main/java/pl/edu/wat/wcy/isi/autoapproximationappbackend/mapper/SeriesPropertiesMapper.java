@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 public class SeriesPropertiesMapper {
 
     public List<SeriesPropertiesDTO> bulidSeriesPropertiesDTOs(Collection<SeriesPropertiesEntity> seriesProperties) {
-        return seriesProperties.stream().map(this::bulidSeriesPropertiesDTO).collect(Collectors.toList());
+        return seriesProperties.stream()
+                .map(this::bulidSeriesPropertiesDTO)
+                .collect(Collectors.toList());
     }
 
     public SeriesPropertiesDTO bulidSeriesPropertiesDTO(SeriesPropertiesEntity seriesProperties) {

@@ -149,7 +149,6 @@ public class UserEntity {
 
     public void setRoleUserToUsersByUserId(Collection<RoleUserToUserEntity> roleUserToUsersByUserId) {
         this.roleUserToUsersByUserId = roleUserToUsersByUserId;
-//        this.rolesUser = roleUserToUsersByUserId.stream().map(RoleUserToUserEntity::getRoleUserByRoleUserId).collect(Collectors.toList());
     }
 
     @OneToMany(mappedBy = "user")

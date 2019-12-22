@@ -50,7 +50,9 @@ public abstract class Approximation {
             doApproximations();
         }
 
-        error = getPoints().stream().mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2)).sum();
+        error = getPoints().stream()
+                .mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2))
+                .sum();
 
         return error;
     }

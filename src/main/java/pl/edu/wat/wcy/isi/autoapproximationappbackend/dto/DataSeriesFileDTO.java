@@ -13,6 +13,6 @@ public class DataSeriesFileDTO {
     private long id;
     private String name;
     private String hashName;
-    private Timestamp dataSent;
+    private Timestamp dateSent;
     private boolean deleted;
 }

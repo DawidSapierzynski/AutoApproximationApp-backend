@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 public class DataSeriesFileMapper {
 
     public List<DataSeriesFileDTO> buildDataSeriesFiles(List<DataSeriesFileEntity> dataSeriesFiles) {
-        return dataSeriesFiles.stream().map(this::buildDataSeriesFile).collect(Collectors.toList());
+        return dataSeriesFiles.stream()
+                .map(this::buildDataSeriesFile)
+                .collect(Collectors.toList());
     }
 
     public DataSeriesFileDTO buildDataSeriesFile(DataSeriesFileEntity dataSeriesFile) {
@@ -19,7 +21,7 @@ public class DataSeriesFileMapper {
                 .id(dataSeriesFile.getDataSeriesFileId())
                 .name(dataSeriesFile.getName())
                 .hashName(dataSeriesFile.getHashName())
-                .dataSent(dataSeriesFile.getDataSent())
+                .dateSent(dataSeriesFile.getDateSent())
                 .deleted(dataSeriesFile.getDeleted().equals((byte) 1))
                 .build();
     }

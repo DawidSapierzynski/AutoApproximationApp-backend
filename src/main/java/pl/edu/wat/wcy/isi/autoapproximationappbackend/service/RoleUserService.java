@@ -37,6 +37,8 @@ public class RoleUserService {
     }
 
     public List<RoleUserEntity> findByUser(UserEntity userEntity) {
-        return roleUserToUserService.findByUser(userEntity).stream().map(RoleUserToUserEntity::getRoleUserByRoleUserId).collect(Collectors.toList());
+        return roleUserToUserService.findByUser(userEntity).stream()
+                .map(RoleUserToUserEntity::getRoleUserByRoleUserId)
+                .collect(Collectors.toList());
     }
 }
