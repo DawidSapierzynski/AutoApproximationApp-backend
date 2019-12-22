@@ -8,10 +8,10 @@ import java.util.List;
 
 public class ChooseMethodPrecision1 implements ChooseMethodStrategy {
     @Override
-    public List<ChosenMethodDTO> getMethod(boolean fastVariation, int size) {
+    public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
-        if (fastVariation) {
+        if (fastVariation && equidistant) {
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, 1));
         } else {
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, 1));

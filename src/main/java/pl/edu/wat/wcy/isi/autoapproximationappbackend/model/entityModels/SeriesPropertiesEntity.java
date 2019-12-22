@@ -22,6 +22,7 @@ public class SeriesPropertiesEntity {
     private Byte deleted = (byte) 0;
     private DataSeriesFileEntity dataSeriesFile;
     private UserEntity user;
+    private Byte equidistant;
     private List<PointXY> points;
     private List<PointXY> artefacts;
 
@@ -124,6 +125,16 @@ public class SeriesPropertiesEntity {
 
     public void setDeleted(Byte deleted) {
         this.deleted = deleted;
+    }
+
+    @Basic
+    @Column(name = "is_equidistant")
+    public Byte getEquidistant() {
+        return equidistant;
+    }
+
+    public void setEquidistant(Byte equidistant) {
+        this.equidistant = equidistant;
     }
 
     @Override

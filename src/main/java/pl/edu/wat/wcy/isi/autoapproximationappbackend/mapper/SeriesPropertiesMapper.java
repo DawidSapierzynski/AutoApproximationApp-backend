@@ -31,6 +31,7 @@ public class SeriesPropertiesMapper {
                 .artefacts(seriesProperties.getArtefacts())
                 .dateCreate(seriesProperties.getDateCreate())
                 .deleted(seriesProperties.getDeleted().equals((byte) 1))
+                .equidistant(seriesProperties.getEquidistant().equals((byte) 1))
                 .build();
     }
 }

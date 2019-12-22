@@ -11,7 +11,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrigonometricApproximation extends Approximation {
+public class TrigonometricApproximation extends TrigonometricApproximationAbstract {
     private final Logger logger = LoggerFactory.getLogger(TrigonometricApproximation.class);
 
     public TrigonometricApproximation(List<PointXY> points, int degree) {

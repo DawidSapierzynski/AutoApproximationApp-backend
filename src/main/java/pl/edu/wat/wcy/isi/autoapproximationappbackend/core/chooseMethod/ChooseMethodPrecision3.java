@@ -8,10 +8,10 @@ import java.util.List;
 
 public class ChooseMethodPrecision3 implements ChooseMethodStrategy {
     @Override
-    public List<ChosenMethodDTO> getMethod(boolean fastVariation, int size) {
+    public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
         int degree = ChooseMethodService.getDefaultDegree(size) + 1;
-        return ChooseMethodService.getChosenMethodDTOs(fastVariation, size, chosenMethodDTOS, degree);
+        return ChooseMethodService.getChosenMethodDTOs(fastVariation, equidistant, size, chosenMethodDTOS, degree);
     }
 }

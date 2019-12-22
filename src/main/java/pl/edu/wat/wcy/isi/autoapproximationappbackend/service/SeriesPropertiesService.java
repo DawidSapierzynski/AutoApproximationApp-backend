@@ -4,12 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.FastVariationPolynomialCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.FastVariationTrigonometricCalculate;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.ReadSeriesDatesFromFile;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.VarianceCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.SizeException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.repository.SeriesPropertiesRepository;
@@ -56,13 +53,17 @@ public class SeriesPropertiesService {
     public void propertiesCalculate(SeriesPropertiesEntity seriesProperties) {
         List<Callable<Object>> callables = Arrays.asList(Executors.callable(new VarianceCalculate(seriesProperties)),
                 Executors.callable(new FastVariationPolynomialCalculate(seriesProperties)),
-                Executors.callable(new FastVariationTrigonometricCalculate(seriesProperties)));
+                Executors.callable(new FastVariationTrigonometricCalculate(seriesProperties)),
+                Executors.callable(new EquidistantCalculate(seriesProperties))
+        );
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("VarianceCalculate - isDone: {}", futures.get(0).isDone());
             logger.debug("FastVariationPolynomialCalculate - isDone: {}", futures.get(1).isDone());
             logger.debug("FastVariationTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
+            logger.debug("EquidistantCalculate - isDone: {}", futures.get(3).isDone());
 
+            //TODO
 //            seriesProperties.setFastVariation(seriesProperties.getFastVariationTrigonometric() < seriesProperties.getFastVariationPolynomial() ? (byte) 1 : (byte) 0);
             seriesProperties.setFastVariation((byte) 1);
             logger.info("Set FastVariation: {}", seriesProperties.getFastVariation());

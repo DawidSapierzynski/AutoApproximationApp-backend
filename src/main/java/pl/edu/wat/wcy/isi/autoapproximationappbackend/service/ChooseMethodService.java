@@ -29,9 +29,9 @@ public class ChooseMethodService {
         ChooseMethodContext chooseMethodContext = new ChooseMethodContext();
 
         chooseMethodContext.setChooseMethodStrategy(chooseMethodStrategyMap.get(seriesPropertiesDTO.getPrecision()));
-        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.getSize());
+        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.isEquidistant(), seriesPropertiesDTO.getSize());
 
-        logger.debug("Dobrane metody: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
+        logger.debug("Selected methods: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
         return chosenMethodDTOS;
     }
 
@@ -39,8 +39,8 @@ public class ChooseMethodService {
         return (int) (Math.ceil(Math.log(size)));
     }
 
-    public static List<ChosenMethodDTO> getChosenMethodDTOs(boolean fastVariation, int size, List<ChosenMethodDTO> chosenMethodDTOS, int degree) {
-        if (fastVariation) {
+    public static List<ChosenMethodDTO> getChosenMethodDTOs(boolean fastVariation, boolean equidistant, int size, List<ChosenMethodDTO> chosenMethodDTOS, int degree) {
+        if (fastVariation && equidistant) {
             if (degree > size / 2) {
                 degree = size / 2;
             }

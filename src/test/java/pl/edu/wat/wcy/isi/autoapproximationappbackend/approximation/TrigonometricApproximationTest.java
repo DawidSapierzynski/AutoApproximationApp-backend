@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
@@ -41,11 +40,11 @@ class TrigonometricApproximationTest {
 
     @Test
     void doApproximations() {
-        Polynomial resultPolynomial;
+        TrigonometricPolynomial resultPolynomial;
         LinearDomainMapping linearDomainMapping;
         double r, cr;
 
-        resultPolynomial = trigonometricApproximation.doApproximations().get(0).getPolynomial();
+        resultPolynomial = (TrigonometricPolynomial) trigonometricApproximation.doApproximations().get(0).getPolynomial();
         linearDomainMapping = trigonometricApproximation.getLinearDomainMapping();
 
         logger.info("Result: {}", resultPolynomial);
@@ -53,7 +52,7 @@ class TrigonometricApproximationTest {
 
         for (PointXY p : points) {
             cr = p.getY();
-            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping);
+            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping.getLinearFunction());
 
             logger.info("Y={} ; YPolynomial={} ; d={}", cr, r, Math.abs(cr - r));
         }

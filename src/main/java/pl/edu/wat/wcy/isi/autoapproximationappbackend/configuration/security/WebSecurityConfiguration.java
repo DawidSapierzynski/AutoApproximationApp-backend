@@ -56,7 +56,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/dataSeriesFile", "/doApproximations", "/seriesProperties", "/chooseMethod", "/download/approximation").hasAuthority(UserRole.USER.getCode())
                 .antMatchers("/dataSeriesFile/all", "/seriesProperties/all", "/auth/signup", "/user").hasAuthority(UserRole.ADMIN.getCode())
-                .antMatchers("/seriesProperties/{seriesPropertiesId}", "/user/{userId}", "/roleUser").hasAnyAuthority(UserRole.ADMIN.getCode(), UserRole.USER.getCode())
+                .antMatchers("/seriesProperties/{seriesPropertiesId}", "/user/{userId}", "/roleUser", "/download/generateDataSeries").hasAnyAuthority(UserRole.ADMIN.getCode(), UserRole.USER.getCode())
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

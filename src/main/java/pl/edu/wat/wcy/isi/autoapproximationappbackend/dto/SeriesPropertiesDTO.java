@@ -22,7 +22,7 @@ public class SeriesPropertiesDTO {
     private int precision;
     private Timestamp dateCreate;
     private boolean deleted;
+    private boolean equidistant;
     private List<PointXY> points;
     private List<PointXY> artefacts;
-
 }

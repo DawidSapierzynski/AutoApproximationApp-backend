@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinearDomainMapping {
-    private final Logger logger = LoggerFactory.getLogger(LinearDomainMapping.class);
+    private static final Logger logger = LoggerFactory.getLogger(LinearDomainMapping.class);
 
     private final List<PointXY> oldPoints;
     private List<PointXY> newPoints;
@@ -21,7 +21,10 @@ public class LinearDomainMapping {
     }
 
     public void convert() {
-        findLinearFunction();
+        double x0 = oldPoints.get(0).getX();
+        double xn = oldPoints.get(oldPoints.size() - 1).getX();
+
+        this.linearFunction = findLinearFunction(x0, xn);
         newPoints = new ArrayList<>();
 
         for (PointXY p : oldPoints) {
@@ -29,13 +32,11 @@ public class LinearDomainMapping {
         }
     }
 
-    private void findLinearFunction() {
-        double x0, xn;
+    public static AlgebraicPolynomial findLinearFunction(double x0, double xn) {
+        AlgebraicPolynomial linearFunction;
         double[][] x, y;
         Matrix matrixX, matrixY, matrixA;
 
-        x0 = oldPoints.get(0).getX();
-        xn = oldPoints.get(oldPoints.size() - 1).getX();
         x = new double[][]{{1, x0}, {1, xn}};
         y = new double[][]{{0}, {2 * Math.PI}};
 
@@ -50,6 +51,8 @@ public class LinearDomainMapping {
 
         linearFunction = new AlgebraicPolynomial((matrixA.transpose().getArray())[0]);
         logger.debug("Linear function: {}", linearFunction);
+
+        return linearFunction;
     }
 
     public List<PointXY> getOldPoints() {

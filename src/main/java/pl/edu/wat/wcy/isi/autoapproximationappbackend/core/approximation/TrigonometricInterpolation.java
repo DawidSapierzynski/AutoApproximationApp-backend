@@ -11,7 +11,9 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrigonometricInterpolation extends Approximation {
+import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial.chooseTrigonometricDegree;
+
+public class TrigonometricInterpolation extends TrigonometricApproximationAbstract {
     private final Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
 
     public TrigonometricInterpolation(List<PointXY> points) {
@@ -70,13 +72,6 @@ public class TrigonometricInterpolation extends Approximation {
         return 2 * d / size;
     }
 
-    public static int chooseTrigonometricDegree(int size) {
-        if (size % 2 == 0) {
-            return size / 2;
-        } else {
-            return (size - 1) / 2;
-        }
-    }
 
     private boolean checkDomainPoints() {
         return !(getPoints().get(0).getX() >= 0.0 && getPoints().get(getPoints().size() - 1).getX() <= 2 * Math.PI);

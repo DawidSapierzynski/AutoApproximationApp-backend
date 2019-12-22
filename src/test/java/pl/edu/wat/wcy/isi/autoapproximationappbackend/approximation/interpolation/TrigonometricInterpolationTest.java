@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricInterpolation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
@@ -39,20 +39,18 @@ class TrigonometricInterpolationTest {
 
     @Test
     void doInterpolationsEven() {
-        Polynomial resultPolynomial;
+        TrigonometricPolynomial resultPolynomial;
         LinearDomainMapping linearDomainMapping;
         double r, cr;
 
-        resultPolynomial = evenTrigonometricInterpolation.doApproximations().get(0).getPolynomial();
+        resultPolynomial = (TrigonometricPolynomial) evenTrigonometricInterpolation.doApproximations().get(0).getPolynomial();
         linearDomainMapping = evenTrigonometricInterpolation.getLinearDomainMapping();
 
         for (PointXY p : evenPoints) {
             cr = p.getY();
-            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping);
+            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping.getLinearFunction());
 
             assertEquals(cr, r, DELTA);
         }
-
     }
-
 }

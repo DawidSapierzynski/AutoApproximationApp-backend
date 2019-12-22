@@ -11,7 +11,7 @@ public class ChooseMethodContext {
         this.chooseMethodStrategy = chooseMethodStrategy;
     }
 
-    public List<ChosenMethodDTO> getMethod(boolean fastVariation, int size) {
-        return chooseMethodStrategy.getMethod(fastVariation, size);
+    public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
+        return chooseMethodStrategy.getMethod(fastVariation, equidistant, size);
     }
 }

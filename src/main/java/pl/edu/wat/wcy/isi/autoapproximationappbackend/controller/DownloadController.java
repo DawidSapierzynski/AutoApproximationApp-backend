@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.MathematicalFunctionDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.request.GenerateDataSeriesForm;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.DownloadService;
 
 import java.util.List;
@@ -28,6 +29,14 @@ public class DownloadController {
         byte[] text = downloadService.getApproximationResult(mathematicalFunctionDTOs);
 
         logger.info("Downloading approximation results completed successfully.");
+        return new ResponseEntity<>(text, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/generateDataSeries", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> generateDataSeries(@RequestBody GenerateDataSeriesForm dataSeriesForm) {
+        byte[] text = downloadService.generateDataSeries(dataSeriesForm.isTrigonometricPolynomial(), dataSeriesForm.getMathematicalFunctionDTO(), dataSeriesForm.getNumberPoints());
+
+        logger.info("Generating data series completed successfully.");
         return new ResponseEntity<>(text, HttpStatus.OK);
     }
 }

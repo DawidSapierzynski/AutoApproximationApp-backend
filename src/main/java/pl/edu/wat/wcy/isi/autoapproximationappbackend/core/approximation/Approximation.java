@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.Polynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
@@ -11,7 +10,6 @@ import java.util.List;
 public abstract class Approximation {
     private List<MathematicalFunction> mathematicalFunctions;
     private final List<PointXY> points;
-    private LinearDomainMapping linearDomainMapping;
     private int degree;
     private final int size;
 
@@ -37,7 +35,7 @@ public abstract class Approximation {
         double step = (xn - x0) / approximationsPointsSize;
 
         for (double i = x0; i <= xn + step; i += step) {
-            approximationsPoints.add(new PointXY(i, getPolynomial().evaluate(i, linearDomainMapping)));
+            approximationsPoints.add(new PointXY(i, getPolynomial().evaluate(i)));
         }
 
         return approximationsPoints;
@@ -51,7 +49,7 @@ public abstract class Approximation {
         }
 
         error = getPoints().stream()
-                .mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX(), linearDomainMapping), 2))
+                .mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX()), 2))
                 .sum();
 
         return error;
@@ -83,13 +81,5 @@ public abstract class Approximation {
 
     public void setMathematicalFunctions(List<MathematicalFunction> mathematicalFunctions) {
         this.mathematicalFunctions = mathematicalFunctions;
-    }
-
-    public LinearDomainMapping getLinearDomainMapping() {
-        return linearDomainMapping;
-    }
-
-    public void setLinearDomainMapping(LinearDomainMapping linearDomainMapping) {
-        this.linearDomainMapping = linearDomainMapping;
     }
 }
