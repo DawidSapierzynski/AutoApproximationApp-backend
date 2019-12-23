@@ -9,6 +9,8 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.MathematicalFunctionDT
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.PolynomialMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,10 +67,11 @@ public class DownloadService {
 
     private List<PointXY> generatePoints(DomainFunction domainFunction, int numberPoints, Polynomial polynomial) {
         List<PointXY> points = new ArrayList<>();
-        double step = (domainFunction.getEndInterval() - domainFunction.getBeginningInterval()) / numberPoints;
 
-        for (double x = domainFunction.getBeginningInterval(); x <= domainFunction.getEndInterval(); x += step) {
-            points.add(new PointXY(x, polynomial.evaluate(x)));
+        BigDecimal step = BigDecimal.valueOf(domainFunction.getEndInterval() - domainFunction.getBeginningInterval()).divide(BigDecimal.valueOf(numberPoints), RoundingMode.HALF_UP);
+
+        for (BigDecimal x = BigDecimal.valueOf(domainFunction.getBeginningInterval()); x.compareTo(BigDecimal.valueOf(domainFunction.getEndInterval())) < 0; x = x.add(step)) {
+            points.add(new PointXY(x.doubleValue(), polynomial.evaluate(x.doubleValue())));
         }
 
         return points;

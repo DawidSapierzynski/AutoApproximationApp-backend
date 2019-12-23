@@ -52,10 +52,4 @@ public abstract class Polynomial {
         return coefficients;
     }
 
-    public void setCoefficients(List<Double> coefficients) {
-        this.coefficients = coefficients;
-        if (coefficients != null) {
-            this.degree = coefficients.size() - 1;
-        }
-    }
 }

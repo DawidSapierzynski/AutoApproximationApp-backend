@@ -51,8 +51,6 @@ public class TrigonometricApproximation extends TrigonometricApproximationAbstra
 
         setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
-        logger.info("{}", trigonometricPolynomial);
-
         return getMathematicalFunctions();
     }
 

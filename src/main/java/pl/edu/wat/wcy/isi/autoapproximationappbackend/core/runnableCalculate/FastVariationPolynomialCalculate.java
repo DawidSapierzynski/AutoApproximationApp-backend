@@ -6,18 +6,21 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.Polynom
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 
 public class FastVariationPolynomialCalculate implements Runnable {
-    private static final int DEGREE = 4;
+    private int degree;
     private final Logger logger = LoggerFactory.getLogger(FastVariationPolynomialCalculate.class);
     private final SeriesPropertiesEntity seriesProperties;
 
     public FastVariationPolynomialCalculate(SeriesPropertiesEntity seriesProperties) {
         this.seriesProperties = seriesProperties;
+        this.degree = calculateDegree(seriesProperties.getSize());
     }
 
     @Override
     public void run() {
         double fastVariationPolynomial;
-        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(seriesProperties.getPoints(), DEGREE);
+
+        logger.debug("FastVariationPolynomialCalculate degree: {}", this.degree);
+        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(seriesProperties.getPoints(), degree);
 
         polynomialApproximation.doApproximations();
 
@@ -26,5 +29,14 @@ public class FastVariationPolynomialCalculate implements Runnable {
 
         seriesProperties.setFastVariationPolynomial(fastVariationPolynomial);
         logger.info("Set fastVariationPolynomial: {}", fastVariationPolynomial);
+    }
+
+    public static int calculateDegree(int size) {
+        int d = (int) Math.ceil(Math.log(size));
+        if (d < 4) {
+            d = 4;
+        }
+
+        return d;
     }
 }
