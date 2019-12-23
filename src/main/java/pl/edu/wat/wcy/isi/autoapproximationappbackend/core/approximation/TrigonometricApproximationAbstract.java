@@ -29,7 +29,7 @@ public abstract class TrigonometricApproximationAbstract extends Approximation {
         double step = (xn - x0) / approximationsPointsSize;
 
         for (double i = x0; i <= xn + step; i += step) {
-            approximationsPoints.add(new PointXY(i, trigonometricPolynomial.evaluate(i, linearDomainMapping.getLinearFunction())));
+            approximationsPoints.add(new PointXY(i, trigonometricPolynomial.evaluate(i, linearDomainMapping != null ? linearDomainMapping.getLinearFunction() : null)));
         }
 
         return approximationsPoints;
@@ -45,7 +45,7 @@ public abstract class TrigonometricApproximationAbstract extends Approximation {
         }
 
         error = getPoints().stream()
-                .mapToDouble(p -> Math.pow(p.getY() - Objects.requireNonNull(trigonometricPolynomial).evaluate(p.getX(), linearDomainMapping.getLinearFunction()), 2))
+                .mapToDouble(p -> Math.pow(p.getY() - Objects.requireNonNull(trigonometricPolynomial).evaluate(p.getX(), linearDomainMapping != null ? linearDomainMapping.getLinearFunction() : null), 2))
                 .sum();
 
         return error;
