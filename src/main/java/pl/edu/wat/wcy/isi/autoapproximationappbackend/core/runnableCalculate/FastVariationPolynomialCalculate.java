@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.PolynomialApproximation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
 
+import static java.lang.Math.*;
+
 public class FastVariationPolynomialCalculate implements Runnable {
     private int degree;
     private final Logger logger = LoggerFactory.getLogger(FastVariationPolynomialCalculate.class);
@@ -32,9 +34,13 @@ public class FastVariationPolynomialCalculate implements Runnable {
     }
 
     public static int calculateDegree(int size) {
-        int d = (int) Math.ceil(Math.log(size));
+        int d = (int) ceil(log(pow(size, 3)));
+        int maxDegree = size - 1;
+
         if (d < 4) {
             d = 4;
+        } else if (d > maxDegree) {
+            d = maxDegree;
         }
 
         return d;

@@ -67,16 +67,18 @@ public class DownloadService {
 
     private List<PointXY> generatePoints(DomainFunction domainFunction, int numberPoints, Polynomial polynomial) {
         List<PointXY> points = new ArrayList<>();
+        BigDecimal x = BigDecimal.valueOf(domainFunction.getBeginningInterval());
 
         BigDecimal step = BigDecimal.valueOf(domainFunction.getEndInterval() - domainFunction.getBeginningInterval()).setScale(16, RoundingMode.HALF_UP)
-                .divide(BigDecimal.valueOf((double) numberPoints), RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf((double) numberPoints - 1), RoundingMode.HALF_UP);
 
         if (step.doubleValue() <= 0.0) {
             throw new ArithmeticException("Step less than or equal to 0");
         }
 
-        for (BigDecimal x = BigDecimal.valueOf(domainFunction.getBeginningInterval()); x.compareTo(BigDecimal.valueOf(domainFunction.getEndInterval())) < 0; x = x.add(step)) {
+        for (int i = 0; i < numberPoints; i++) {
             points.add(new PointXY(x.doubleValue(), polynomial.evaluate(x.doubleValue())));
+            x = x.add(step);
         }
 
         return points;

@@ -9,6 +9,8 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 import java.util.List;
 
 public class ApproximationCalculate implements Runnable {
+    private static final int NUMBER_SAMPLES = 20;
+
     private final ChosenMethodDTO chosenMethodDTO;
     private final List<PointXY> points;
     private final ApproximationDTO approximationDTO;
@@ -45,6 +47,6 @@ public class ApproximationCalculate implements Runnable {
         }
 
         approximationDTO.setMathematicalFunctionDTOs(mathematicalFunctionMapper.mapToMathematicalFunctionDTOs(approximation.doApproximations()));
-        approximationDTO.setPoints(approximation.getApproximationsPoints(20 * points.size()));
+        approximationDTO.setPoints(approximation.getApproximationsPoints(NUMBER_SAMPLES * points.size()));
     }
 }
