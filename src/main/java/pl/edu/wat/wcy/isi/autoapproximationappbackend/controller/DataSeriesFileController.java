@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
@@ -39,6 +40,7 @@ public class DataSeriesFileController {
         this.dataSeriesFileMapper = dataSeriesFileMapper;
     }
 
+    @Transactional
     @PostMapping(produces = "application/json")
     public ResponseEntity<DataSeriesFileDTO> uploadFile(@RequestParam("dataSeriesFile") MultipartFile dataSeriesFile) {
         DataSeriesFileDTO dataSeriesFileDTO;
@@ -81,6 +83,7 @@ public class DataSeriesFileController {
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);
     }
 
+    @Transactional
     @DeleteMapping(produces = "application/json", value = "/{dataSeriesFileId}")
     public ResponseEntity<ResponseMessage> deletedDataSeriesFile(@PathVariable(value = "dataSeriesFileId") Long dataSeriesFileId) throws ResourceNotFoundException {
         DataSeriesFileEntity dataSeriesFile = dataSeriesFileService.findById(dataSeriesFileId)

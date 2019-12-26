@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
@@ -42,6 +43,7 @@ public class SeriesPropertiesController {
         this.seriesPropertiesMapper = seriesPropertiesMapper;
     }
 
+    @Transactional
     @PostMapping(produces = "application/json")
     public ResponseEntity<SeriesPropertiesDTO> postSeriesProperties(@RequestParam("dataSeriesFileId") long dataSeriesFileId, @RequestParam("precision") int precision) throws SizeException, ResourceNotFoundException {
 
@@ -100,6 +102,7 @@ public class SeriesPropertiesController {
         return new ResponseEntity<>(seriesPropertiesMapper.bulidSeriesPropertiesDTO(seriesProperties), HttpStatus.OK);
     }
 
+    @Transactional
     @DeleteMapping(produces = "application/json", value = "/{seriesPropertiesId}")
     public ResponseEntity<ResponseMessage> deletedSeriesProperties(@PathVariable(value = "seriesPropertiesId") Long seriesPropertiesId) throws ResourceNotFoundException {
         SeriesPropertiesEntity seriesProperties = seriesPropertiesService.findById(seriesPropertiesId)
@@ -110,6 +113,4 @@ public class SeriesPropertiesController {
         logger.info("Deleted series properties with id: {}", seriesPropertiesId);
         return ResponseEntity.ok(new ResponseMessage("Deleted series properties with id: " + seriesPropertiesId));
     }
-
-
 }

@@ -56,6 +56,7 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+    @Transactional
     @DeleteMapping(produces = "application/json", value = "/{userId}")
     public ResponseEntity<ResponseMessage> deletedUser(@PathVariable(value = "userId") Long userId) throws ResourceNotFoundException {
         UserEntity user = userService.findById(userId)

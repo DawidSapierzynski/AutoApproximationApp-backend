@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.jwt.JwtProvider;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.security.UserPrinciple;
@@ -61,6 +62,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), String.valueOf(userDetails.getId()), userDetails.getAuthorities()));
     }
 
+    @Transactional
     @PostMapping(produces = "application/json", value = "/signup")
     public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest) throws LoginException {
         if (userService.existsByLogin(signUpRequest.getLogin())) {
