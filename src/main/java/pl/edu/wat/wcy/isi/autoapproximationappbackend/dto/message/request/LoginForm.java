@@ -5,11 +5,11 @@ import javax.validation.constraints.Size;
 
 public class LoginForm {
     @NotBlank
-    @Size(min = 4, max = 60)
+    @Size(min = 1, max = 100)
     private String username;
 
     @NotBlank
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 60)
     private String password;
 
     public String getUsername() {

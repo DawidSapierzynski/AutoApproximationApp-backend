@@ -18,6 +18,7 @@ public class ReadSeriesDatesFromFile implements Runnable {
 
     private static final int MAX_MULTIPLE = 20;
     private static final int CYCLE_SIZE = 10;
+    private static final String REGEX_SPLIT = "[;,]";
 
     private final String seriesDatesPath;
     private final String seriesDatesName;
@@ -71,10 +72,11 @@ public class ReadSeriesDatesFromFile implements Runnable {
 
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
+                line = line.trim();
                 if (line.startsWith("//"))
                     continue;
 
-                String[] xy = line.split("[;,]");
+                String[] xy = line.split(REGEX_SPLIT);
 
                 if (xy.length == 2) {
                     double x, y;
