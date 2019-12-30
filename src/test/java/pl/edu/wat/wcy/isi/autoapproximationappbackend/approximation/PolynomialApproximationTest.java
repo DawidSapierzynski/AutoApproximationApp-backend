@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class PolynomialApproximationTest {
-    private final Logger logger = LoggerFactory.getLogger(PolynomialApproximationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(PolynomialApproximationTest.class);
 
     private List<PointXY> points = new ArrayList<>();
     private PolynomialApproximation polynomialApproximation;

@@ -13,7 +13,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ApproximationServi
 @RestController
 @RequestMapping(value = "/doApproximations")
 public class ApproximationController {
-    private final Logger logger = LoggerFactory.getLogger(ApproximationController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApproximationController.class);
 
     private final ApproximationService approximationService;
 
@@ -22,7 +22,7 @@ public class ApproximationController {
     }
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<ApproximationDTO> getSeriesProperties(@RequestBody ApproximationForm approximationForm) {
+    public ResponseEntity<ApproximationDTO> getApproximation(@RequestBody ApproximationForm approximationForm) {
         ApproximationDTO approximationDTO = new ApproximationDTO();
 
         approximationService.doApproximations(approximationForm.getChosenMethod(), approximationForm.getPoints(), approximationDTO);

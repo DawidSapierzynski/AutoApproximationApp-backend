@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.chooseMethod.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.Method;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChooseMethodService {
-    private final Logger logger = LoggerFactory.getLogger(ChooseMethodService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ChooseMethodService.class);
 
     private static final Map<Integer, ChooseMethodStrategy> chooseMethodStrategyMap = new HashMap<>() {{
         put(1, new ChooseMethodPrecision1());
@@ -25,11 +26,12 @@ public class ChooseMethodService {
         put(5, new ChooseMethodPrecision5());
     }};
 
-    public List<ChosenMethodDTO> selectMethods(SeriesPropertiesDTO seriesPropertiesDTO) {
+    public List<ChosenMethodDTO> selectMethods(ApproximationPropertiesDTO approximationPropertiesDTO) {
         ChooseMethodContext chooseMethodContext = new ChooseMethodContext();
+        DataSeriesFileDTO dataSeriesFileDTO = approximationPropertiesDTO.getDataSeriesFileDTO();
 
-        chooseMethodContext.setChooseMethodStrategy(chooseMethodStrategyMap.get(seriesPropertiesDTO.getPrecision()));
-        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(seriesPropertiesDTO.isFastVariation(), seriesPropertiesDTO.isEquidistant(), seriesPropertiesDTO.getSize());
+        chooseMethodContext.setChooseMethodStrategy(chooseMethodStrategyMap.get(approximationPropertiesDTO.getPrecision()));
+        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(dataSeriesFileDTO.isFastVariation(), dataSeriesFileDTO.isEquidistant(), dataSeriesFileDTO.getSize());
 
         logger.debug("Selected methods: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
         return chosenMethodDTOS;

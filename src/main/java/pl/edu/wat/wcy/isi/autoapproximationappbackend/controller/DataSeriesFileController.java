@@ -8,9 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ResourceNotFoundException;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ResourceNotFoundException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.DataSeriesFileMapper;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.UserEntity;
@@ -42,7 +43,7 @@ public class DataSeriesFileController {
 
     @Transactional
     @PostMapping(produces = "application/json")
-    public ResponseEntity<DataSeriesFileDTO> uploadFile(@RequestParam("dataSeriesFile") MultipartFile dataSeriesFile) {
+    public ResponseEntity<DataSeriesFileDTO> uploadFile(@RequestParam("dataSeriesFile") MultipartFile dataSeriesFile) throws SizeException {
         DataSeriesFileDTO dataSeriesFileDTO;
         DataSeriesFileEntity dataSeriesFileEntity = new DataSeriesFileEntity();
         UserEntity userEntity = userService.getLoggedUser();
@@ -53,11 +54,14 @@ public class DataSeriesFileController {
         dataSeriesFileEntity.setHashName(RandomString.make(100));
         dataSeriesFileEntity.setUser(userEntity);
 
+        dataSeriesFileService.readMultipartFile(dataSeriesFile, dataSeriesFileEntity);
+        dataSeriesFileService.propertiesCalculate(dataSeriesFileEntity);
+
         dataSeriesFileEntity = dataSeriesFileService.save(dataSeriesFileEntity);
 
         storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + FILE_EXTENSION);
 
-        dataSeriesFileDTO = dataSeriesFileMapper.buildDataSeriesFile(dataSeriesFileEntity);
+        dataSeriesFileDTO = dataSeriesFileMapper.buildDataSeriesFileDTO(dataSeriesFileEntity);
 
         logger.info("The file was successfully added.");
         return new ResponseEntity<>(dataSeriesFileDTO, HttpStatus.OK);
@@ -66,7 +70,7 @@ public class DataSeriesFileController {
     @GetMapping(produces = "application/json", value = "/all")
     public ResponseEntity<List<DataSeriesFileDTO>> getAll() {
         List<DataSeriesFileEntity> dataSeriesFileEntities = dataSeriesFileService.findAll();
-        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFiles(dataSeriesFileEntities);
+        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFileDTOs(dataSeriesFileEntities);
 
         logger.info("Getting all the files successfully completed. Size: {}", dataSeriesFileDTOs.size());
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);
@@ -77,7 +81,7 @@ public class DataSeriesFileController {
         UserEntity userEntity = userService.getLoggedUser();
 
         List<DataSeriesFileEntity> dataSeriesFileEntities = dataSeriesFileService.findByUserAndDeleted(userEntity, (byte) 0);
-        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFiles(dataSeriesFileEntities);
+        List<DataSeriesFileDTO> dataSeriesFileDTOs = dataSeriesFileMapper.buildDataSeriesFileDTOs(dataSeriesFileEntities);
 
         logger.info("Getting all (for user) the files successfully completed. Size: {}", dataSeriesFileDTOs.size());
         return new ResponseEntity<>(dataSeriesFileDTOs, HttpStatus.OK);

@@ -16,9 +16,9 @@ import java.util.List;
 
 @Service
 public class DownloadService {
-    private final Logger logger = LoggerFactory.getLogger(DownloadService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DownloadService.class);
 
-    private PolynomialMapper polynomialMapper;
+    private final PolynomialMapper polynomialMapper;
 
     public DownloadService(PolynomialMapper polynomialMapper) {
         this.polynomialMapper = polynomialMapper;

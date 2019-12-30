@@ -1,21 +1,21 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 
 import static java.lang.Math.*;
 
 public class FastVariationTrigonometricCalculate implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(FastVariationTrigonometricCalculate.class);
-    private final SeriesPropertiesEntity seriesProperties;
-    private int degree;
+    private final DataSeriesFileEntity dataSeriesFile;
+    private final int degree;
 
-    public FastVariationTrigonometricCalculate(SeriesPropertiesEntity seriesProperties) {
-        this.seriesProperties = seriesProperties;
-        this.degree = calculateDegree(seriesProperties.getSize());
+    public FastVariationTrigonometricCalculate(DataSeriesFileEntity dataSeriesFile) {
+        this.dataSeriesFile = dataSeriesFile;
+        this.degree = calculateDegree(dataSeriesFile.getSize());
     }
 
     @Override
@@ -23,14 +23,14 @@ public class FastVariationTrigonometricCalculate implements Runnable {
         double fastVariationTrigonometric;
 
         logger.debug("FastVariationTrigonometricCalculate degree: {}", this.degree);
-        TrigonometricApproximation trigonometricApproximation = new TrigonometricApproximation(seriesProperties.getPoints(), this.degree);
+        TrigonometricApproximation trigonometricApproximation = new TrigonometricApproximation(dataSeriesFile.getPoints(), this.degree);
 
         trigonometricApproximation.doApproximations();
 
         fastVariationTrigonometric = trigonometricApproximation.getError();
         logger.debug("Calculated fastVariationTrigonometric: {}", fastVariationTrigonometric);
 
-        seriesProperties.setFastVariationTrigonometric(fastVariationTrigonometric);
+        dataSeriesFile.setFastVariationTrigonometric(fastVariationTrigonometric);
         logger.info("Set fastVariationTrigonometric: {}", fastVariationTrigonometric);
     }
 

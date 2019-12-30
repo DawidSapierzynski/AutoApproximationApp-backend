@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate;
 
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;

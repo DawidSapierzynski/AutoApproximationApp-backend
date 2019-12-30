@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
-    private final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
     private final JwtProvider tokenProvider;
     private final UserDetailsServiceImpl userDetailsService;

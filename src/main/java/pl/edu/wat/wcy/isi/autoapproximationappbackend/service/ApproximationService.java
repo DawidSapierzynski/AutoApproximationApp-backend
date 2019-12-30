@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate.ApproximationCalculate;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate.ApproximationCalculate;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.mapper.MathematicalFunctionMapper;
@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class ApproximationService {
-    private final Logger logger = LoggerFactory.getLogger(ApproximationService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApproximationService.class);
 
     private final ExecutorService threadPool;
     private final MathematicalFunctionMapper mathematicalFunctionMapper;

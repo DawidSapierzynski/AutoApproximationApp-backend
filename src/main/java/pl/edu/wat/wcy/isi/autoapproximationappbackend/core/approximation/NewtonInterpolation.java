@@ -62,7 +62,7 @@ public class NewtonInterpolation extends Approximation {
         AlgebraicPolynomial baseFunctionI = new AlgebraicPolynomial(List.of(1.0));
         for (int i = 0; i < getPoints().size(); i++) {
             baseFunctionI = getNextBaseFunctionI(baseFunctionI, i);
-            result = result.plus(baseFunctionI.times(interpolationsCoefficients.get(i)));
+            result = result.plus(baseFunctionI.times(interpolationsCoefficients.get(i)), AlgebraicPolynomial.class);
         }
         return result;
     }

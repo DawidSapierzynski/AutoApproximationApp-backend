@@ -18,7 +18,7 @@ public class UserEntity {
     private Byte admin;
     private Collection<DataSeriesFileEntity> dataSeriesFilesByUserId;
     private Collection<RoleUserToUserEntity> roleUserToUsersByUserId;
-    private Collection<SeriesPropertiesEntity> seriesPropertiesByUserId;
+    private Collection<ApproximationPropertiesEntity> approximationPropertiesByUserId;
     private Collection<RoleUserEntity> rolesUser;
 
     @Id
@@ -152,12 +152,12 @@ public class UserEntity {
     }
 
     @OneToMany(mappedBy = "user")
-    public Collection<SeriesPropertiesEntity> getSeriesPropertiesByUserId() {
-        return seriesPropertiesByUserId;
+    public Collection<ApproximationPropertiesEntity> getApproximationPropertiesByUserId() {
+        return approximationPropertiesByUserId;
     }
 
-    public void setSeriesPropertiesByUserId(Collection<SeriesPropertiesEntity> seriesPropertiesByUserId) {
-        this.seriesPropertiesByUserId = seriesPropertiesByUserId;
+    public void setApproximationPropertiesByUserId(Collection<ApproximationPropertiesEntity> approximationPropertiesByUserId) {
+        this.approximationPropertiesByUserId = approximationPropertiesByUserId;
     }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

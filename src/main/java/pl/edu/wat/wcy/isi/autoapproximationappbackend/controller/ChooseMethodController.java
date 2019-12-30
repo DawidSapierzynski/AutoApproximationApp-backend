@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.SeriesPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationPropertiesDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.service.ChooseMethodService;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/chooseMethod")
 public class ChooseMethodController {
-    private final Logger logger = LoggerFactory.getLogger(ChooseMethodController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ChooseMethodController.class);
 
     private final ChooseMethodService chooseMethodService;
 
@@ -24,11 +24,11 @@ public class ChooseMethodController {
     }
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<List<ChosenMethodDTO>> getMethods(@RequestBody SeriesPropertiesDTO seriesPropertiesDTO) {
-        List<ChosenMethodDTO> chosenMethodDTOS;
-        chosenMethodDTOS = chooseMethodService.selectMethods(seriesPropertiesDTO);
+    public ResponseEntity<List<ChosenMethodDTO>> getMethods(@RequestBody ApproximationPropertiesDTO approximationPropertiesDTO) {
+        List<ChosenMethodDTO> chosenMethodDTOs;
+        chosenMethodDTOs = chooseMethodService.selectMethods(approximationPropertiesDTO);
 
-        logger.info("Choosing successful methods. Number of methods: {}", chosenMethodDTOS.size());
-        return new ResponseEntity<>(chosenMethodDTOS, HttpStatus.OK);
+        logger.info("Choosing successful methods. Number of methods: {}", chosenMethodDTOs.size());
+        return new ResponseEntity<>(chosenMethodDTOs, HttpStatus.OK);
     }
 }

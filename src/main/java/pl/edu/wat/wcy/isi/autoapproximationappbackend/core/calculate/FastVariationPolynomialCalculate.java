@@ -1,20 +1,20 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.PolynomialApproximation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 
 import static java.lang.Math.*;
 
 public class FastVariationPolynomialCalculate implements Runnable {
-    private int degree;
+    private final int degree;
     private final Logger logger = LoggerFactory.getLogger(FastVariationPolynomialCalculate.class);
-    private final SeriesPropertiesEntity seriesProperties;
+    private final DataSeriesFileEntity dataSeriesFile;
 
-    public FastVariationPolynomialCalculate(SeriesPropertiesEntity seriesProperties) {
-        this.seriesProperties = seriesProperties;
-        this.degree = calculateDegree(seriesProperties.getSize());
+    public FastVariationPolynomialCalculate(DataSeriesFileEntity dataSeriesFile) {
+        this.dataSeriesFile = dataSeriesFile;
+        this.degree = calculateDegree(dataSeriesFile.getSize());
     }
 
     @Override
@@ -22,14 +22,14 @@ public class FastVariationPolynomialCalculate implements Runnable {
         double fastVariationPolynomial;
 
         logger.debug("FastVariationPolynomialCalculate degree: {}", this.degree);
-        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(seriesProperties.getPoints(), degree);
+        PolynomialApproximation polynomialApproximation = new PolynomialApproximation(dataSeriesFile.getPoints(), degree);
 
         polynomialApproximation.doApproximations();
 
         fastVariationPolynomial = polynomialApproximation.getError();
         logger.debug("Calculated fastVariationPolynomial: {}", fastVariationPolynomial);
 
-        seriesProperties.setFastVariationPolynomial(fastVariationPolynomial);
+        dataSeriesFile.setFastVariationPolynomial(fastVariationPolynomial);
         logger.info("Set fastVariationPolynomial: {}", fastVariationPolynomial);
     }
 

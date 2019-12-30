@@ -14,7 +14,7 @@ import java.util.List;
 import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial.chooseTrigonometricDegree;
 
 public class TrigonometricInterpolation extends TrigonometricApproximationAbstract {
-    private final Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
+    private static final Logger logger = LoggerFactory.getLogger(TrigonometricInterpolation.class);
 
     public TrigonometricInterpolation(List<PointXY> points) {
         super(points);

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AlgebraicPolynomial extends Polynomial {
-    private final Logger logger = LoggerFactory.getLogger(AlgebraicPolynomial.class);
+    private static final Logger logger = LoggerFactory.getLogger(AlgebraicPolynomial.class);
 
     public AlgebraicPolynomial(List<Double> coefficients) {
         super(coefficients);
@@ -23,76 +23,6 @@ public class AlgebraicPolynomial extends Polynomial {
         return Arrays.stream(coefficients)
                 .boxed()
                 .collect(Collectors.toList());
-    }
-
-    public AlgebraicPolynomial plus(AlgebraicPolynomial polynomial) {
-        List<Double> result;
-        List<Double> coefficients = this.getCoefficients();
-
-        if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            AlgebraicPolynomial add = polynomial.getDegree() > getDegree() ? polynomial : this;
-            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
-            int maxSize = Math.max(this.getDegree(), polynomial.getDegree());
-            result = new ArrayList<>();
-
-            for (int i = 0; i <= minSize; i++) {
-                result.add(coefficients.get(i) + polynomial.getCoefficients().get(i));
-            }
-            for (int i = minSize + 1; i <= maxSize; i++) {
-                result.add(add.getCoefficients().get(i));
-            }
-
-            return new AlgebraicPolynomial(result);
-        } else {
-            logger.error("Polynomial or coefficients is empty.");
-            return null;
-        }
-    }
-
-    public AlgebraicPolynomial plus(double value) {
-        List<Double> result = new ArrayList<>();
-        List<Double> coefficients = getCoefficients();
-
-        result.add(coefficients.get(0) + value);
-
-        for (int i = 1; i <= getDegree(); i++) {
-            result.add(coefficients.get(i));
-        }
-
-        return new AlgebraicPolynomial(result);
-    }
-
-    public AlgebraicPolynomial minus(AlgebraicPolynomial polynomial) {
-        List<Double> result;
-        List<Double> coefficients = this.getCoefficients();
-
-        if (Polynomial.isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(this.getDegree(), polynomial.getDegree());
-            result = new ArrayList<>();
-
-            for (int i = 0; i <= minSize; i++) {
-                result.add(coefficients.get(i) - polynomial.getCoefficients().get(i));
-            }
-
-            if (polynomial.getDegree() > minSize) {
-                for (int i = minSize + 1; i <= polynomial.getDegree(); i++) {
-                    result.add(-polynomial.getCoefficients().get(i));
-                }
-            } else {
-                for (int i = minSize + 1; i <= this.getDegree(); i++) {
-                    result.add(this.getCoefficients().get(i));
-                }
-            }
-
-            return new AlgebraicPolynomial(result);
-        } else {
-            logger.error("Polynomial or coefficients is empty.");
-            return null;
-        }
-    }
-
-    public AlgebraicPolynomial minus(double value) {
-        return plus(-value);
     }
 
     public AlgebraicPolynomial times(AlgebraicPolynomial polynomial) {

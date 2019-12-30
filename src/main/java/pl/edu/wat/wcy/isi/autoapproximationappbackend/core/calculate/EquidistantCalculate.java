@@ -1,29 +1,29 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.runnableCalculate;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 
 import java.util.List;
 
 public class EquidistantCalculate implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(EquidistantCalculate.class);
-    private static final double DELTA = 1e14;
+    private static final double DELTA = 1e15;
 
-    private final SeriesPropertiesEntity seriesProperties;
+    private final DataSeriesFileEntity dataSeriesFile;
 
-    public EquidistantCalculate(SeriesPropertiesEntity seriesProperties) {
-        this.seriesProperties = seriesProperties;
+    public EquidistantCalculate(DataSeriesFileEntity dataSeriesFile) {
+        this.dataSeriesFile = dataSeriesFile;
     }
 
     @Override
     public void run() {
         try {
-            boolean equidistant = getEquidistant(seriesProperties.getPoints());
+            boolean equidistant = getEquidistant(dataSeriesFile.getPoints());
 
-            seriesProperties.setEquidistant(equidistant ? (byte) 1 : (byte) 0);
+            dataSeriesFile.setEquidistant(equidistant ? (byte) 1 : (byte) 0);
 
         } catch (SizeException e) {
             logger.error("{}", e.getMessage());

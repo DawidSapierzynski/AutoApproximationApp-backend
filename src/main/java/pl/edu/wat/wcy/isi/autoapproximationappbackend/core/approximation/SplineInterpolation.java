@@ -43,9 +43,9 @@ public class SplineInterpolation extends Approximation {
             p1 = AlgebraicPolynomial.getLinearFunction(-1, getPoints().get(i + 1).getX());
 
             algebraicPolynomial = AlgebraicPolynomial.pow(p1.copy(), 3).times(c1(i, h)).plus(
-                    AlgebraicPolynomial.pow(p.copy(), 3).times(c2(i, h))).plus(
-                    p.copy().times(c3(i, h))).plus(
-                    p1.copy().times(c4(i, h)));
+                    AlgebraicPolynomial.pow(p.copy(), 3).times(c2(i, h)), AlgebraicPolynomial.class).plus(
+                    p.copy().times(c3(i, h)), AlgebraicPolynomial.class).plus(
+                    p1.copy().times(c4(i, h)), AlgebraicPolynomial.class);
             f.add(new MathematicalFunction(algebraicPolynomial, new DomainFunction(true, getPoints().get(i).getX(), getPoints().get(i + 1).getX(), false)));
         }
 

@@ -6,7 +6,7 @@
         <class>pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserEntity</class>
         <class>pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.RoleUserToUserEntity</class>
         <class>pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity</class>
-        <class>pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.SeriesPropertiesEntity</class>
+        <class>pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.ApproximationPropertiesEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/aaa"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

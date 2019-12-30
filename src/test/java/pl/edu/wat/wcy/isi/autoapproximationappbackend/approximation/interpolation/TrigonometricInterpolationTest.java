@@ -48,7 +48,7 @@ class TrigonometricInterpolationTest {
 
         for (PointXY p : evenPoints) {
             cr = p.getY();
-            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping.getLinearFunction());
+            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping!=null ? linearDomainMapping.getLinearFunction() : null);
 
             assertEquals(cr, r, DELTA);
         }

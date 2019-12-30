@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class TrigonometricApproximationTest {
-    private final Logger logger = LoggerFactory.getLogger(TrigonometricApproximationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(TrigonometricApproximationTest.class);
 
     private List<PointXY> points = new ArrayList<>();
     private TrigonometricApproximation trigonometricApproximation;
@@ -52,7 +52,7 @@ class TrigonometricApproximationTest {
 
         for (PointXY p : points) {
             cr = p.getY();
-            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping.getLinearFunction());
+            r = resultPolynomial.evaluate(p.getX(), linearDomainMapping!=null ? linearDomainMapping.getLinearFunction() : null);
 
             logger.info("Y={} ; YPolynomial={} ; d={}", cr, r, Math.abs(cr - r));
         }

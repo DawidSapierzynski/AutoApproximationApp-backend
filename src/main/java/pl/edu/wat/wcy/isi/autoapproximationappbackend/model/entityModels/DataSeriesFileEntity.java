@@ -1,9 +1,12 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels;
 
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,9 +16,18 @@ public class DataSeriesFileEntity {
     private String name;
     private String hashName;
     private Timestamp dateSent;
-    private Byte deleted;
+    private Byte deleted = (byte) 0;
     private UserEntity user;
-    private Collection<SeriesPropertiesEntity> seriesProperties = new HashSet<>();
+    private Integer size;
+    private Double fastVariationPolynomial;
+    private Double fastVariationTrigonometric;
+    private Byte fastVariation;
+    private Double variance;
+    private Double standardDeviation;
+    private Byte equidistant;
+    private Collection<ApproximationPropertiesEntity> approximationProperties = new HashSet<>();
+    private List<PointXY> points;
+    private List<PointXY> artefacts;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +80,76 @@ public class DataSeriesFileEntity {
         this.deleted = deleted;
     }
 
+    @Basic
+    @Column(name = "size")
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    @Basic
+    @Column(name = "fast_variation_polynomial")
+    public Double getFastVariationPolynomial() {
+        return fastVariationPolynomial;
+    }
+
+    public void setFastVariationPolynomial(Double fastVariationPolynomial) {
+        this.fastVariationPolynomial = fastVariationPolynomial;
+    }
+
+    @Basic
+    @Column(name = "fast_variation_trigonometric")
+    public Double getFastVariationTrigonometric() {
+        return fastVariationTrigonometric;
+    }
+
+    public void setFastVariationTrigonometric(Double fastVariationTrigonometric) {
+        this.fastVariationTrigonometric = fastVariationTrigonometric;
+    }
+
+    @Basic
+    @Column(name = "fast_variation")
+    public Byte getFastVariation() {
+        return fastVariation;
+    }
+
+    public void setFastVariation(Byte fastVariation) {
+        this.fastVariation = fastVariation;
+    }
+
+    @Basic
+    @Column(name = "variance")
+    public Double getVariance() {
+        return variance;
+    }
+
+    public void setVariance(Double variance) {
+        this.variance = variance;
+    }
+
+    @Basic
+    @Column(name = "standard_deviation")
+    public Double getStandardDeviation() {
+        return standardDeviation;
+    }
+
+    public void setStandardDeviation(Double standardDeviation) {
+        this.standardDeviation = standardDeviation;
+    }
+
+    @Basic
+    @Column(name = "is_equidistant")
+    public Byte getEquidistant() {
+        return equidistant;
+    }
+
+    public void setEquidistant(Byte equidistant) {
+        this.equidistant = equidistant;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,11 +178,29 @@ public class DataSeriesFileEntity {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dataSeriesFile")
-    public Collection<SeriesPropertiesEntity> getSeriesProperties() {
-        return seriesProperties;
+    public Collection<ApproximationPropertiesEntity> getApproximationProperties() {
+        return approximationProperties;
     }
 
-    public void setSeriesProperties(Collection<SeriesPropertiesEntity> seriesPropertiesByDataSeriesFileId) {
-        this.seriesProperties = seriesPropertiesByDataSeriesFileId;
+    public void setApproximationProperties(Collection<ApproximationPropertiesEntity> approximationPropertiesByDataSeriesFileId) {
+        this.approximationProperties = approximationPropertiesByDataSeriesFileId;
+    }
+
+    @Transient
+    public List<PointXY> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<PointXY> points) {
+        this.points = points;
+    }
+
+    @Transient
+    public List<PointXY> getArtefacts() {
+        return artefacts;
+    }
+
+    public void setArtefacts(List<PointXY> artefacts) {
+        this.artefacts = artefacts;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.FileStorageProperties;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ResourceNotFoundException;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class StorageService {
-    private final Logger logger = LoggerFactory.getLogger(StorageService.class);
+    private static final Logger logger = LoggerFactory.getLogger(StorageService.class);
 
     private final Path fileStorageLocation;
 
@@ -35,13 +36,13 @@ public class StorageService {
         }
     }
 
-    public File loadFile(String fileName) {
+    public File loadFile(String fileName) throws ResourceNotFoundException {
         Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
         File resource = new File(filePath.toUri());
         if (resource.exists() || resource.canRead()) {
             return resource;
         } else {
-            throw new RuntimeException("FAIL!");
+            throw new ResourceNotFoundException("The file could not be downloaded because it does not exist.");
         }
     }
 

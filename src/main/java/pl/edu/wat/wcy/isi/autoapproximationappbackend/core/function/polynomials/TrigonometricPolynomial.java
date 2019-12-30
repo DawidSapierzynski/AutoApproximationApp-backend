@@ -1,78 +1,11 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrigonometricPolynomial extends Polynomial {
-    private final Logger logger = LoggerFactory.getLogger(TrigonometricPolynomial.class);
-
     public TrigonometricPolynomial(List<Double> coefficients) {
         super(coefficients);
         setDegree(chooseTrigonometricDegree(coefficients.size()));
-    }
-
-    public TrigonometricPolynomial plus(TrigonometricPolynomial polynomial) {
-        List<Double> result;
-        List<Double> coefficients = this.getCoefficients();
-        int sizeThis = this.getCoefficients().size() - 1;
-        int sizeThat = polynomial.getCoefficients().size() - 1;
-
-        if (isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(sizeThis, sizeThat);
-            result = new ArrayList<>();
-
-            for (int i = 0; i <= minSize; i++) {
-                result.add(coefficients.get(i) + polynomial.getCoefficients().get(i));
-            }
-            if (polynomial.getCoefficients().size() - 1 > minSize) {
-                for (int i = minSize + 1; i <= sizeThat; i++) {
-                    result.add(polynomial.getCoefficients().get(i));
-                }
-            } else {
-                for (int i = minSize + 1; i <= sizeThis; i++) {
-                    result.add(this.getCoefficients().get(i));
-                }
-            }
-
-            return new TrigonometricPolynomial(result);
-        } else {
-            logger.error("Polynomial or coefficients is empty.");
-            return null;
-        }
-    }
-
-    public TrigonometricPolynomial minus(TrigonometricPolynomial polynomial) {
-        List<Double> result;
-        List<Double> coefficients = this.getCoefficients();
-        int sizeThis = this.getCoefficients().size() - 1;
-        int sizeThat = polynomial.getCoefficients().size() - 1;
-
-        if (isNotEmpty(polynomial) && coefficients != null) {
-            int minSize = Math.min(sizeThis, sizeThat);
-            result = new ArrayList<>();
-
-            for (int i = 0; i <= minSize; i++) {
-                result.add(coefficients.get(i) - polynomial.getCoefficients().get(i));
-            }
-
-            if (sizeThat > minSize) {
-                for (int i = minSize + 1; i <= sizeThat; i++) {
-                    result.add(-polynomial.getCoefficients().get(i));
-                }
-            } else {
-                for (int i = minSize + 1; i <= sizeThis; i++) {
-                    result.add(this.getCoefficients().get(i));
-                }
-            }
-
-            return new TrigonometricPolynomial(result);
-        } else {
-            logger.error("Polynomial or coefficients is empty.");
-            return null;
-        }
     }
 
     @Override
@@ -95,18 +28,10 @@ public class TrigonometricPolynomial extends Polynomial {
     }
 
     public double evaluate(double x, AlgebraicPolynomial linearFunction) {
-        //TODO
-        //Do potymalizacji
-        if (linearFunction != null) {
-            double mappX, y;
-
-            mappX = linearFunction.evaluate(x);
-            y = evaluate(mappX);
-
-            return y;
-        } else {
-            return evaluate(x);
+        if (Polynomial.isNotEmpty(linearFunction)) {
+            x = linearFunction.evaluate(x);
         }
+        return evaluate(x);
     }
 
     @Override

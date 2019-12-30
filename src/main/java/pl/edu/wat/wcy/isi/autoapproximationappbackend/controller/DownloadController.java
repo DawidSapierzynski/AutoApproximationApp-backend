@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/download")
 public class DownloadController {
-    private final Logger logger = LoggerFactory.getLogger(DownloadController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DownloadController.class);
 
     private final DownloadService downloadService;
 

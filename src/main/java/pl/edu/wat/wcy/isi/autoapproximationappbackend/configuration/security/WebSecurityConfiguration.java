@@ -54,9 +54,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/auth/signin").permitAll()
-                .antMatchers("/dataSeriesFile", "/doApproximations", "/seriesProperties", "/chooseMethod", "/download/approximation").hasAuthority(UserRole.USER.getCode())
-                .antMatchers("/dataSeriesFile/all", "/seriesProperties/all", "/auth/signup", "/user").hasAuthority(UserRole.ADMIN.getCode())
-                .antMatchers("/seriesProperties/{seriesPropertiesId}", "/user/{userId}", "/roleUser", "/download/generateDataSeries").hasAnyAuthority(UserRole.ADMIN.getCode(), UserRole.USER.getCode())
+                .antMatchers("/dataSeriesFile", "/doApproximations", "/approximationProperties", "/chooseMethod", "/download/approximation").hasAuthority(UserRole.USER.getCode())
+                .antMatchers("/dataSeriesFile/all", "/approximationProperties/all", "/auth/signup", "/user").hasAuthority(UserRole.ADMIN.getCode())
+                .antMatchers("/approximationProperties/{approximationPropertiesId}", "/user/{userId}", "/roleUser", "/download/generateDataSeries").hasAnyAuthority(UserRole.ADMIN.getCode(), UserRole.USER.getCode())
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
