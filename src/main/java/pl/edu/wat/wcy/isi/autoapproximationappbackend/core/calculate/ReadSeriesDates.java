@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class ReadSeriesDates implements Runnable {
     protected static final int MAX_MULTIPLE = 60;
+    protected static final double MIN_Y = 0.01;
     protected static final String REGEX_SPLIT = "[;,]";
 
     protected final DataSeriesFileEntity dataSeriesFile;
@@ -45,7 +46,7 @@ public abstract class ReadSeriesDates implements Runnable {
         }
 
         for (int i = 0; i < quotientsList.size() - 1; i++) {
-            if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < 0.1) && i > 0 && i < quotientsList.size() - 4) {
+            if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < MIN_Y) && i > 0 && i < quotientsList.size() - 4) {
                 double dif1 = Math.abs(points.get(i).getY() - points.get(i - 1).getY());
                 double dif2 = Math.abs(points.get(i + 1).getY() - points.get(i).getY());
                 double dif3 = Math.abs(points.get(i + 2).getY() - points.get(i + 1).getY());
