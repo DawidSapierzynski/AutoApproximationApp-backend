@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ReadSeriesDatesFromMultipartFile extends ReadSeriesDates implements Runnable {
+public class ReadSeriesDatesFromMultipartFile extends ReadSeriesDates {
     private static final Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromMultipartFile.class);
 
     private final MultipartFile dataSeriesMultipartFile;
@@ -46,7 +46,7 @@ public class ReadSeriesDatesFromMultipartFile extends ReadSeriesDates implements
             }
 
             Collections.sort(points);
-        } catch (NumberFormatException | IOException e) {
+        } catch (IOException e) {
             logger.error("{}", e.getMessage());
         }
 

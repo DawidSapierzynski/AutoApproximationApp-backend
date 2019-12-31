@@ -23,6 +23,7 @@ import java.util.concurrent.Future;
 
 @Service
 public class DataSeriesFileService {
+    public static final String FILE_EXTENSION = ".csv";
     private static final int MAX_NUMBER_POINTS = 1000;
     private static final int MIN_NUMBER_POINTS = 5;
     private static final Logger logger = LoggerFactory.getLogger(DataSeriesFileService.class);
@@ -40,7 +41,7 @@ public class DataSeriesFileService {
     }
 
     public void readFile(Long dateSeriesFileId, DataSeriesFileEntity dataSeriesFileEntity) {
-        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(dateSeriesFileId.toString() + ".csv", dataSeriesFileEntity, fileStorageProperties)));
+        List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromFile(dateSeriesFileId.toString() + DataSeriesFileService.FILE_EXTENSION, dataSeriesFileEntity, fileStorageProperties)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromFile - isDone: {}", futures.get(0).isDone());

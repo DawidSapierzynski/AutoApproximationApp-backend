@@ -126,7 +126,7 @@ public abstract class Polynomial {
     }
 
     public static boolean isEmpty(Polynomial polynomial) {
-        return polynomial == null || polynomial.getCoefficients() == null;
+        return polynomial == null || polynomial.getCoefficients() == null || polynomial.getCoefficients().size() == 0;
     }
 
     public static boolean isNotEmpty(Polynomial polynomial) {

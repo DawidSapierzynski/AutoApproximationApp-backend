@@ -26,8 +26,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/dataSeriesFile")
 public class DataSeriesFileController {
-    private static final String FILE_EXTENSION = ".csv";
-
     private final Logger logger = LoggerFactory.getLogger(DataSeriesFileController.class);
     private final StorageService storageService;
     private final DataSeriesFileService dataSeriesFileService;
@@ -59,7 +57,7 @@ public class DataSeriesFileController {
 
         dataSeriesFileEntity = dataSeriesFileService.save(dataSeriesFileEntity);
 
-        storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + FILE_EXTENSION);
+        storageService.store(dataSeriesFile, dataSeriesFileEntity.getDataSeriesFileId() + DataSeriesFileService.FILE_EXTENSION);
 
         dataSeriesFileDTO = dataSeriesFileMapper.buildDataSeriesFileDTO(dataSeriesFileEntity);
 
@@ -94,6 +92,7 @@ public class DataSeriesFileController {
                 .orElseThrow(() -> new ResourceNotFoundException("DataSeriesFileEntity not found for this id: " + dataSeriesFileId));
 
         this.dataSeriesFileService.delete(dataSeriesFile);
+        this.storageService.deleteFile(dataSeriesFile.getDataSeriesFileId() + DataSeriesFileService.FILE_EXTENSION);
 
         logger.info("Deleted data series file with id: {}", dataSeriesFileId);
         return ResponseEntity.ok(new ResponseMessage("Deleted data series file with id: " + dataSeriesFileId));

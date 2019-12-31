@@ -50,6 +50,10 @@ public class StorageService {
         FileSystemUtils.deleteRecursively(fileStorageLocation.toFile());
     }
 
+    public void deleteFile(String fileName) {
+        FileSystemUtils.deleteRecursively(fileStorageLocation.resolve(fileName).toFile());
+    }
+
     @PostConstruct
     public void init() {
         try {

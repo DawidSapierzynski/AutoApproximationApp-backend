@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReadSeriesDatesFromFile extends ReadSeriesDates implements Runnable {
+public class ReadSeriesDatesFromFile extends ReadSeriesDates {
     private final Logger logger = LoggerFactory.getLogger(ReadSeriesDatesFromFile.class);
 
     private final String seriesDatesPath;

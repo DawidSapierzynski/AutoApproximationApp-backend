@@ -187,20 +187,20 @@ public class DataSeriesFileEntity {
     }
 
     @Transient
-    public List<PointXY> getPoints() {
+    public synchronized List<PointXY> getPoints() {
         return points;
     }
 
-    public void setPoints(List<PointXY> points) {
+    public synchronized void setPoints(List<PointXY> points) {
         this.points = points;
     }
 
     @Transient
-    public List<PointXY> getArtefacts() {
+    public synchronized List<PointXY> getArtefacts() {
         return artefacts;
     }
 
-    public void setArtefacts(List<PointXY> artefacts) {
+    public synchronized void setArtefacts(List<PointXY> artefacts) {
         this.artefacts = artefacts;
     }
 }

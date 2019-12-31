@@ -7,9 +7,8 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSer
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ReadSeriesDates {
-    protected static final int MAX_MULTIPLE = 20;
-    protected static final int CYCLE_SIZE = 10;
+public abstract class ReadSeriesDates implements Runnable {
+    protected static final int MAX_MULTIPLE = 60;
     protected static final String REGEX_SPLIT = "[;,]";
 
     protected final DataSeriesFileEntity dataSeriesFile;
@@ -18,7 +17,7 @@ public abstract class ReadSeriesDates {
         this.dataSeriesFile = dataSeriesFile;
     }
 
-    protected static void parseLine(List<PointXY> points, String line, String[] split, Logger logger) throws NumberFormatException {
+    protected static void parseLine(List<PointXY> points, String line, String[] split, Logger logger) {
         line = line.trim();
         if (line.startsWith("//"))
             return;
@@ -39,44 +38,44 @@ public abstract class ReadSeriesDates {
 
     protected List<PointXY> getArtefact(List<PointXY> points, Logger logger) {
         List<PointXY> artefacts = new ArrayList<>();
-        List<Double> differencesList = new ArrayList<>();
-        double trimmedMean;
+        List<Double> quotientsList = new ArrayList<>();
 
         for (int i = 0; i < points.size() - 1; i++) {
-            differencesList.add(Math.abs(points.get(i + 1).getY() - points.get(i).getY()));
+            quotientsList.add(Math.abs(points.get(i + 1).getY() / points.get(i).getY()));
         }
 
-        trimmedMean = getTrimmedMean(differencesList);
-        logger.debug("Trimmed mean of differences: {}", trimmedMean);
+        for (int i = 0; i < quotientsList.size() - 1; i++) {
+            if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < 0.1) && i > 0 && i < quotientsList.size() - 4) {
+                double dif1 = Math.abs(points.get(i).getY() - points.get(i - 1).getY());
+                double dif2 = Math.abs(points.get(i + 1).getY() - points.get(i).getY());
+                double dif3 = Math.abs(points.get(i + 2).getY() - points.get(i + 1).getY());
+                double dif4 = Math.abs(points.get(i + 3).getY() - points.get(i + 2).getY());
 
-        for (int i = 0; i < differencesList.size() - 1; i++) {
-            if (checkValues(differencesList.get(i), differencesList.get(i + 1), trimmedMean * MAX_MULTIPLE)) {
+                if (dif1 * MAX_MULTIPLE <= dif2 && dif3 >= dif4 * MAX_MULTIPLE) {
+                    artefacts.add(points.get(i + 1));
+                }
+
+            } else if (checkValuesQuotients(quotientsList.get(i), quotientsList.get(i + 1))) {
                 artefacts.add(points.get(i + 1));
             }
         }
 
         points.removeAll(artefacts);
 
+        logger.debug("Artefacts: {}", artefacts);
+
         return artefacts;
     }
 
-    protected double getTrimmedMean(List<Double> valuesList) {
-        List<Double> list = new ArrayList<>(List.copyOf(valuesList));
-
-        list.sort(Double::compareTo);
-
-        for (int i = 0; i < valuesList.size(); i += CYCLE_SIZE) {
-            list.remove(list.size() - 1);
-            list.remove(list.size() - 1);
-        }
-
-        return list.stream()
-                .mapToDouble((v) -> v)
-                .average()
-                .orElse(0d);
+    private boolean check(List<PointXY> points, int i) {
+        return Math.abs(points.get(i).getY() - points.get(i - 1).getY()) * MAX_MULTIPLE > Math.abs(points.get(i + 1).getY() - points.get(i).getY());
     }
 
-    protected boolean checkValues(double value1, double value2, double limit) {
-        return value1 > limit && value2 > limit;
+    private boolean checkValuesQuotients(double value1, double value2) {
+        return ((value1 >= MAX_MULTIPLE && value2 <= 1.0 / MAX_MULTIPLE) || (value2 >= MAX_MULTIPLE && value1 <= 1.0 / MAX_MULTIPLE)) && value1 != 0 && value2 != 0;
+    }
+
+    private boolean checkValuesZero(double value1, double value2) {
+        return ((value1 == 0 && Double.isInfinite(value2)) || (value2 == 0 && Double.isInfinite(value1)));
     }
 }
