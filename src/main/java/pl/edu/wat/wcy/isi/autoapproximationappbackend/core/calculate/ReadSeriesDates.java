@@ -68,8 +68,13 @@ public abstract class ReadSeriesDates implements Runnable {
         return artefacts;
     }
 
-    private boolean check(List<PointXY> points, int i) {
-        return Math.abs(points.get(i).getY() - points.get(i - 1).getY()) * MAX_MULTIPLE > Math.abs(points.get(i + 1).getY() - points.get(i).getY());
+    public static boolean checkPoints(List<PointXY> points) {
+        for (int i = 0; i < points.size() - 1; i++) {
+            if (points.get(i + 1).getX() - points.get(i).getX() == 0d) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean checkValuesQuotients(double value1, double value2) {

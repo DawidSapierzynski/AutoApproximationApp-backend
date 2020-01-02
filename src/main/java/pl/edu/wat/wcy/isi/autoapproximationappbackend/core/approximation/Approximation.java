@@ -12,6 +12,7 @@ public abstract class Approximation {
     private final List<PointXY> points;
     private int degree;
     private final int size;
+    protected double absoluteError;
 
     public Approximation(List<PointXY> points, int degree) {
         this.points = points;
@@ -41,18 +42,16 @@ public abstract class Approximation {
         return approximationsPoints;
     }
 
-    public double getError() {
-        double error;
-
+    public double calculateError() {
         if (getPolynomial() == null) {
             doApproximations();
         }
 
-        error = getPoints().stream()
+        this.absoluteError = getPoints().stream()
                 .mapToDouble(p -> Math.pow(p.getY() - getPolynomial().evaluate(p.getX()), 2))
                 .sum();
 
-        return error;
+        return this.absoluteError;
     }
 
     public Polynomial getPolynomial() {
@@ -81,5 +80,9 @@ public abstract class Approximation {
 
     public void setMathematicalFunctions(List<MathematicalFunction> mathematicalFunctions) {
         this.mathematicalFunctions = mathematicalFunctions;
+    }
+
+    public double getAbsoluteError() {
+        return absoluteError;
     }
 }

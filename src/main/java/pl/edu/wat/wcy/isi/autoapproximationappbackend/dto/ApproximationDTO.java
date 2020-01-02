@@ -15,4 +15,5 @@ import java.util.List;
 public class ApproximationDTO {
     private List<MathematicalFunctionDTO> mathematicalFunctionDTOs;
     private List<PointXY> points;
+    private double absoluteError;
 }

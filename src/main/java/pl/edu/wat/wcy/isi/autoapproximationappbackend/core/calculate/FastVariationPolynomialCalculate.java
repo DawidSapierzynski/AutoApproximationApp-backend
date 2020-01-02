@@ -26,7 +26,7 @@ public class FastVariationPolynomialCalculate implements Runnable {
 
         polynomialApproximation.doApproximations();
 
-        fastVariationPolynomial = polynomialApproximation.getError();
+        fastVariationPolynomial = polynomialApproximation.calculateError();
         logger.debug("Calculated fastVariationPolynomial: {}", fastVariationPolynomial);
 
         dataSeriesFile.setFastVariationPolynomial(fastVariationPolynomial);

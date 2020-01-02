@@ -37,6 +37,8 @@ public class PolynomialApproximation extends Approximation {
 
         setMathematicalFunctions(List.of(new MathematicalFunction(new AlgebraicPolynomial(mapMatrixAToList(matrixA)), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
+        logger.info("Absolute error Polynomial Approximation = {}", calculateError());
+
         return getMathematicalFunctions();
     }
 

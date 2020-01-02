@@ -26,6 +26,8 @@ public class NewtonInterpolation extends Approximation {
         interpolationsCoefficients = List.of(matrixDifferenceQuotients[0]);
         setMathematicalFunctions(List.of(new MathematicalFunction(getAlgebraicPolynomialForm(), new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
+        logger.info("Absolute error Newton Interpolation = {}", calculateError());
+
         return getMathematicalFunctions();
     }
 

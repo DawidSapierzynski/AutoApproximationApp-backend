@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.*;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.message.response.ResponseMessage;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
@@ -15,7 +15,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseMessage> handleException(ResourceNotFoundException e) {
-        logger.error(e.getMessage());
+        logger.error("{}", e.getMessage(), e);
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -24,7 +24,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<ResponseMessage> handleException(LoginException e) {
-        logger.error(e.getMessage());
+        logger.error("{}", e.getMessage(), e);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -33,7 +33,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ResponseMessage> handleException(ForbiddenException e) {
-        logger.error(e.getMessage());
+        logger.error("{}", e.getMessage(), e);
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
@@ -42,7 +42,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MessageException.class)
     public ResponseEntity<ResponseMessage> handleException(MessageException e) {
-        logger.error(e.getMessage());
+        logger.error("{}", e.getMessage(), e);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -51,7 +51,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(SizeException.class)
     public ResponseEntity<ResponseMessage> handleException(SizeException e) {
-        logger.error(e.getMessage());
+        logger.error("{}", e.getMessage(), e);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -102,9 +102,14 @@ public class ApproximationPropertiesController {
 
     @Transactional
     @DeleteMapping(produces = "application/json", value = "/{approximationPropertiesId}")
-    public ResponseEntity<ResponseMessage> deletedApproximationProperties(@PathVariable(value = "approximationPropertiesId") long approximationPropertiesId) throws ResourceNotFoundException {
+    public ResponseEntity<ResponseMessage> deletedApproximationProperties(@PathVariable(value = "approximationPropertiesId") long approximationPropertiesId) throws ResourceNotFoundException, ForbiddenException {
         ApproximationPropertiesEntity approximationProperties = approximationPropertiesService.findById(approximationPropertiesId)
                 .orElseThrow(() -> new ResourceNotFoundException("Approximation properties not found for this id: " + approximationPropertiesId));
+
+        UserEntity loggedUser = userService.getLoggedUser();
+        if (!(loggedUser.equals(approximationProperties.getUser()) || loggedUser.isAdmin())) {
+            throw new ForbiddenException("No permission to delete this approximation properties");
+        }
 
         this.approximationPropertiesService.delete(approximationProperties);
 

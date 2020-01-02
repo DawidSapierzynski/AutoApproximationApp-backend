@@ -47,7 +47,7 @@ public class ReadSeriesDatesFromMultipartFile extends ReadSeriesDates {
 
             Collections.sort(points);
         } catch (IOException e) {
-            logger.error("{}", e.getMessage());
+            logger.error("{}", e.getMessage(), e);
         }
 
         logger.info("Points have been loaded.");

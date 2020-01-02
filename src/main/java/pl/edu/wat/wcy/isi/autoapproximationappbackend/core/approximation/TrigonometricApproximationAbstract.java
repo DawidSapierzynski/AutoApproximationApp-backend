@@ -36,19 +36,18 @@ public abstract class TrigonometricApproximationAbstract extends Approximation {
     }
 
     @Override
-    public double getError() {
-        double error;
+    public double calculateError() {
         TrigonometricPolynomial trigonometricPolynomial = (TrigonometricPolynomial) getPolynomial();
 
         if (trigonometricPolynomial == null) {
             doApproximations();
         }
 
-        error = getPoints().stream()
+        this.absoluteError = getPoints().stream()
                 .mapToDouble(p -> Math.pow(p.getY() - Objects.requireNonNull(trigonometricPolynomial).evaluate(p.getX(), linearDomainMapping != null ? linearDomainMapping.getLinearFunction() : null), 2))
                 .sum();
 
-        return error;
+        return this.absoluteError;
     }
 
     public LinearDomainMapping getLinearDomainMapping() {

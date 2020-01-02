@@ -50,11 +50,14 @@ public class DataSeriesFileService {
         }
     }
 
-    public void readMultipartFile(MultipartFile dataSeriesMultipartFile, DataSeriesFileEntity dataSeriesFileEntity) {
+    public void readMultipartFile(MultipartFile dataSeriesMultipartFile, DataSeriesFileEntity dataSeriesFileEntity) throws SizeException {
         List<Callable<Object>> callables = Collections.singletonList(Executors.callable(new ReadSeriesDatesFromMultipartFile(dataSeriesFileEntity, dataSeriesMultipartFile)));
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("ReadSeriesDatesFromMultipartFile - isDone: {}", futures.get(0).isDone());
+            if (!ReadSeriesDates.checkPoints(dataSeriesFileEntity.getPoints())) {
+                throw new SizeException("The series contains duplicate x");
+            }
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }

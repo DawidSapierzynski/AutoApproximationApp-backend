@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ForbiddenException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.ResourceNotFoundException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.configuration.exception.SizeException;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
@@ -87,10 +88,14 @@ public class DataSeriesFileController {
 
     @Transactional
     @DeleteMapping(produces = "application/json", value = "/{dataSeriesFileId}")
-    public ResponseEntity<ResponseMessage> deletedDataSeriesFile(@PathVariable(value = "dataSeriesFileId") Long dataSeriesFileId) throws ResourceNotFoundException {
+    public ResponseEntity<ResponseMessage> deletedDataSeriesFile(@PathVariable(value = "dataSeriesFileId") Long dataSeriesFileId) throws ResourceNotFoundException, ForbiddenException {
         DataSeriesFileEntity dataSeriesFile = dataSeriesFileService.findById(dataSeriesFileId)
                 .orElseThrow(() -> new ResourceNotFoundException("DataSeriesFileEntity not found for this id: " + dataSeriesFileId));
 
+        UserEntity loggedUser = userService.getLoggedUser();
+        if (!(loggedUser.equals(dataSeriesFile.getUser()) || loggedUser.isAdmin())) {
+            throw new ForbiddenException("No permission to delete this data series file");
+        }
         this.dataSeriesFileService.delete(dataSeriesFile);
         this.storageService.deleteFile(dataSeriesFile.getDataSeriesFileId() + DataSeriesFileService.FILE_EXTENSION);
 

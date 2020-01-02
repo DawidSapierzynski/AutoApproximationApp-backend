@@ -53,7 +53,7 @@ public class TrigonometricInterpolation extends TrigonometricApproximationAbstra
         trigonometricPolynomial = new TrigonometricPolynomial(c);
         setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
-        logger.info("{}", trigonometricPolynomial);
+        logger.info("Absolute error Trigonometric Interpolation = {}", calculateError());
 
         return getMathematicalFunctions();
     }

@@ -48,5 +48,6 @@ public class ApproximationCalculate implements Runnable {
 
         approximationDTO.setMathematicalFunctionDTOs(mathematicalFunctionMapper.mapToMathematicalFunctionDTOs(approximation.doApproximations()));
         approximationDTO.setPoints(approximation.getApproximationsPoints(NUMBER_SAMPLES * points.size()));
+        approximationDTO.setAbsoluteError(approximation.getAbsoluteError());
     }
 }

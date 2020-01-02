@@ -27,7 +27,7 @@ public class SplineInterpolation extends Approximation {
         setHiBi(h, b);
         setUiVi(h, u, b, v);
 
-        z = calculateZ(v, h, u);
+        this.z = calculateZ(v, h, u);
 
         setMathematicalFunctions(calculateFunctions(h));
 
@@ -125,6 +125,11 @@ public class SplineInterpolation extends Approximation {
         approximationsPoints.add(new PointXY(getPoints().get(getSize() - 1).getX(), Objects.requireNonNull(mathematicalFunction).getPolynomial().evaluate(getPoints().get(getSize() - 1).getX())));
 
         return approximationsPoints;
+    }
+
+    @Override
+    public double calculateError() {
+        throw new NullPointerException();
     }
 
     @Override

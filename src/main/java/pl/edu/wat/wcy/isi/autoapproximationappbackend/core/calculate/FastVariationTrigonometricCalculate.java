@@ -27,7 +27,7 @@ public class FastVariationTrigonometricCalculate implements Runnable {
 
         trigonometricApproximation.doApproximations();
 
-        fastVariationTrigonometric = trigonometricApproximation.getError();
+        fastVariationTrigonometric = trigonometricApproximation.calculateError();
         logger.debug("Calculated fastVariationTrigonometric: {}", fastVariationTrigonometric);
 
         dataSeriesFile.setFastVariationTrigonometric(fastVariationTrigonometric);
