@@ -11,7 +11,7 @@ public class ChooseMethodPrecision4 implements ChooseMethodStrategy {
     public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
-        int degree = ChooseMethodService.getDefaultDegree(size) + 2;
+        int degree = 2 * ChooseMethodService.getDefaultDegree(size);
         return ChooseMethodService.getChosenMethodDTOs(fastVariation, equidistant, size, chosenMethodDTOS, degree);
     }
 }

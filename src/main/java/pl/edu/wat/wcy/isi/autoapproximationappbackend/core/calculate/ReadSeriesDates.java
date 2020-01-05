@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ReadSeriesDates implements Runnable {
-    protected static final int MAX_MULTIPLE = 60;
+    protected static final int MAX_MULTIPLE = 100;
     protected static final double MIN_Y = 0.01;
     protected static final String REGEX_SPLIT = "[;,]";
 
@@ -78,10 +78,14 @@ public abstract class ReadSeriesDates implements Runnable {
     }
 
     private boolean checkValuesQuotients(double value1, double value2) {
-        return ((value1 >= MAX_MULTIPLE && value2 <= 1.0 / MAX_MULTIPLE) || (value2 >= MAX_MULTIPLE && value1 <= 1.0 / MAX_MULTIPLE)) && value1 != 0 && value2 != 0;
+        return ((value1 >= MAX_MULTIPLE && value2 <= 1.0 / MAX_MULTIPLE)
+                || (value2 >= MAX_MULTIPLE && value1 <= 1.0 / MAX_MULTIPLE))
+                && value1 != 0
+                && value2 != 0;
     }
 
     private boolean checkValuesZero(double value1, double value2) {
-        return ((value1 == 0 && Double.isInfinite(value2)) || (value2 == 0 && Double.isInfinite(value1)));
+        return ((value1 == 0 && Double.isInfinite(value2))
+                || (value2 == 0 && Double.isInfinite(value1)));
     }
 }

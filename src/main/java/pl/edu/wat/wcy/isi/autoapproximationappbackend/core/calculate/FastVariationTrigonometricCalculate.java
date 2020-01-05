@@ -35,7 +35,7 @@ public class FastVariationTrigonometricCalculate implements Runnable {
     }
 
     public static int calculateDegree(int size) {
-        int d = (int) ceil(log(pow(size, 3)) / 2);
+        int d = (int) ceil(log(pow(size, 3)));
         int maxDegree = TrigonometricPolynomial.chooseTrigonometricDegree(size);
 
         if (d < 2) {

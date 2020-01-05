@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.chooseMethod.*;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ApproximationPropertiesDTO;
+import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.ChosenMethodDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.dto.DataSeriesFileDTO;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.Method;
 
