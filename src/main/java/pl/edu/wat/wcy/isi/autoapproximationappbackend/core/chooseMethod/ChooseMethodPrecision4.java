@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseMethodPrecision4 implements ChooseMethodStrategy {
+    private static final int PARAMETER = 2;
+
     @Override
     public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
-        int degree = 2 * ChooseMethodService.getDefaultDegree(size);
+        int degree = PARAMETER * ChooseMethodService.getDefaultDegree(size);
         return ChooseMethodService.getChosenMethodDTOs(fastVariation, equidistant, size, chosenMethodDTOS, degree);
     }
 }
