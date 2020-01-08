@@ -5,7 +5,7 @@ import java.util.List;
 public class TrigonometricPolynomial extends Polynomial {
     public TrigonometricPolynomial(List<Double> coefficients) {
         super(coefficients);
-        setDegree(chooseTrigonometricDegree(coefficients.size()));
+        setDegree(chooseTrigonometricMaxDegree(coefficients.size()));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TrigonometricPolynomial extends Polynomial {
         return "TrigonometricPolynomial is empty";
     }
 
-    public static int chooseTrigonometricDegree(int size) {
+    public static int chooseTrigonometricMaxDegree(int size) {
         if (size % 2 == 0) {
             return size / 2;
         } else {
