@@ -26,6 +26,7 @@ public class ApproximationPropertiesMapper {
         return ApproximationPropertiesDTO.builder()
                 .id(approximationProperties.getApproximationPropertiesId())
                 .userId(approximationProperties.getUser().getUserId())
+                .dataSeriesFileId(approximationProperties.getDataSeriesFile().getDataSeriesFileId())
                 .precision(approximationProperties.getPrecisionApproximation())
                 .dateCreate(approximationProperties.getDateCreate())
                 .deleted(approximationProperties.getDeleted().equals((byte) 1))

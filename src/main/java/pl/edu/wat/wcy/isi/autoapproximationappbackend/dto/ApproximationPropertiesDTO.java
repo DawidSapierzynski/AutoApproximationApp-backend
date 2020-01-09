@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class ApproximationPropertiesDTO {
     private long id;
     private long userId;
+    private long dataSeriesFileId;
     private int precision;
     private DataSeriesFileDTO dataSeriesFileDTO;
     private Timestamp dateCreate;
