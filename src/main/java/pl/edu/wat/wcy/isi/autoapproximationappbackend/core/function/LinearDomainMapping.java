@@ -38,7 +38,7 @@ public class LinearDomainMapping {
         Matrix matrixX, matrixY, matrixA;
 
         x = new double[][]{{1, x0}, {1, xn}};
-        y = new double[][]{{0}, {2 * Math.PI}};
+        y = new double[][]{{0}, {6.28}};
 
         matrixX = new Matrix(x);
         logger.debug("Matrix X:\n{}", matrixX);

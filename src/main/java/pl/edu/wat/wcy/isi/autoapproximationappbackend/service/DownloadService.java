@@ -47,7 +47,7 @@ public class DownloadService {
     public byte[] generateDataSeries(boolean isTrigonometricPolynomial, MathematicalFunctionDTO mathematicalFunctionDTO, int numberPoints) {
         StringBuilder stringBuilder = new StringBuilder();
         Polynomial polynomial = polynomialMapper.mapToPolynomial(mathematicalFunctionDTO.getPolynomialDTO(), isTrigonometricPolynomial);
-        logger.debug("{}", polynomial);
+        logger.debug("Generate polynomial {}", polynomial);
 
         List<PointXY> points = generatePoints(mathematicalFunctionDTO.getDomainFunction(), numberPoints, polynomial);
 

@@ -31,7 +31,7 @@ public class ChooseMethodService {
         DataSeriesFileDTO dataSeriesFileDTO = approximationPropertiesDTO.getDataSeriesFileDTO();
 
         chooseMethodContext.setChooseMethodStrategy(chooseMethodStrategyMap.get(approximationPropertiesDTO.getPrecision()));
-        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(dataSeriesFileDTO.isFastVariation(), dataSeriesFileDTO.isEquidistant(), dataSeriesFileDTO.getSize());
+        List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(dataSeriesFileDTO.isPeriodicity(), dataSeriesFileDTO.getSize());
 
         logger.debug("Selected methods: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
         return chosenMethodDTOS;
@@ -41,10 +41,11 @@ public class ChooseMethodService {
         return (int) (Math.ceil(Math.log(size)));
     }
 
-    public static List<ChosenMethodDTO> getChosenMethodDTOs(boolean fastVariation, boolean equidistant, int size, List<ChosenMethodDTO> chosenMethodDTOS, int degree) {
-        if (fastVariation && equidistant) {
-            if (degree > size / 2) {
-                degree = size / 2;
+    public static List<ChosenMethodDTO> getChosenMethodDTOs(boolean periodicity, int size, List<ChosenMethodDTO> chosenMethodDTOS, int degree) {
+        if (periodicity) {
+            int maxDegree = (size - 1) / 2;
+            if (degree > maxDegree) {
+                degree = maxDegree;
             }
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, degree));
         } else {

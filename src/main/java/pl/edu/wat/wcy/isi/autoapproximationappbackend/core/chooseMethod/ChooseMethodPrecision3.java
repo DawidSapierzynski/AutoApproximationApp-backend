@@ -10,10 +10,9 @@ public class ChooseMethodPrecision3 implements ChooseMethodStrategy {
     private static final double PARAMETER = 1.5;
 
     @Override
-    public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
+    public List<ChosenMethodDTO> getMethod(boolean periodicity, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
-
         int degree = (int) Math.round(PARAMETER * ChooseMethodService.getDefaultDegree(size));
-        return ChooseMethodService.getChosenMethodDTOs(fastVariation, equidistant, size, chosenMethodDTOS, degree);
+        return ChooseMethodService.getChosenMethodDTOs(periodicity, size, chosenMethodDTOS, degree);
     }
 }

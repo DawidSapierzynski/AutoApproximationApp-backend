@@ -7,30 +7,30 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSer
 
 import static java.lang.Math.*;
 
-public class FastVariationPolynomialCalculate implements Runnable {
+public class PeriodicityPolynomialCalculate implements Runnable {
     private final int degree;
-    private final Logger logger = LoggerFactory.getLogger(FastVariationPolynomialCalculate.class);
+    private final Logger logger = LoggerFactory.getLogger(PeriodicityPolynomialCalculate.class);
     private final DataSeriesFileEntity dataSeriesFile;
 
-    public FastVariationPolynomialCalculate(DataSeriesFileEntity dataSeriesFile) {
+    public PeriodicityPolynomialCalculate(DataSeriesFileEntity dataSeriesFile) {
         this.dataSeriesFile = dataSeriesFile;
         this.degree = calculateDegree(dataSeriesFile.getSize());
     }
 
     @Override
     public void run() {
-        double fastVariationPolynomial;
+        double errorPolynomial;
 
-        logger.debug("FastVariationPolynomialCalculate degree: {}", this.degree);
+        logger.debug("PeriodicityPolynomialCalculate degree: {}", this.degree);
         PolynomialApproximation polynomialApproximation = new PolynomialApproximation(dataSeriesFile.getPoints(), degree);
 
         polynomialApproximation.doApproximations();
 
-        fastVariationPolynomial = polynomialApproximation.calculateError();
-        logger.debug("Calculated fastVariationPolynomial: {}", fastVariationPolynomial);
+        errorPolynomial = polynomialApproximation.calculateError();
+        logger.debug("Calculated errorPolynomial: {}", errorPolynomial);
 
-        dataSeriesFile.setFastVariationPolynomial(fastVariationPolynomial);
-        logger.info("Set fastVariationPolynomial: {}", fastVariationPolynomial);
+        dataSeriesFile.setErrorPolynomial(errorPolynomial);
+        logger.info("Set errorPolynomial: {}", errorPolynomial);
     }
 
     public static int calculateDegree(int size) {

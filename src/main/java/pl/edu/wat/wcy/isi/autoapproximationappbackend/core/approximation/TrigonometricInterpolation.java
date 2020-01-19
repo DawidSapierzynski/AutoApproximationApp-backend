@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
+import Jama.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
@@ -8,7 +9,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.Mathematical
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial.chooseTrigonometricMaxDegree;
@@ -23,10 +24,9 @@ public class TrigonometricInterpolation extends TrigonometricApproximationAbstra
 
     @Override
     public List<MathematicalFunction> doApproximations() {
-        List<PointXY> mapPoints = getPoints();
+        Matrix matrixX, matrixY, matrixA;
         TrigonometricPolynomial trigonometricPolynomial;
-        List<Double> c = new ArrayList<>();
-        int size;
+        List<PointXY> mapPoints = mapPoints();
 
         if (checkDomainPoints()) {
             setLinearDomainMapping(new LinearDomainMapping(mapPoints));
@@ -35,22 +35,16 @@ public class TrigonometricInterpolation extends TrigonometricApproximationAbstra
             mapPoints = linearDomainMapping.getNewPoints();
         }
 
-        size = mapPoints.size();
+        matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
+        logger.debug("Matrix X:\n {}", Arrays.toString(matrixX.getArray()));
 
-        c.add(getAi(0, size, mapPoints));
-        for (int i = 1; i < getDegree(); i++) {
-            c.add(getAi(i, size, mapPoints));
-            c.add(getBi(i, size, mapPoints));
-        }
+        matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
+        logger.debug("Matrix Y:\n {}", Arrays.toString(matrixY.getArray()));
 
-        if (getDegree() % 2 == 0) {
-            c.add(getAi(getDegree(), size, mapPoints));
-        } else {
-            c.add(getAi(getDegree(), size, mapPoints));
-            c.add(getBi(getDegree(), size, mapPoints));
-        }
+        matrixA = matrixX.lu().solve(matrixY);
+        logger.debug("Matrix A:\n {}", Arrays.toString(matrixA.getArray()));
 
-        trigonometricPolynomial = new TrigonometricPolynomial(c);
+        trigonometricPolynomial = new TrigonometricPolynomial(mapMatrixAToList(matrixA));
         setMathematicalFunctions(List.of(new MathematicalFunction(trigonometricPolynomial, new DomainFunction(false, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false))));
 
         logger.info("Absolute error Trigonometric Interpolation = {}", calculateError());
@@ -58,22 +52,4 @@ public class TrigonometricInterpolation extends TrigonometricApproximationAbstra
         return getMathematicalFunctions();
     }
 
-    private Double getAi(int i, int size, List<PointXY> pointXYs) {
-        double d = pointXYs.stream()
-                .mapToDouble(p -> p.getY() * Math.cos(i * p.getX()))
-                .sum();
-        return 2 * d / size;
-    }
-
-    private Double getBi(int i, int size, List<PointXY> pointXYs) {
-        double d = pointXYs.stream()
-                .mapToDouble(p -> p.getY() * Math.sin(i * p.getX()))
-                .sum();
-        return 2 * d / size;
-    }
-
-
-    private boolean checkDomainPoints() {
-        return !(getPoints().get(0).getX() >= 0.0 && getPoints().get(getPoints().size() - 1).getX() <= 2 * Math.PI);
-    }
 }

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ReadSeriesDates implements Runnable {
-    protected static final int MAX_MULTIPLE = 100;
+    protected static double MAX_MULTIPLE_DEFAULT = 60;
+    protected static final int CYCLE_SIZE = 10;
     protected static final double MIN_Y = 0.01;
     protected static final String REGEX_SPLIT = "[;,]";
+    protected double maxMultiple;
 
     protected final DataSeriesFileEntity dataSeriesFile;
 
@@ -45,14 +47,18 @@ public abstract class ReadSeriesDates implements Runnable {
             quotientsList.add(Math.abs(points.get(i + 1).getY() / points.get(i).getY()));
         }
 
+        double quotientsMean = getTrimmedMean(quotientsList) * 40;
+        maxMultiple = Double.isFinite(quotientsMean) ? quotientsMean : MAX_MULTIPLE_DEFAULT;
+        logger.info("trimmedMean = {}", maxMultiple);
+
         for (int i = 0; i < quotientsList.size() - 1; i++) {
-            if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < MIN_Y) && i > 0 && i < quotientsList.size() - 4) {
+            if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < MIN_Y) && i > 0 && i < points.size() - 3) {
                 double dif1 = Math.abs(points.get(i).getY() - points.get(i - 1).getY());
                 double dif2 = Math.abs(points.get(i + 1).getY() - points.get(i).getY());
                 double dif3 = Math.abs(points.get(i + 2).getY() - points.get(i + 1).getY());
                 double dif4 = Math.abs(points.get(i + 3).getY() - points.get(i + 2).getY());
 
-                if (dif1 * MAX_MULTIPLE <= dif2 && dif3 >= dif4 * MAX_MULTIPLE) {
+                if (dif1 * maxMultiple <= dif2 && dif3 >= dif4 * maxMultiple) {
                     artefacts.add(points.get(i + 1));
                 }
 
@@ -78,8 +84,8 @@ public abstract class ReadSeriesDates implements Runnable {
     }
 
     private boolean checkValuesQuotients(double value1, double value2) {
-        return ((value1 >= MAX_MULTIPLE && value2 <= 1.0 / MAX_MULTIPLE)
-                || (value2 >= MAX_MULTIPLE && value1 <= 1.0 / MAX_MULTIPLE))
+        return ((value1 >= maxMultiple && value2 <= 1.0 / maxMultiple)
+                || (value2 >= maxMultiple && value1 <= 1.0 / maxMultiple))
                 && value1 != 0
                 && value2 != 0;
     }
@@ -87,5 +93,21 @@ public abstract class ReadSeriesDates implements Runnable {
     private boolean checkValuesZero(double value1, double value2) {
         return ((value1 == 0 && Double.isInfinite(value2))
                 || (value2 == 0 && Double.isInfinite(value1)));
+    }
+
+    private double getTrimmedMean(List<Double> valuesList) {
+        List<Double> list = new ArrayList<>(List.copyOf(valuesList));
+
+        list.sort(Double::compareTo);
+
+        for (int i = 0; i < valuesList.size(); i += CYCLE_SIZE) {
+            list.remove(0);
+            list.remove(list.size() - 1);
+        }
+
+        return list.stream()
+                .mapToDouble((v) -> v)
+                .average()
+                .orElse(0d);
     }
 }

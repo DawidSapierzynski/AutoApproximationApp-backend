@@ -8,30 +8,30 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSer
 
 import static java.lang.Math.*;
 
-public class FastVariationTrigonometricCalculate implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(FastVariationTrigonometricCalculate.class);
+public class PeriodicityTrigonometricCalculate implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(PeriodicityTrigonometricCalculate.class);
     private final DataSeriesFileEntity dataSeriesFile;
     private final int degree;
 
-    public FastVariationTrigonometricCalculate(DataSeriesFileEntity dataSeriesFile) {
+    public PeriodicityTrigonometricCalculate(DataSeriesFileEntity dataSeriesFile) {
         this.dataSeriesFile = dataSeriesFile;
         this.degree = calculateDegree(dataSeriesFile.getSize());
     }
 
     @Override
     public void run() {
-        double fastVariationTrigonometric;
+        double errorTrigonometric;
 
-        logger.debug("FastVariationTrigonometricCalculate degree: {}", this.degree);
+        logger.debug("PeriodicityTrigonometricCalculate degree: {}", this.degree);
         TrigonometricApproximation trigonometricApproximation = new TrigonometricApproximation(dataSeriesFile.getPoints(), this.degree);
 
         trigonometricApproximation.doApproximations();
 
-        fastVariationTrigonometric = trigonometricApproximation.calculateError();
-        logger.debug("Calculated fastVariationTrigonometric: {}", fastVariationTrigonometric);
+        errorTrigonometric = trigonometricApproximation.calculateError();
+        logger.debug("Calculated periodicityTrigonometric: {}", errorTrigonometric);
 
-        dataSeriesFile.setFastVariationTrigonometric(fastVariationTrigonometric);
-        logger.info("Set fastVariationTrigonometric: {}", fastVariationTrigonometric);
+        dataSeriesFile.setErrorTrigonometric(errorTrigonometric);
+        logger.info("Set periodicityTrigonometric: {}", errorTrigonometric);
     }
 
     public static int calculateDegree(int size) {

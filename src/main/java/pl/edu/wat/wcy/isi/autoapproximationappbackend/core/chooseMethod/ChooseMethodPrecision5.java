@@ -10,10 +10,10 @@ import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polyn
 
 public class ChooseMethodPrecision5 implements ChooseMethodStrategy {
     @Override
-    public List<ChosenMethodDTO> getMethod(boolean fastVariation, boolean equidistant, int size) {
+    public List<ChosenMethodDTO> getMethod(boolean periodicity, int size) {
         List<ChosenMethodDTO> chosenMethodDTOS = new ArrayList<>();
 
-        if (fastVariation && equidistant) {
+        if (periodicity) {
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICINTERPOLATION, chooseTrigonometricMaxDegree(size)));
         } else {
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.NEWTONINTERPOLATION, size - 1));

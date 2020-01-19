@@ -30,7 +30,6 @@ public class PolynomialApproximation extends Approximation {
         matrixY = setMatrixY(mapPoints.stream().mapToDouble(PointXY::getY).toArray());
         logger.debug("Matrix Y:\n {}", matrixY);
 
-//        matrixA = ((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose().times(matrixY));
         QRDecomposition qrDecomposition = new QRDecomposition(matrixX);
         matrixA = qrDecomposition.solve(matrixY);
         logger.debug("QRDecomposition - Matrix A:\n {}", matrixA);

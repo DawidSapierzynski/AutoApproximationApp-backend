@@ -75,19 +75,17 @@ public class DataSeriesFileService {
         checkSize(dataSeriesFile.getSize());
 
         List<Callable<Object>> callables = Arrays.asList(Executors.callable(new VarianceCalculate(dataSeriesFile)),
-                Executors.callable(new FastVariationPolynomialCalculate(dataSeriesFile)),
-                Executors.callable(new FastVariationTrigonometricCalculate(dataSeriesFile)),
-                Executors.callable(new EquidistantCalculate(dataSeriesFile))
+                Executors.callable(new PeriodicityPolynomialCalculate(dataSeriesFile)),
+                Executors.callable(new PeriodicityTrigonometricCalculate(dataSeriesFile))
         );
         try {
             List<Future<Object>> futures = this.threadPool.invokeAll(callables);
             logger.debug("VarianceCalculate - isDone: {}", futures.get(0).isDone());
-            logger.debug("FastVariationPolynomialCalculate - isDone: {}", futures.get(1).isDone());
-            logger.debug("FastVariationTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
-            logger.debug("EquidistantCalculate - isDone: {}", futures.get(3).isDone());
+            logger.debug("PeriodicityPolynomialCalculate - isDone: {}", futures.get(1).isDone());
+            logger.debug("PeriodicityTrigonometricCalculate - isDone: {}", futures.get(2).isDone());
 
-            dataSeriesFile.setFastVariation(dataSeriesFile.getFastVariationTrigonometric() < dataSeriesFile.getFastVariationPolynomial() ? (byte) 1 : (byte) 0);
-            logger.info("Set FastVariation: {}", dataSeriesFile.getFastVariation());
+            dataSeriesFile.setPeriodicity(dataSeriesFile.getErrorTrigonometric() < dataSeriesFile.getErrorPolynomial() ? (byte) 1 : (byte) 0);
+            logger.info("Set periodicity: {}", dataSeriesFile.getPeriodicity());
         } catch (InterruptedException e) {
             logger.error("{}", e.getMessage());
         }

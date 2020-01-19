@@ -19,12 +19,11 @@ public class DataSeriesFileEntity {
     private Byte deleted = (byte) 0;
     private UserEntity user;
     private Integer size;
-    private Double fastVariationPolynomial;
-    private Double fastVariationTrigonometric;
-    private Byte fastVariation;
+    private Double errorPolynomial;
+    private Double errorTrigonometric;
+    private Byte periodicity;
     private Double variance;
     private Double standardDeviation;
-    private Byte equidistant;
     private Collection<ApproximationPropertiesEntity> approximationProperties = new HashSet<>();
     private List<PointXY> points;
     private List<PointXY> artefacts;
@@ -91,33 +90,33 @@ public class DataSeriesFileEntity {
     }
 
     @Basic
-    @Column(name = "fast_variation_polynomial")
-    public Double getFastVariationPolynomial() {
-        return fastVariationPolynomial;
+    @Column(name = "error_polynomial")
+    public Double getErrorPolynomial() {
+        return errorPolynomial;
     }
 
-    public void setFastVariationPolynomial(Double fastVariationPolynomial) {
-        this.fastVariationPolynomial = fastVariationPolynomial;
-    }
-
-    @Basic
-    @Column(name = "fast_variation_trigonometric")
-    public Double getFastVariationTrigonometric() {
-        return fastVariationTrigonometric;
-    }
-
-    public void setFastVariationTrigonometric(Double fastVariationTrigonometric) {
-        this.fastVariationTrigonometric = fastVariationTrigonometric;
+    public void setErrorPolynomial(Double errorPolynomial) {
+        this.errorPolynomial = errorPolynomial;
     }
 
     @Basic
-    @Column(name = "fast_variation")
-    public Byte getFastVariation() {
-        return fastVariation;
+    @Column(name = "error_trigonometric")
+    public Double getErrorTrigonometric() {
+        return errorTrigonometric;
     }
 
-    public void setFastVariation(Byte fastVariation) {
-        this.fastVariation = fastVariation;
+    public void setErrorTrigonometric(Double errorTrigonometric) {
+        this.errorTrigonometric = errorTrigonometric;
+    }
+
+    @Basic
+    @Column(name = "periodicity")
+    public Byte getPeriodicity() {
+        return periodicity;
+    }
+
+    public void setPeriodicity(Byte periodicity) {
+        this.periodicity = periodicity;
     }
 
     @Basic
@@ -138,16 +137,6 @@ public class DataSeriesFileEntity {
 
     public void setStandardDeviation(Double standardDeviation) {
         this.standardDeviation = standardDeviation;
-    }
-
-    @Basic
-    @Column(name = "is_equidistant")
-    public Byte getEquidistant() {
-        return equidistant;
-    }
-
-    public void setEquidistant(Byte equidistant) {
-        this.equidistant = equidistant;
     }
 
     @Override
