@@ -1,11 +1,10 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;

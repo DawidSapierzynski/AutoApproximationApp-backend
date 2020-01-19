@@ -7,11 +7,13 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LinearDomainMapping {
     private static final Logger logger = LoggerFactory.getLogger(LinearDomainMapping.class);
-
+    public static final double MIN = 0;
+    public static final double MAX = 6.28;
     private final List<PointXY> oldPoints;
     private List<PointXY> newPoints;
     private AlgebraicPolynomial linearFunction;
@@ -20,7 +22,7 @@ public class LinearDomainMapping {
         this.oldPoints = oldPoints;
     }
 
-    public void convert() {
+    public List<PointXY> convert() {
         double x0 = oldPoints.get(0).getX();
         double xn = oldPoints.get(oldPoints.size() - 1).getX();
 
@@ -30,24 +32,26 @@ public class LinearDomainMapping {
         for (PointXY p : oldPoints) {
             newPoints.add(new PointXY(linearFunction.evaluate(p.getX()), p.getY()));
         }
+
+        return newPoints;
     }
 
-    public static AlgebraicPolynomial findLinearFunction(double x0, double xn) {
+    private AlgebraicPolynomial findLinearFunction(double x0, double xn) {
         AlgebraicPolynomial linearFunction;
         double[][] x, y;
         Matrix matrixX, matrixY, matrixA;
 
         x = new double[][]{{1, x0}, {1, xn}};
-        y = new double[][]{{0}, {6.28}};
+        y = new double[][]{{MIN}, {MAX}};
 
         matrixX = new Matrix(x);
-        logger.debug("Matrix X:\n{}", matrixX);
+        logger.debug("Matrix X:\n{}", Arrays.toString(matrixX.getArray()));
 
         matrixY = new Matrix(y);
-        logger.debug("Matrix Y:\n{}", matrixY);
+        logger.debug("Matrix Y:\n{}", Arrays.toString(matrixY.getArray()));
 
         matrixA = (((matrixX.transpose().times(matrixX)).inverse()).times(matrixX.transpose())).times(matrixY);
-        logger.debug("Matrix A:\n{}", matrixA);
+        logger.info("Matrix A:\n{}", Arrays.toString(matrixA.getArray()));
 
         linearFunction = new AlgebraicPolynomial((matrixA.transpose().getArray())[0]);
         logger.debug("Linear function: {}", linearFunction);

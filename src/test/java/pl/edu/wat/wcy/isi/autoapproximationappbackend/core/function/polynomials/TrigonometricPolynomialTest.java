@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.polynomials;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

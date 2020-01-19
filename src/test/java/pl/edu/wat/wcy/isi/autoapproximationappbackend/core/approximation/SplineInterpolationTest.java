@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

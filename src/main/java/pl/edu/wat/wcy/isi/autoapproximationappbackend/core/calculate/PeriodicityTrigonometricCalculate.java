@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.calculate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 
 import static java.lang.Math.*;
@@ -36,7 +35,7 @@ public class PeriodicityTrigonometricCalculate implements Runnable {
 
     public static int calculateDegree(int size) {
         int d = (int) ceil(log(pow(size, 3)));
-        int maxDegree = TrigonometricPolynomial.chooseTrigonometricMaxDegree(size);
+        int maxDegree = (size - 1) / 2;
 
         if (d < 2) {
             d = 2;

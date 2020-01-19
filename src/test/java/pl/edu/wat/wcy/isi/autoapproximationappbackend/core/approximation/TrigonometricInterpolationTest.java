@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.isi.autoapproximationappbackend.approximation.interpolation;
+package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,8 @@ class TrigonometricInterpolationTest {
     private List<PointXY> evenPoints = new ArrayList<>();
     private TrigonometricInterpolation evenTrigonometricInterpolation;
 
-    final double[] xs = {0, Math.PI / 2, Math.PI, 3 * Math.PI / 2};
-    final double[] ys = {1, 3, -2, -1};
+    final double[] xs = {0, Math.PI / 2, Math.PI, 3 * Math.PI / 2, 2* Math.PI, 5 * Math.PI};
+    final double[] ys = {1, 0, -1, 0, 1, 0};
 
     @BeforeEach
     void setUp() {

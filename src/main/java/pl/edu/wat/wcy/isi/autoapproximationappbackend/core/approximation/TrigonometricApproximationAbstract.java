@@ -119,9 +119,7 @@ public abstract class TrigonometricApproximationAbstract extends Approximation {
     protected List<PointXY> mapPoints() {
         if (checkDomainPoints()) {
             setLinearDomainMapping(new LinearDomainMapping(getPoints()));
-            LinearDomainMapping linearDomainMapping = getLinearDomainMapping();
-            linearDomainMapping.convert();
-            return linearDomainMapping.getNewPoints();
+            return getLinearDomainMapping().convert();
         }
 
         return getPoints();

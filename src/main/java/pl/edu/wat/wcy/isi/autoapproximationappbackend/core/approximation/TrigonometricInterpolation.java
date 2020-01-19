@@ -4,7 +4,6 @@ import Jama.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.DomainFunction;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.LinearDomainMapping;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.MathematicalFunction;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.PointXY;
@@ -27,13 +26,6 @@ public class TrigonometricInterpolation extends TrigonometricApproximationAbstra
         Matrix matrixX, matrixY, matrixA;
         TrigonometricPolynomial trigonometricPolynomial;
         List<PointXY> mapPoints = mapPoints();
-
-        if (checkDomainPoints()) {
-            setLinearDomainMapping(new LinearDomainMapping(mapPoints));
-            LinearDomainMapping linearDomainMapping = getLinearDomainMapping();
-            linearDomainMapping.convert();
-            mapPoints = linearDomainMapping.getNewPoints();
-        }
 
         matrixX = setMatrixBaseFunction(mapPoints.stream().mapToDouble(PointXY::getX).toArray(), getDegree());
         logger.debug("Matrix X:\n {}", Arrays.toString(matrixX.getArray()));
