@@ -58,7 +58,7 @@ public abstract class ReadSeriesDates implements Runnable {
                 double dif3 = Math.abs(points.get(i + 2).getY() - points.get(i + 1).getY());
                 double dif4 = Math.abs(points.get(i + 3).getY() - points.get(i + 2).getY());
 
-                if (dif1 * maxMultiple <= dif2 && dif3 >= dif4 * maxMultiple) {
+                if (dif1 * maxMultiple < dif2 && dif3 > dif4 * maxMultiple) {
                     artefacts.add(points.get(i + 1));
                 }
 
