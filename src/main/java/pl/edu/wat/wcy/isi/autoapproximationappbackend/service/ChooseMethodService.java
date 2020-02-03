@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation.getTrigonometricDegree;
+
 @Service
 public class ChooseMethodService {
     private static final Logger logger = LoggerFactory.getLogger(ChooseMethodService.class);
@@ -33,7 +35,9 @@ public class ChooseMethodService {
         chooseMethodContext.setChooseMethodStrategy(chooseMethodStrategyMap.get(approximationPropertiesDTO.getPrecision()));
         List<ChosenMethodDTO> chosenMethodDTOS = chooseMethodContext.getMethod(dataSeriesFileDTO.isPeriodicity(), dataSeriesFileDTO.getSize());
 
-        logger.debug("Selected methods: {}", chosenMethodDTOS.stream().map(ChosenMethodDTO::getMethod).collect(Collectors.toList()));
+        logger.debug("Selected methods: {}", chosenMethodDTOS.stream()
+                .map(ChosenMethodDTO::getMethod)
+                .collect(Collectors.toList()));
         return chosenMethodDTOS;
     }
 
@@ -43,11 +47,7 @@ public class ChooseMethodService {
 
     public static List<ChosenMethodDTO> getChosenMethodDTOs(boolean periodicity, int size, List<ChosenMethodDTO> chosenMethodDTOS, int degree) {
         if (periodicity) {
-            int maxDegree = (size - 1) / 2;
-            if (degree > maxDegree) {
-                degree = maxDegree;
-            }
-            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, degree));
+            chosenMethodDTOS.add(new ChosenMethodDTO(Method.TRIGONOMETRICAPPROXIMATION, getTrigonometricDegree(degree, size)));
         } else {
             chosenMethodDTOS.add(new ChosenMethodDTO(Method.POLYNOMIALAPPROXIMATION, degree));
         }

@@ -48,4 +48,12 @@ public class TrigonometricApproximation extends TrigonometricApproximationAbstra
 
         return getEvenMatrix(pointsX, degree, size);
     }
+
+    public static int getTrigonometricDegree(int degree, int size) {
+        int maxDegree = (size - 1) / 2;
+        if (degree > maxDegree) {
+            degree = maxDegree;
+        }
+        return degree;
+    }
 }

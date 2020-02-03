@@ -8,6 +8,7 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSer
 import static java.lang.Math.*;
 
 public class PeriodicityPolynomialCalculate implements Runnable {
+    private static final int MIN_DEGREE = 4;
     private final int degree;
     private final Logger logger = LoggerFactory.getLogger(PeriodicityPolynomialCalculate.class);
     private final DataSeriesFileEntity dataSeriesFile;
@@ -37,8 +38,8 @@ public class PeriodicityPolynomialCalculate implements Runnable {
         int d = (int) ceil(log(pow(size, 3)));
         int maxDegree = size - 1;
 
-        if (d < 4) {
-            d = 4;
+        if (d < MIN_DEGREE) {
+            d = MIN_DEGREE;
         } else if (d > maxDegree) {
             d = maxDegree;
         }

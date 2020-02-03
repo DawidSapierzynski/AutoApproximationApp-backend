@@ -6,9 +6,11 @@ import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.Trigono
 import pl.edu.wat.wcy.isi.autoapproximationappbackend.model.entityModels.DataSeriesFileEntity;
 
 import static java.lang.Math.*;
+import static pl.edu.wat.wcy.isi.autoapproximationappbackend.core.approximation.TrigonometricApproximation.getTrigonometricDegree;
 
 public class PeriodicityTrigonometricCalculate implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(PeriodicityTrigonometricCalculate.class);
+    private static final int MIN_DEGREE = 2;
     private final DataSeriesFileEntity dataSeriesFile;
     private final int degree;
 
@@ -35,12 +37,11 @@ public class PeriodicityTrigonometricCalculate implements Runnable {
 
     public static int calculateDegree(int size) {
         int d = (int) ceil(log(pow(size, 3)));
-        int maxDegree = (size - 1) / 2;
 
-        if (d < 2) {
-            d = 2;
-        } else if (d > maxDegree) {
-            d = maxDegree;
+        if (d < MIN_DEGREE) {
+            d = MIN_DEGREE;
+        } else {
+            d = getTrigonometricDegree(d, size);
         }
 
         return d;

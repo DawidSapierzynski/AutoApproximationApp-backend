@@ -49,7 +49,7 @@ public abstract class ReadSeriesDates implements Runnable {
 
         double quotientsMean = getTrimmedMean(quotientsList) * 40;
         maxMultiple = Double.isFinite(quotientsMean) ? quotientsMean : MAX_MULTIPLE_DEFAULT;
-        logger.info("trimmedMean = {}", maxMultiple);
+        logger.info("maxMultiple = {}", maxMultiple);
 
         for (int i = 0; i < quotientsList.size() - 1; i++) {
             if ((checkValuesZero(quotientsList.get(i), quotientsList.get(i + 1)) || Math.abs(points.get(i + 1).getY()) < MIN_Y) && i > 0 && i < points.size() - 3) {
