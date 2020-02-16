@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ReadSeriesDates implements Runnable {
-    protected static double MAX_MULTIPLE_DEFAULT = 60;
+    protected static final double MAX_MULTIPLE_DEFAULT = 60;
     protected static final int CYCLE_SIZE = 10;
     protected static final double MIN_Y = 0.01;
     protected static final String REGEX_SPLIT = "[;,]";
