@@ -20,6 +20,14 @@ public abstract class Polynomial {
      */
     private int degree;
 
+    public static boolean isEmpty(Polynomial polynomial) {
+        return polynomial == null || polynomial.getCoefficients() == null || polynomial.getCoefficients().size() == 0;
+    }
+
+    public static boolean isNotEmpty(Polynomial polynomial) {
+        return !isEmpty(polynomial);
+    }
+
     public Polynomial(List<Double> coefficients) {
         this.coefficients = coefficients;
         this.reduce();
@@ -36,9 +44,7 @@ public abstract class Polynomial {
         }
     }
 
-    public abstract double evaluate(double x);
-
-    public <T extends Polynomial> T plus(T polynomial, Class<T> polynomialClass) {
+    protected <T extends Polynomial> T plus(T polynomial, Class<T> polynomialClass) {
         List<Double> result;
         List<Double> coefficients = this.getCoefficients();
         int sizeThis = this.getCoefficients().size() - 1;
@@ -68,7 +74,7 @@ public abstract class Polynomial {
         return null;
     }
 
-    public <T extends Polynomial> T minus(T polynomial, Class<T> polynomialClass) {
+    protected <T extends Polynomial> T minus(T polynomial, Class<T> polynomialClass) {
         List<Double> result;
         List<Double> coefficients = this.getCoefficients();
         int sizeThis = this.getCoefficients().size() - 1;
@@ -95,7 +101,7 @@ public abstract class Polynomial {
             try {
                 return polynomialClass.getDeclaredConstructor(List.class).newInstance(result);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
+                logger.error("{}", e.getMessage(), e);
             }
         } else {
             logger.error("Polynomial or coefficients is empty.");
@@ -103,7 +109,7 @@ public abstract class Polynomial {
         return null;
     }
 
-    public <T extends Polynomial> T plus(double value, Class<T> polynomialClass) {
+    protected <T extends Polynomial> T plus(double value, Class<T> polynomialClass) {
         List<Double> result = new ArrayList<>();
         List<Double> coefficients = getCoefficients();
 
@@ -116,21 +122,13 @@ public abstract class Polynomial {
         try {
             return polynomialClass.getDeclaredConstructor(List.class).newInstance(result);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getMessage(), e);
         }
         return null;
     }
 
-    public <T extends Polynomial> T minus(double value, Class<T> polynomialClass) {
+    protected <T extends Polynomial> T minus(double value, Class<T> polynomialClass) {
         return plus(-value, polynomialClass);
-    }
-
-    public static boolean isEmpty(Polynomial polynomial) {
-        return polynomial == null || polynomial.getCoefficients() == null || polynomial.getCoefficients().size() == 0;
-    }
-
-    public static boolean isNotEmpty(Polynomial polynomial) {
-        return !isEmpty(polynomial);
     }
 
     public int getDegree() {
@@ -145,4 +143,5 @@ public abstract class Polynomial {
         return coefficients;
     }
 
+    public abstract double evaluate(double x);
 }

@@ -3,6 +3,14 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials
 import java.util.List;
 
 public class TrigonometricPolynomial extends Polynomial {
+    public static int chooseTrigonometricMaxDegree(int size) {
+        if (size % 2 == 0) {
+            return size / 2;
+        } else {
+            return (size - 1) / 2;
+        }
+    }
+
     public TrigonometricPolynomial(List<Double> coefficients) {
         super(coefficients);
         setDegree(chooseTrigonometricMaxDegree(coefficients.size()));
@@ -34,6 +42,22 @@ public class TrigonometricPolynomial extends Polynomial {
         return evaluate(x);
     }
 
+    public TrigonometricPolynomial plus(TrigonometricPolynomial trigonometricPolynomial) {
+        return super.plus(trigonometricPolynomial, TrigonometricPolynomial.class);
+    }
+
+    public TrigonometricPolynomial plus(double value) {
+        return super.plus(value, TrigonometricPolynomial.class);
+    }
+
+    public TrigonometricPolynomial minus(TrigonometricPolynomial trigonometricPolynomial) {
+        return super.minus(trigonometricPolynomial, TrigonometricPolynomial.class);
+    }
+
+    public TrigonometricPolynomial minus(double value) {
+        return super.minus(value, TrigonometricPolynomial.class);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TrigonometricPolynomial) {
@@ -61,13 +85,5 @@ public class TrigonometricPolynomial extends Polynomial {
             return stringBuilder.toString();
         }
         return "TrigonometricPolynomial is empty";
-    }
-
-    public static int chooseTrigonometricMaxDegree(int size) {
-        if (size % 2 == 0) {
-            return size / 2;
-        } else {
-            return (size - 1) / 2;
-        }
     }
 }

@@ -11,18 +11,38 @@ import java.util.stream.Collectors;
 public class AlgebraicPolynomial extends Polynomial {
     private static final Logger logger = LoggerFactory.getLogger(AlgebraicPolynomial.class);
 
+    public static List<Double> mapCoefficients(double[] coefficients) {
+        return Arrays.stream(coefficients)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    public static AlgebraicPolynomial pow(AlgebraicPolynomial algebraicPolynomial, int degree) {
+        if (degree == 0) {
+            return new AlgebraicPolynomial(List.of(1d));
+        } else {
+            AlgebraicPolynomial result = algebraicPolynomial.copy();
+            for (int i = 1; i < degree; i++) {
+                result = result.times(algebraicPolynomial);
+            }
+            return result;
+        }
+    }
+
+    public static AlgebraicPolynomial getLinearFunction(double a, double b) {
+        return new AlgebraicPolynomial(List.of(b, a));
+    }
+
+    public static double getValueMonomial(double pointsX, int j) {
+        return Math.pow(pointsX, j);
+    }
+
     public AlgebraicPolynomial(List<Double> coefficients) {
         super(coefficients);
     }
 
     public AlgebraicPolynomial(double[] coefficients) {
         super(mapCoefficients(coefficients));
-    }
-
-    public static List<Double> mapCoefficients(double[] coefficients) {
-        return Arrays.stream(coefficients)
-                .boxed()
-                .collect(Collectors.toList());
     }
 
     public AlgebraicPolynomial times(AlgebraicPolynomial polynomial) {
@@ -70,6 +90,22 @@ public class AlgebraicPolynomial extends Polynomial {
         return result;
     }
 
+    public AlgebraicPolynomial plus(AlgebraicPolynomial algebraicPolynomial) {
+        return super.plus(algebraicPolynomial, AlgebraicPolynomial.class);
+    }
+
+    public AlgebraicPolynomial plus(double value) {
+        return super.plus(value, AlgebraicPolynomial.class);
+    }
+
+    public AlgebraicPolynomial minus(AlgebraicPolynomial algebraicPolynomial) {
+        return super.minus(algebraicPolynomial, AlgebraicPolynomial.class);
+    }
+
+    public AlgebraicPolynomial minus(double value) {
+        return super.minus(value, AlgebraicPolynomial.class);
+    }
+
     public double inverseLinearFunction(double y) {
         if (getCoefficients().size() == 2) {
             double x;
@@ -81,28 +117,8 @@ public class AlgebraicPolynomial extends Polynomial {
         }
     }
 
-    public static AlgebraicPolynomial getLinearFunction(double a, double b) {
-        return new AlgebraicPolynomial(List.of(b, a));
-    }
-
-    public static double getValueMonomial(double pointsX, int j) {
-        return Math.pow(pointsX, j);
-    }
-
     public AlgebraicPolynomial copy() {
         return new AlgebraicPolynomial(List.copyOf(this.getCoefficients()));
-    }
-
-    public static AlgebraicPolynomial pow(AlgebraicPolynomial algebraicPolynomial, int degree) {
-        if (degree == 0) {
-            return new AlgebraicPolynomial(List.of(1d));
-        } else {
-            AlgebraicPolynomial result = algebraicPolynomial.copy();
-            for (int i = 1; i < degree; i++) {
-                result = result.times(algebraicPolynomial);
-            }
-            return result;
-        }
     }
 
     @Override

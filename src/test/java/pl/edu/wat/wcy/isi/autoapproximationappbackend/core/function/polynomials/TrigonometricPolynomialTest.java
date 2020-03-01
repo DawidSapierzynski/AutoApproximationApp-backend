@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.edu.wat.wcy.isi.autoapproximationappbackend.core.function.polynomials.TrigonometricPolynomial;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ class TrigonometricPolynomialTest {
         List<Double> coefficientsResult = List.of(8.5, 12d, 13d, -9d, -4d);
         TrigonometricPolynomial correctResult = new TrigonometricPolynomial(coefficientsResult);
 
-        TrigonometricPolynomial reault = trigonometricPolynomial1.plus(trigonometricPolynomial2, TrigonometricPolynomial.class);
+        TrigonometricPolynomial reault = trigonometricPolynomial1.plus(trigonometricPolynomial2);
 
         assertEquals(correctResult, reault);
     }
@@ -42,7 +41,7 @@ class TrigonometricPolynomialTest {
         List<Double> coefficientsResult = List.of(2.5, -5.5, 7d, 13d, -4d);
         TrigonometricPolynomial correctResult = new TrigonometricPolynomial(coefficientsResult);
 
-        TrigonometricPolynomial reault = trigonometricPolynomial1.minus(trigonometricPolynomial2, TrigonometricPolynomial.class);
+        TrigonometricPolynomial reault = trigonometricPolynomial1.minus(trigonometricPolynomial2);
 
         assertEquals(correctResult, reault);
     }

@@ -42,7 +42,7 @@ class AlgebraicPolynomialTest {
         List<Double> coefficientsResult = List.of(2d, 5d, 4d, 16d);
         AlgebraicPolynomial correctResult = new AlgebraicPolynomial(coefficientsResult);
 
-        AlgebraicPolynomial result = algebraicPolynomial1.plus(algebraicPolynomial2, AlgebraicPolynomial.class);
+        AlgebraicPolynomial result = algebraicPolynomial1.plus(algebraicPolynomial2);
 
         assertEquals(correctResult, result);
     }
@@ -52,7 +52,7 @@ class AlgebraicPolynomialTest {
         List<Double> coefficientsResult = List.of(-4d, 5d, 4d);
         AlgebraicPolynomial correctResult = new AlgebraicPolynomial(coefficientsResult);
 
-        AlgebraicPolynomial result = algebraicPolynomial1.minus(algebraicPolynomial2, AlgebraicPolynomial.class);
+        AlgebraicPolynomial result = algebraicPolynomial1.minus(algebraicPolynomial2);
 
         assertEquals(correctResult, result);
     }
